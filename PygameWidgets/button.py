@@ -271,31 +271,12 @@ class Button:
                         if self.on_click:
                             if self.on_click_kwargs and self.on_click_args:
                                 self.on_click(*self.on_click_args, **self.on_click_kwargs)
+
                             elif self.on_click_args:
                                 self.on_click(*self.on_click_args)
-
 
                             elif self.on_click_kwargs:
                                 self.on_click(**self.on_click_kwargs)
 
                             else:
                                 self.on_click()
-
-
-if __name__ == '__main__':
-    pygame.init()
-    pygame.font.init()
-
-    WIN = pygame.display.set_mode((500, 500))
-
-    button = Button(WIN, 255, 255, 200, 200, (255, 0, 0), (200, 0, 0), (0, 255, 0), (0, 200, 0), anchor=CENTER, text=f"hello{LINE_SPLITTER}HELLO")
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                pygame.quit()
-                quit(-1)
-            button.event_handler(event)
-
-        WIN.fill((30, 30, 30))
-        button.draw()
-        pygame.display.update()
