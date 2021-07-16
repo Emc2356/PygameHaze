@@ -118,15 +118,11 @@ class Button:
 
         # get the functions if the user has set any
         self.on_click = kwargs.get("on_click", None)  # the function that is called when the button is activated
-        self.on_click_args = kwargs.get("on_click_args",
-                                        None)  # the positional arguments of the function that is called when the button is activated
-        self.on_click_kwargs = kwargs.get("on_click_kwargs",
-                                          None)  # the key-word arguments of the function that is called when the button is activated
+        self.on_click_args = kwargs.get("on_click_args", None)  # the positional arguments of the function that is called when the button is activated
+        self.on_click_kwargs = kwargs.get("on_click_kwargs", None)  # the key-word arguments of the function that is called when the button is activated
         self.on_release = kwargs.get("on_release", None)  # the function that is called when the button is deactivated
-        self.on_release_args = kwargs.get("on_release_args",
-                                          None)  # the positional arguments of the function that is called when the button is deactivated
-        self.on_release_kwargs = kwargs.get("on_release_kwargs",
-                                            None)  # the key-word arguments of the function that is called when the button is deactivated
+        self.on_release_args = kwargs.get("on_release_args", None)  # the positional arguments of the function that is called when the button is deactivated
+        self.on_release_kwargs = kwargs.get("on_release_kwargs", None)  # the key-word arguments of the function that is called when the button is deactivated
 
         # get the text info
         self.text = kwargs.get("text",
@@ -256,11 +252,11 @@ class Button:
 
                         # call the function that is given if there is any
                         if self.on_release:
-                            if self.on_release_args:
-                                self.on_release(*self.on_release_args)
-
-                            elif self.on_release_kwargs and self.on_release_args:
+                            if self.on_release_kwargs and self.on_release_args:
                                 self.on_release(*self.on_release_args, **self.on_release_kwargs)
+
+                            elif self.on_release_args:
+                                self.on_release(*self.on_release_args)
 
                             elif self.on_release_kwargs:
                                 self.on_release(**self.on_release_kwargs)
@@ -273,11 +269,11 @@ class Button:
 
                         # call the function that is given if there is any
                         if self.on_click:
-                            if self.on_click_args:
+                            if self.on_click_kwargs and self.on_click_args:
+                                self.on_click(*self.on_click_args, **self.on_click_kwargs)
+                            elif self.on_click_args:
                                 self.on_click(*self.on_click_args)
 
-                            elif self.on_click_kwargs and self.on_click_args:
-                                self.on_click(*self.on_click_args, **self.on_click_kwargs)
 
                             elif self.on_click_kwargs:
                                 self.on_click(**self.on_click_kwargs)
