@@ -125,8 +125,7 @@ class Button:
         self.on_release_kwargs = kwargs.get("on_release_kwargs", None)  # the key-word arguments of the function that is called when the button is deactivated
 
         # get the text info
-        self.text = kwargs.get("text",
-                               f"jdhfroiewnvowijfvnoi")  # for multiple lines use PygameWidgets.constants.LINE_SPLITTER
+        self.text = kwargs.get("text", "")  # for multiple lines use PygameWidgets.constants.LINE_SPLITTER
         if self.text != "":
             self.antialias = kwargs.get("antialias", True)
             self.text_color = kwargs.get("text_color", (0, 0, 0))
