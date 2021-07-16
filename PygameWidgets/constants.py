@@ -75,7 +75,7 @@ ALIGNMENTS = [
 ]
 
 
-# if you change this use something uniqe so it would be hard for someone to randomly find it
+# if you change this use something unique so it would be hard for someone to randomly find it
 LINE_SPLITTER = "jntiNgieNfivNrivni305un@4o2*"
 
 
