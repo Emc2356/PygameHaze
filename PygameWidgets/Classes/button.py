@@ -238,6 +238,8 @@ class Button:
         elif self.anchor == MIDRIGHT:
             self.button_rect = pygame.Rect(x, y, w, h)
             self.button_rect.midright = (x, y)
+        else:
+            raise InvalidAnchor(f"""The anchor '{self.anchor}' is not a valid anchor.""")
 
     def draw(self):
         if self.pressed:
