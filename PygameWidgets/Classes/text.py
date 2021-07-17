@@ -77,3 +77,47 @@ class SimpleText:
         :return: None
         """
         self.WIN.blit(self.rendered_text, self.rendered_text_rect)
+
+
+class MultiText:
+    def __init__(self,
+                 WIN: pygame.surface.Surface,
+                 x: int,
+                 y: int,
+                 text: str,
+                 color: Tuple[int, int, int]=BLACK,
+                 **kwargs):
+        self.WIN = WIN
+        self.x = x
+        self.y = y
+        self.text = text
+        self.color = color
+
+        self.font_size = kwargs.get("font_size", 60)
+        self.font_type = kwargs.get("font_type", "comicsans")
+        self.antialias = kwargs.get("antialias", True)
+        self.font = pygame.font.SysFont(self.font_type, self.font_size)
+        self.rendered_texts = []
+        self.rendered_text_rects = []
+
+    def _blit_multiple_lines(self, x, y, centered_x=True, centered_rect: pygame.rect.Rect=None):
+        """
+        it blits multiple lines on the screen
+        :param x: the x position of the text
+        :param y: the y position of the text
+        :param centered_x: if the text is going to be x-centered
+        :param centered_rect: the rect that is going to be used if centered_x is True
+        :return: None
+        """
+        if not centered_rect:
+            raise MissingRequiredArgument(f"""in the "_blit_multiple_lines method the centered_rect is missing.""")
+        height = self.font.get_height()
+        lines = self.text.split(LINE_SPLITTER)
+        for i, text in enumerate(lines):
+            rendered_text_surface = self.font.render(text, self.antialias, self.color)
+
+            if centered_x:
+                self.WIN.blit(rendered_text_surface, (centered_rect.centerx - rendered_text_surface.get_width()/2, y + (i * height)))
+
+            else:
+                self.WIN.blit(rendered_text_surface, (x, y + (i * height)))

@@ -186,7 +186,7 @@ class Button:
         :param centered_rect: the rect that is going to be used if centered_x is True
         :return: None
         """
-        if not centered_rect:
+        if centered_x and not centered_rect:
             raise MissingRequiredArgument(f"""in the "_blit_multiple_lines method the centered_rect is missing.""")
         height = self.font.get_height()
         lines = self.text.split(LINE_SPLITTER)
