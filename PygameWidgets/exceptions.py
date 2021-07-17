@@ -28,8 +28,10 @@ class BaseException(Exception):
     the base exception for the rest of the exception
     that are used for this package
     """
-    def __init__(self, message):
-        self.message = message
+    def __init__(self, message: str):
+        self.message = str(message)
+        if not message.endswith("."):
+            self.message += "."
         super().__init__(message)
 
     def __str__(self):
@@ -53,7 +55,16 @@ class InvalidAnchor(BaseException):
     pass
 
 
+class MissingRequiredArgument(BaseException):
+    """
+    this exception is raised when a method is
+    missing a required argument.
+    """
+    pass
+
+
 __all__ = [
     "TextOutOfButton",
-    "InvalidAnchor"
+    "InvalidAnchor",
+    "MissingRequiredArgument"
 ]

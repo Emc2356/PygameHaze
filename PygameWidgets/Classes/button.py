@@ -175,61 +175,29 @@ class Button:
             self.font_size = kwargs.get("font_size", 60)
             self.font = pygame.font.SysFont(self.font_name, self.font_size)
 
-            self.update_text()
-
         self.kwargs = kwargs
 
-    def update_text(self):
+    def _blit_multiple_lines(self, x, y, centered_x=True, centered_rect: pygame.rect.Rect=None):
         """
-        it updates the text. If you want to edit the text of this button you need to call this method
+        it blits multiple lines on the screen
+        :param x: the x position of the text
+        :param y: the y position of the text
+        :param centered_x: if the text is going to be x-centered
+        :param centered_rect: the rect that is going to be used if centered_x is True
         :return: None
         """
-        if LINE_SPLITTER in self.text:
-            self.text_rects = []
-            self.rendered_texts = []
-            self.text_lines = self.text.split(LINE_SPLITTER)
-            final_h = 0
+        if not centered_rect:
+            raise MissingRequiredArgument(f"""in the "_blit_multiple_lines method the centered_rect is missing.""")
+        height = self.font.get_height()
+        lines = self.text.split(LINE_SPLITTER)
+        for i, text in enumerate(lines):
+            rendered_text_surface = self.font.render(text, self.antialias, self.text_color)
 
-            for text in self.text_lines:
-                label = self.font.render(
-                    text, self.antialias, self.text_color
-                )
-                self.rendered_texts.append(
-                    label
-                )
-                final_h += label.get_height() + 5
+            if centered_x:
+                self.WIN.blit(rendered_text_surface, (centered_rect.centerx - rendered_text_surface.get_width()/2, y + (i * height)))
 
-            if final_h > self.h:
-                raise TextOutOfButton("the given string: '{0}' is {1}pxls out of bounds in the y axis".format(
-                    self.text.replace(LINE_SPLITTER, " "), final_h - self.h))
-
-            self.text_rects.reverse()
-            self.rendered_texts.reverse()
-
-            for i in range(len(self.rendered_texts)):
-                self.text_rects.append(
-                    self.rendered_texts[i].get_rect()
-                )
-
-                self.text_rects[i].center = (
-                    self.button_rect.center[0],  # x
-                    (self.button_rect.center[1] + final_h / 2) - self.text_rects[i][3]
-                )
-                final_h -= self.text_rects[i][3] + 25
-
-            for rendered_text in self.rendered_texts:
-                if rendered_text.get_width() > self.w:
-                    raise TextOutOfButton("the given string: '{0}' is {1}pxl out of bounds in the x axis".format(self.text.split(LINE_SPLITTER)[self.rendered_texts.index(rendered_text)],rendered_text.get_width() - self.h))
-
-        else:
-            if self.font.render(self.text.replace(LINE_SPLITTER, " "), self.antialias,
-                                self.text_color).get_width() > self.w:
-                raise TextOutOfButton("the given string: '{0}' is {1}pxl out of bounds in the x axis".format(
-                    self.text.replace(LINE_SPLITTER, " "), self.font.render(self.text.replace(LINE_SPLITTER, " "), self.antialias, self.text_color).get_width() - self.h))
-
-            self.rendered_text = self.font.render(str(self.text), self.antialias, self.text_color)
-            self.text_rect = self.rendered_text.get_rect()
-            self.text_rect.center = self.button_rect.center
+            else:
+                self.WIN.blit(rendered_text_surface, (x, y + (i * height)))
 
     def update_button_rect(self, x: int, y: int, w: int, h: int):
         """
@@ -274,12 +242,21 @@ class Button:
             self.WIN.blit(sprite, self.button_rect)
 
         if self.text != "":
-            if LINE_SPLITTER in self.text:
-                for rendered_text in self.rendered_texts:
-                    self.WIN.blit(rendered_text, self.text_rects[self.rendered_texts.index(rendered_text)])
+            h = 0
+            height = self.font.get_height()
+            lines = self.text.split(LINE_SPLITTER)
+            # check for Exceptions
+            for line in lines:
+                label_w = self.font.render(line, self.antialias, self.text_color).get_width()
+                if label_w > self.w:
+                    raise TextOutOfButton(f"the given string: '{line}' is {label_w - self.w}pxls out of bounds in the x axis")
 
-            else:
-                self.WIN.blit(self.rendered_text, self.text_rect)
+            for i, text in enumerate(lines):
+                h += i * height
+
+            y_to_draw_text = (self.button_rect.centery - height/2) - h/4
+
+            self._blit_multiple_lines(0, y_to_draw_text, True, self.button_rect)
 
     def event_handler(self, event: pygame.event.Event):
         """

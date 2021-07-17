@@ -11,8 +11,8 @@ WIN = pygame.display.set_mode((500, 500))
 
 button = Button(
         WIN,                                                                                    # WIN
-        255,                                                                                    # x
-        255,                                                                                    # y
+        250,                                                                                    # x
+        250,                                                                                    # y
         200,                                                                                    # w
         200,                                                                                    # h
         (255, 0, 0),                                                                            # inactive_color
