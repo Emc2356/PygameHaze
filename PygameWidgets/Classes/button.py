@@ -246,6 +246,7 @@ class Button:
             raise InvalidAnchor(f"""The anchor '{self.anchor}' is not a valid anchor.""")
         self.button_rect = pygame.Rect(x, y, w, h)
         self.button_rect.__setattr__(self.anchor, (x, y))
+        self.x, self.y, self.w, self.h = x, y, w, h
 
     def draw(self):
         """
