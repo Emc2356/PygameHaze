@@ -321,3 +321,6 @@ class Button:
 
                             else:
                                 self.on_click()
+
+    def __repr__(self):
+        return f"""Button at: {self.x, self.y} | with dimensions: {self.w, self.h}{f" | with text: {self.text.replace(LINE_SPLITTER, ' ')}" if self.text != '' else ''}"""
