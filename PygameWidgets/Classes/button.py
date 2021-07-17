@@ -27,6 +27,7 @@ from typing import Tuple
 
 import pygame
 
+from PygameWidgets.functions import *
 from PygameWidgets.constants import *
 from PygameWidgets.exceptions import *
 
@@ -286,42 +287,41 @@ class Button:
         :param event: pygame.event.Event
         :return: None
         """
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                if self.button_rect.collidepoint(event.pos):
-                    if self.pressed:
-                        self.pressed = False
+        if left_click(event):
+            if self.button_rect.collidepoint(event.pos):
+                if self.pressed:
+                    self.pressed = False
 
-                        # call the function that is given if there is any
-                        if self.on_release:
-                            if self.on_release_kwargs and self.on_release_args:
-                                self.on_release(*self.on_release_args, **self.on_release_kwargs)
+                    # call the function that is given if there is any
+                    if self.on_release:
+                        if self.on_release_kwargs and self.on_release_args:
+                            self.on_release(*self.on_release_args, **self.on_release_kwargs)
 
-                            elif self.on_release_args:
-                                self.on_release(*self.on_release_args)
+                        elif self.on_release_args:
+                            self.on_release(*self.on_release_args)
 
-                            elif self.on_release_kwargs:
-                                self.on_release(**self.on_release_kwargs)
+                        elif self.on_release_kwargs:
+                            self.on_release(**self.on_release_kwargs)
 
-                            else:
-                                self.on_release()
+                        else:
+                            self.on_release()
 
-                    elif not self.pressed:
-                        self.pressed = True
+                elif not self.pressed:
+                    self.pressed = True
 
-                        # call the function that is given if there is any
-                        if self.on_click:
-                            if self.on_click_kwargs and self.on_click_args:
-                                self.on_click(*self.on_click_args, **self.on_click_kwargs)
+                    # call the function that is given if there is any
+                    if self.on_click:
+                        if self.on_click_kwargs and self.on_click_args:
+                            self.on_click(*self.on_click_args, **self.on_click_kwargs)
 
-                            elif self.on_click_args:
-                                self.on_click(*self.on_click_args)
+                        elif self.on_click_args:
+                            self.on_click(*self.on_click_args)
 
-                            elif self.on_click_kwargs:
-                                self.on_click(**self.on_click_kwargs)
+                        elif self.on_click_kwargs:
+                            self.on_click(**self.on_click_kwargs)
 
-                            else:
-                                self.on_click()
+                        else:
+                            self.on_click()
 
     def __repr__(self):
         return f"""Button at: {self.x, self.y} | with dimensions: {self.w, self.h}{f" | with text: {self.text.replace(LINE_SPLITTER, ' ')}" if self.text != '' else ''}"""
