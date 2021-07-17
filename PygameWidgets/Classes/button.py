@@ -211,35 +211,10 @@ class Button:
             self.text_rect.center = self.button_rect.center
 
     def update_button_rect(self, x: int, y: int, w: int, h: int):
-        if self.anchor == CENTER:
-            self.button_rect = pygame.Rect(x, y, w, h)
-            self.button_rect.center = (x, y)
-        elif self.anchor == TOPLEFT:
-            self.button_rect = pygame.Rect(x, y, w, h)
-            self.button_rect.topleft = (x, y)
-        elif self.anchor == BOTTOMLEFT:
-            self.button_rect = pygame.Rect(x, y, w, h)
-            self.button_rect.bottomleft = (x, y)
-        elif self.anchor == TOPRIGHT:
-            self.button_rect = pygame.Rect(x, y, w, h)
-            self.button_rect.topright = (x, y)
-        elif self.anchor == BOTTOMRIGHT:
-            self.button_rect = pygame.Rect(x, y, w, h)
-            self.button_rect.bottomright = (x, y)
-        elif self.anchor == MIDTOP:
-            self.button_rect = pygame.Rect(x, y, w, h)
-            self.button_rect.midtop = (x, y)
-        elif self.anchor == MIDLEFT:
-            self.button_rect = pygame.Rect(x, y, w, h)
-            self.button_rect.midleft = (x, y)
-        elif self.anchor == MIDBOTTOM:
-            self.button_rect = pygame.Rect(x, y, w, h)
-            self.button_rect.midbottom = (x, y)
-        elif self.anchor == MIDRIGHT:
-            self.button_rect = pygame.Rect(x, y, w, h)
-            self.button_rect.midright = (x, y)
-        else:
+        if self.anchor not in ANCHORS:
             raise InvalidAnchor(f"""The anchor '{self.anchor}' is not a valid anchor.""")
+        self.button_rect = pygame.Rect(x, y, w, h)
+        self.button_rect.__setattr__(self.anchor, (x, y))
 
     def draw(self):
         if self.pressed:

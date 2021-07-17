@@ -87,7 +87,7 @@ MIDBOTTOM = 'midbottom'
 MIDRIGHT = 'midright'
 
 
-ALIGNMENTS = [
+ANCHORS = [
     CENTER,
     TOPLEFT,
     BOTTOMLEFT,
@@ -136,5 +136,7 @@ __all__ = [
     "MIDLEFT",
     "MIDBOTTOM",
     "MIDRIGHT",
-    "LINE_SPLITTER"
+    "LINE_SPLITTER",
+    "COLORS",
+    "ANCHORS"
 ]
