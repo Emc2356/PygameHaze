@@ -44,6 +44,22 @@ class Button:
                  hover_active_color: Tuple[int, int, int],
                  **kwargs):
 
+        """
+
+        Parameters
+        ----------
+        :param WIN: pygame.surface.Surface
+        :param x: int
+        :param y: int
+        :param w: int
+        :param h: int
+        :param inactive_color: Tuple[int, int, int]
+        :param hover_inactive_color: Tuple[int, int, int]
+        :param active_color: Tuple[int, int, int]
+        :param hover_active_color: Tuple[int, int, int]
+        :param kwargs: optional parameters
+        """
+
         # get the screen to draw the button
         self.WIN = WIN
 
@@ -163,6 +179,10 @@ class Button:
         self.kwargs = kwargs
 
     def update_text(self):
+        """
+        it updates the text. If you want to edit the text of this button you need to call this method
+        :return: None
+        """
         if LINE_SPLITTER in self.text:
             self.text_rects = []
             self.rendered_texts = []
@@ -211,12 +231,27 @@ class Button:
             self.text_rect.center = self.button_rect.center
 
     def update_button_rect(self, x: int, y: int, w: int, h: int):
+        """
+        it reinitialise the button rect
+
+        Parameters:
+        -----------
+        :param x: the x position of the button
+        :param y: the y position of the button
+        :param w: the width of the button
+        :param h: the height of the button
+        :return: None
+        """
         if self.anchor not in ANCHORS:
             raise InvalidAnchor(f"""The anchor '{self.anchor}' is not a valid anchor.""")
         self.button_rect = pygame.Rect(x, y, w, h)
         self.button_rect.__setattr__(self.anchor, (x, y))
 
     def draw(self):
+        """
+        it draws the button on the screen
+        :return: None
+        """
         if self.pressed:
             if self.button_rect.collidepoint(pygame.mouse.get_pos()):
                 self.color = self.hover_active_color
@@ -245,6 +280,11 @@ class Button:
                 self.WIN.blit(self.rendered_text, self.text_rect)
 
     def event_handler(self, event: pygame.event.Event):
+        """
+        it handles the events that the class can check
+        :param event: pygame.event.Event
+        :return: None
+        """
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 if self.button_rect.collidepoint(event.pos):
