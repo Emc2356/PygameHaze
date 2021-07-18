@@ -17,10 +17,10 @@ InputFieldLetters class
 ~~~
 
 # Documentation 
-##### Documentation for the classes can be found in PygameWidgets/Documentation
+##### Documentation for the classes can be found in Documentation
 
 # Examples
-##### Examples of the classes can be found in PygameWidgets/Example
+##### Examples of the classes can be found in Examples
 
 # contributions: 
 > Pull requests are welcome! For major refactors,

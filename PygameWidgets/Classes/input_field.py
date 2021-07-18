@@ -39,8 +39,8 @@ class InputField:
                  y: int,
                  w: int,
                  h: int,
-                 base_color: tuple[int, int, int]=(255, 255, 255),
-                 text_color: tuple[int, int, int]=BLACK,
+                 base_color: Tuple[int, int, int]=(255, 255, 255),
+                 text_color: Tuple[int, int, int]=BLACK,
                  **kwargs):
         # set the win
         self.WIN = WIN
@@ -161,15 +161,15 @@ class InputField:
         """
         return self.text == ""
 
-    def text_color(self, color: tuple):
+    def text_color(self, color: Tuple):
         """
         sets the color for the text
-        :param color: tuple
+        :param color: Tuple
         :return: None
         """
         self.text_color = color
 
-    def base_color(self, color: tuple):
+    def base_color(self, color: Tuple):
         """
         sets the color of the base field color
         :param color:
@@ -202,8 +202,8 @@ class InputFieldNumbers(InputField):
                  y: int,
                  w: int,
                  h: int,
-                 base_color: tuple[int, int, int]=(255, 255, 255),
-                 text_color: tuple[int, int, int]=BLACK,
+                 base_color: Tuple[int, int, int]=(255, 255, 255),
+                 text_color: Tuple[int, int, int]=BLACK,
                  **kwargs):
         super().__init__(WIN, x, y, w, h, base_color, text_color, **kwargs)
 
@@ -271,8 +271,8 @@ class InputFieldLetters(InputField):
                  y: int,
                  w: int,
                  h: int,
-                 base_color: tuple[int, int, int]=(255, 255, 255),
-                 text_color: tuple[int, int, int]=BLACK,
+                 base_color: Tuple[int, int, int]=(255, 255, 255),
+                 text_color: Tuple[int, int, int]=BLACK,
                  **kwargs):
         super().__init__(WIN, x, y, w, h, base_color, text_color, **kwargs)
 
