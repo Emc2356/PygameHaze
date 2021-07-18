@@ -188,7 +188,7 @@ class InputField:
                 self.focused = True
             else:
                 self.focused = False
-        if event.type == pygame.KEYDOWN:
+        if event.type == pygame.KEYDOWN and self.focused:
             if event.key == pygame.K_BACKSPACE:
                 self.delete_last()
             else:
