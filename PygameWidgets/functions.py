@@ -37,21 +37,21 @@ def right_click(event: pygame.event.Event):
     return False
 
 
-def get_font(size, type="comicsans"):
+def get_font(size, type_of_font="comicsans"):
     """
     it send a font back with the font type and the font size given
     :param size: int
-    :param type: str
+    :param type_of_font: str
     :return: pygame.font.Font
     """
-    if type.endswith(".tff"):
+    if type_of_font.endswith(".tff"):
         font = pygame.font.Font(
-            type, size
+            type_of_font, size
         )
         return font
 
     font = pygame.font.SysFont(
-        type, size
+        type_of_font, size
     )
     return font
 

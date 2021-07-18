@@ -29,6 +29,7 @@ import pygame
 
 from PygameWidgets.constants import *
 from PygameWidgets.exceptions import *
+from PygameWidgets.functions import *
 
 
 class SimpleText:
@@ -49,7 +50,7 @@ class SimpleText:
         self.font_size = kwargs.get("font_size", 60)
         self.font_type = kwargs.get("font_type", "comicsans")
         self.antialias = kwargs.get("antialias", True)
-        self.font = pygame.font.SysFont(self.font_type, self.font_size)
+        self.font = get_font(self.font_size, self.font_type)
         self.rendered_text = None
         self.rendered_text_rect = None
         self.update_text(self.x, self.y)
@@ -96,7 +97,7 @@ class MultiLineText:
         self.font_size = kwargs.get("font_size", 60)
         self.font_type = kwargs.get("font_type", "comicsans")
         self.antialias = kwargs.get("antialias", True)
-        self.font = pygame.font.SysFont(self.font_type, self.font_size)
+        self.font = get_font(self.font_size, self.font_type)
         self.rendered_texts = []
         self.update()
         

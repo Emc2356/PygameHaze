@@ -173,7 +173,7 @@ class Button:
             self.text_color = kwargs.get("text_color", (0, 0, 0))
             self.font_type = kwargs.get("font_type", "camicsans")
             self.font_size = kwargs.get("font_size", 60)
-            self.font = pygame.font.SysFont(self.font_type, self.font_size)
+            self.font = get_font(self.font_size, self.font_type)
 
         self.kwargs = kwargs
 
