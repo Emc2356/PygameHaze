@@ -171,9 +171,9 @@ class Button:
         if self.text != "":
             self.antialias = kwargs.get("antialias", True)
             self.text_color = kwargs.get("text_color", (0, 0, 0))
-            self.font_name = kwargs.get("font_name", "camicsans")
+            self.font_type = kwargs.get("font_type", "camicsans")
             self.font_size = kwargs.get("font_size", 60)
-            self.font = pygame.font.SysFont(self.font_name, self.font_size)
+            self.font = pygame.font.SysFont(self.font_type, self.font_size)
 
         self.kwargs = kwargs
 

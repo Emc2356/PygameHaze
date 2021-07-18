@@ -6,9 +6,11 @@
 
 ##### this is a package created to help you with basic widgets
 
-##### at this point it has the following classes;
+##### at this point it has the following classes:
 ~~~
 Button class
+SimpleText class
+MutliLineText class
 ~~~
 
 # Documentation 

@@ -1,9 +1,9 @@
-# Button
+# SimpleText
 
 #### [creator](https://github.com/Emc2356)
 #### [source code](https://github.com/Emc2356/Pygame-Widgets)
 
-#### this is a class made for creating simple one-line labels with the [pygame](https://www.pygame.org)
+#### this is a class made for creating single-line labels with the [pygame](https://www.pygame.org)
 > this are the mandatory arguments
 
 | Argument | Description | Default Value |
@@ -11,17 +11,16 @@
 | `WIN` | the surface that the button is going to be drawn in | - |
 | `x` | the x position of the button | - |
 | `y` | the x position of the button | - |
-| `text` | the text that is going to be displayed to the screen | - |
-
+| `text` | the text that is going to be used | - |
 > this are the optional arguments
 
 | Argument | Description | Default Value |
 |:----------:|:-------------:|:---------------:|
-| `color` | the color of the text | (0, 0, 0) |
 | `anchor` | the alignment of the x, y positions | topleft | 
-| `font_size` | the size of the font that is going to be used | 60 |
-| `font_type` | the font that is going to be used | "comicsans" |
 | `antialias` | if the text is going to be antialiased | True |
+| `text_color` | the color of the text | (0, 0, 0) |
+| `font_type` | the font that is going to be used | "comicsans" |
+| `font_size` | the size of the font that is going to be used | 60 |
 
 # Example code
 ```python

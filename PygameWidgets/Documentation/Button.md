@@ -17,7 +17,6 @@
 | `hover_inactive_color` | the color of the button when the button is inactive and the mouse is over it | - |
 | `active_color` | the color of the button when the button is active | - |
 | `hover_active_color` | the color of the button when the button is active and the mouse is over it | - |
-
 > this are the optional arguments
 
 | Argument | Description | Default Value |
@@ -36,7 +35,7 @@
 | `text` | the text that is going to be rendered | "" |
 | `antialias` | if the text is going to be antialiased | True |
 | `text_color` | the color of the text | (0, 0, 0) |
-| `font_name` | the font that is going to be used | "comicsans" |
+| `font_type` | the font that is going to be used | "comicsans" |
 | `font_size` | the size of the font that is going to be used | 60 |
 
 # Example code
