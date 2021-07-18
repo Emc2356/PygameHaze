@@ -15,6 +15,10 @@ InputField class
 InputFieldNumbers class
 InputFieldLetters class
 ~~~
+##### TODO list 
+1. improve the text 
+    * the text in the button class would be automatically wrapped and changed from single-line to multi-line
+    * the text in the button class would raise a error if the text goes out of bounds in the y axis    
 
 # Documentation 
 ##### Documentation for the classes can be found in Documentation
