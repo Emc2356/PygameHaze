@@ -76,15 +76,15 @@ COLORS = [
 
 
 # some alignments that are used
-CENTER = 'center'
-TOPLEFT = 'topleft'
-BOTTOMLEFT = 'bottomleft'
-TOPRIGHT = 'topright'
-BOTTOMRIGHT = 'bottomright'
-MIDTOP = 'midtop'
-MIDLEFT = 'midleft'
-MIDBOTTOM = 'midbottom'
-MIDRIGHT = 'midright'
+CENTER = "center"
+TOPLEFT = "topleft"
+BOTTOMLEFT = "bottomleft"
+TOPRIGHT = "topright"
+BOTTOMRIGHT = "bottomright"
+MIDTOP = "midtop"
+MIDLEFT = "midleft"
+MIDBOTTOM = "midbottom"
+MIDRIGHT = "midright"
 
 
 ANCHORS = [

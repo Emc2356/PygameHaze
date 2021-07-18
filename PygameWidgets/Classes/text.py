@@ -79,7 +79,7 @@ class SimpleText:
         self.WIN.blit(self.rendered_text, self.rendered_text_rect)
 
 
-class MultiText:
+class MultiLineText:
     def __init__(self,
                  WIN: pygame.surface.Surface,
                  x: int,
@@ -98,26 +98,37 @@ class MultiText:
         self.antialias = kwargs.get("antialias", True)
         self.font = pygame.font.SysFont(self.font_type, self.font_size)
         self.rendered_texts = []
-        self.rendered_text_rects = []
-
-    def _blit_multiple_lines(self, x, y, centered_x=True, centered_rect: pygame.rect.Rect=None):
+        self.update()
+        
+    def update(self, centered_x=False, centered_x_pos: int=None):
         """
-        it blits multiple lines on the screen
-        :param x: the x position of the text
-        :param y: the y position of the text
+        it sets-up the text. this method has to be called when the text changes
         :param centered_x: if the text is going to be x-centered
-        :param centered_rect: the rect that is going to be used if centered_x is True
+        :param centered_x_pos: the rect that is going to be used if centered_x is True
         :return: None
         """
-        if not centered_rect:
-            raise MissingRequiredArgument(f"""in the "_blit_multiple_lines method the centered_rect is missing.""")
+        if centered_x and not centered_x_pos:
+            raise MissingRequiredArgument(f"""in the "update method the centered_x_pos is missing.""")
         height = self.font.get_height()
         lines = self.text.split(LINE_SPLITTER)
+        self.rendered_texts = []
         for i, text in enumerate(lines):
+            self.rendered_texts.append([])
             rendered_text_surface = self.font.render(text, self.antialias, self.color)
+            self.rendered_texts[i].append(rendered_text_surface)
 
             if centered_x:
-                self.WIN.blit(rendered_text_surface, (centered_rect.centerx - rendered_text_surface.get_width()/2, y + (i * height)))
+                self.rendered_texts[i].append([centered_x_pos - rendered_text_surface.get_width()/2, self.y + (i * height)])
 
             else:
-                self.WIN.blit(rendered_text_surface, (x, y + (i * height)))
+                self.rendered_texts[i].append([self.x, self.y + (i * height)])
+
+    def draw(self):
+        """
+        it blits multiple lines on the screen
+        :return: None
+        """
+        for rendered_text in self.rendered_texts:
+            surface = rendered_text[0]
+            cords = rendered_text[1]
+            self.WIN.blit(surface, cords)
