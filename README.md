@@ -11,6 +11,9 @@
 Button class
 SimpleText class
 MutliLineText class
+InputField class
+InputFieldNumbers class
+InputFieldLetters class
 ~~~
 
 # Documentation 
