@@ -38,11 +38,11 @@ class BaseException(Exception):
         return repr(self.message)
 
 
-class TextOutOfButton(BaseException):
+class TextOfOutBounds(BaseException):
     """
     the exception that is raised when the
-    text that is used in the button is out of
-    the bounds of the button.
+    text that is passed is out of the given
+    bounds.
     """
     pass
 
@@ -63,8 +63,18 @@ class MissingRequiredArgument(BaseException):
     pass
 
 
+class WordTooLong(BaseException):
+    """
+    this is the exception that is going to be raised
+    when the word to be splitted to multi-line text
+    is too long and wont fit
+    """
+    pass
+
+
 __all__ = [
-    "TextOutOfButton",
+    "TextOfOutBounds",
     "InvalidAnchor",
-    "MissingRequiredArgument"
+    "MissingRequiredArgument",
+    "WordTooLong"
 ]

@@ -250,7 +250,7 @@ class Button:
             for line in lines:
                 label_w = self.font.render(line, self.antialias, self.text_color).get_width()
                 if label_w > self.w:
-                    raise TextOutOfButton(f"the given string: '{line}' is {label_w - self.w}pxls out of bounds in the x axis")
+                    raise TextOfOutBounds(f"the given string: '{line}' is {label_w - self.w}pxls out of bounds in the x axis")
 
             for i, text in enumerate(lines):
                 h += i * height
