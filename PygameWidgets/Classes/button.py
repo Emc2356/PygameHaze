@@ -62,24 +62,24 @@ class Button:
         """
 
         # get the screen to draw the button
-        self.WIN = WIN
+        self.WIN: pygame.surface.Surface = WIN
 
         # get the positions/dimensions of the button
-        self.x = int(x)
-        self.y = int(y)
-        self.w = int(w)
-        self.h = int(h)
-        self.pressed = False
-        self.anchor = kwargs.get("anchor", TOPLEFT)
-        self.button_rect = pygame.Rect(1, 1, 1, 1)
-        self.update_button_rect(self.x, self.y, self.w, self.h)
+        self.x: int = int(x)
+        self.y: int = int(y)
+        self.w: int = int(w)
+        self.h: int = int(h)
+        self.pressed: bool = False
+        self.anchor: str = kwargs.get("anchor", TOPLEFT)
+        self.button_rect: pygame.Rect = pygame.Rect(1, 1, 1, 1)
+        self.update(self.x, self.y, self.w, self.h)
 
         # get the colors
-        self.inactive_color = inactive_color
-        self.hover_inactive_color = hover_inactive_color
-        self.active_color = active_color
-        self.hover_active_color = hover_active_color
-        self.color = self.active_color if self.pressed else self.inactive_color
+        self.inactive_color: Tuple[int, int, int] = inactive_color
+        self.hover_inactive_color: Tuple[int, int, int] = hover_inactive_color
+        self.active_color: Tuple[int, int, int] = active_color
+        self.hover_active_color: Tuple[int, int, int] = hover_active_color
+        self.color: Tuple[int, int, int] = self.active_color if self.pressed else self.inactive_color
 
         # get the images if there is any
         inactive_sprite = kwargs.get("inactive_sprite", None)  # the sprite that is used when the button is deactivated
@@ -100,8 +100,7 @@ class Button:
         else:
             self.inactive_sprite = None
 
-        inactive_hover_sprite = kwargs.get("inactive_hover_sprite",
-                                           None)  # the sprite that is used when the button is deactivated
+        inactive_hover_sprite = kwargs.get("inactive_hover_sprite", None)  # the sprite that is used when the button is deactivated
         if inactive_hover_sprite:
             transform_scale_image = kwargs.get("transform_scale_image", True)
             if inactive_hover_sprite:
@@ -138,8 +137,7 @@ class Button:
         else:
             self.active_sprite = self.inactive_sprite
 
-        active_hover_sprite = kwargs.get("active_hover_sprite",
-                                         None)  # the sprite that is used when the button is activated
+        active_hover_sprite = kwargs.get("active_hover_sprite", None)  # the sprite that is used when the button is activated
         if active_hover_sprite:
             transform_scale_image = kwargs.get("transform_scale_image", True)
             if active_hover_sprite:
@@ -177,7 +175,7 @@ class Button:
 
         self.kwargs = kwargs
 
-    def _blit_multiple_lines(self, x, y, centered_x=True, centered_rect: pygame.rect.Rect=None):
+    def _blit_multiple_lines(self, x, y, centered_x=True, centered_rect: pygame.rect.Rect=None) -> None:
         """
         it blits multiple lines on the screen
         :param x: the x position of the text
@@ -199,7 +197,7 @@ class Button:
             else:
                 self.WIN.blit(rendered_text_surface, (x, y + (i * height)))
 
-    def update_button_rect(self, x: int, y: int, w: int, h: int):
+    def update(self, x: int, y: int, w: int, h: int) -> None:
         """
         it reinitialise the button rect
 
@@ -218,7 +216,7 @@ class Button:
             raise InvalidAnchor(f"""The anchor '{self.anchor}' is not a valid anchor.""")
         self.x, self.y, self.w, self.h = x, y, w, h
 
-    def draw(self):
+    def draw(self) -> None:
         """
         it draws the button on the screen
         :return: None
@@ -259,7 +257,7 @@ class Button:
 
             self._blit_multiple_lines(0, y_to_draw_text, True, self.button_rect)
 
-    def event_handler(self, event: pygame.event.Event):
+    def event_handler(self, event: pygame.event.Event) -> None:
         """
         it handles the events that the class can check
         :param event: pygame.event.Event

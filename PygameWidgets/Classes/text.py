@@ -53,11 +53,11 @@ class SimpleText:
         self.font = get_font(self.font_size, self.font_type)
         self.rendered_text = None
         self.rendered_text_rect = None
-        self.update_text(self.x, self.y)
+        self.update(self.x, self.y)
 
         self.kwargs = kwargs
 
-    def update_text(self, x, y):
+    def update(self, x, y) -> None:
         """
         call this method to update the text otherwise the text on the screen wont change
         :return: None
@@ -72,7 +72,7 @@ class SimpleText:
         self.x = x
         self.y = y
 
-    def draw(self):
+    def draw(self) -> None:
         """
         it draws the text in the screen
         :return: None
@@ -101,7 +101,7 @@ class MultiLineText:
         self.rendered_texts = []
         self.update()
         
-    def update(self, centered_x=False, centered_x_pos: int=None):
+    def update(self, centered_x=False, centered_x_pos: int=None) -> None:
         """
         it sets-up the text. this method has to be called when the text changes
         :param centered_x: if the text is going to be x-centered
@@ -124,12 +124,16 @@ class MultiLineText:
             else:
                 self.rendered_texts[i].append([self.x, self.y + (i * height)])
 
-    def draw(self):
+    def draw(self) -> None:
         """
         it blits multiple lines on the screen
         :return: None
         """
-        for rendered_text in self.rendered_texts:
-            surface = rendered_text[0]
-            cords = rendered_text[1]
+        for surface, cords in self.rendered_texts:
             self.WIN.blit(surface, cords)
+
+
+__all__ = [
+    "SimpleText",
+    "MultiLineText"
+]

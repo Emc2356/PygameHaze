@@ -39,43 +39,43 @@ class InputField:
                  y: int,
                  w: int,
                  h: int,
-                 base_color: Tuple[int, int, int]=(255, 255, 255),
+                 base_color: Tuple[int, int, int]=WHITE,
                  text_color: Tuple[int, int, int]=BLACK,
                  **kwargs):
         # set the win
-        self.WIN = WIN
+        self.WIN: pygame.surface.Surface = WIN
 
         # cords stuff
-        self.x = x
-        self.y = y
-        self.h = h
-        self.w = w
-        self.anchor = kwargs.get("anchor", TOPLEFT)
+        self.x: int = x
+        self.y: int = y
+        self.h: int = h
+        self.w: int = w
+        self.anchor: str = kwargs.get("anchor", TOPLEFT)
 
         # color stuff
-        self.base_color = base_color
-        self.inactive_color = kwargs.get("inactive_color", (255, 0, 0))
-        self.active_color = kwargs.get("active_color", (0, 255, 0))
-        self.outline = kwargs.get("outline", 2)
+        self.base_color: Tuple[int, int, int] = base_color
+        self.inactive_color: Tuple[int, int, int] = kwargs.get("inactive_color", (255, 0, 0))
+        self.active_color: Tuple[int, int, int] = kwargs.get("active_color", (0, 255, 0))
+        self.outline: int = kwargs.get("outline", 2)
 
         # font stuff
-        self.font_size = kwargs.get("font_size", 60)
-        self.font_type = kwargs.get("font_type", "comicsans")
-        self.text_color = text_color
-        self.font = get_font(self.font_size, self.font_type)
-        self.text = ""
-        self.antialias = kwargs.get("antialias", True)
-        self.focused = False
+        self.font_size: int = kwargs.get("font_size", 60)
+        self.font_type: str = kwargs.get("font_type", "comicsans")
+        self.text_color: Tuple[int, int, int] = text_color
+        self.font: pygame.font.Font = get_font(self.font_size, self.font_type)
+        self.text: str = ""
+        self.antialias: bool = kwargs.get("antialias", True)
+        self.focused: bool = False
 
-        self.MAX = kwargs.get("MAX", 0)
+        self.MAX: int = kwargs.get("MAX", 0)
 
-        self.base_rect = None
-        self.rendered_text = None
-        self.rendered_text_rect = None
+        self.base_rect: pygame.Rect = None
+        self.rendered_text: pygame.surface.Surface = None
+        self.rendered_text_rect: pygame.Rect = None
 
-        self.update_field()
+        self.update()
 
-    def update_field(self):
+    def update(self) -> None:
         """
         it sets up the field with the text if you dont call this method what is displayed on the screen wont be changing
         :return: None
@@ -90,94 +90,80 @@ class InputField:
         self.rendered_text_rect = self.rendered_text.get_rect()
         self.rendered_text_rect.center = self.base_rect.center
 
-    def draw(self):
+    def draw(self) -> None:
         """
         draws the bar in the window
         :return: None
         """
         pygame.draw.rect(self.WIN, self.active_color if self.focused else self.inactive_color, self.base_rect)
-        pygame.draw.rect(self.WIN, self.base_color, pygame.Rect(
-            self.base_rect[0] + self.outline, self.base_rect[1] + self.outline, self.base_rect[2] - self.outline*2, self.base_rect[3] - self.outline*2
-        ))
+        pygame.draw.rect(
+            self.WIN, self.base_color, pygame.Rect(
+                self.base_rect[0] + self.outline, self.base_rect[1] + self.outline, self.base_rect[2] - self.outline*2, self.base_rect[3] - self.outline*2
+            )
+        )
         self.WIN.blit(self.rendered_text, self.rendered_text_rect)
 
-    def get_width(self):
+    def get_width(self) -> int:
         """
         returns the width of the bar
         :return: int
         """
         return self.w
 
-    def get_height(self):
+    def get_height(self) -> int:
         """
         returns the height of the bar
         :return: int
         """
         return self.h
 
-    def write(self, character):
+    def write(self, character: str) -> None:
         """
-        writes a character to the field
-        :param character: any
-        :param MAX: int
+        writes a character to the field you dont need to call the update() method as it is automatically called when the character is written
+        :param character: str
         :return: None
         """
         if self.MAX > 0:
             if len(self.text) >= self.MAX:
                 return
             self.text += character
-            self.update_field()
+            self.update()
             return
         self.text += character
-        self.update_field()
+        self.update()
         return
 
-    def clear(self):
+    def clear(self) -> None:
         """
-        clears the tect that is writen
+        clears the text that is writen you dont need to call the update() method as it is automatically called when the character is written
         :return: None
         """
         self.text = ""
+        self.update()
 
-    def delete_last(self):
+    def delete_last(self) -> None:
         """
         deletes the last character of the text
         :return: None
         """
         self.text = self.text[:-1]
-        self.update_field()
+        self.update()
 
-    def get_text(self):
+    def get_text(self) -> str:
         """
         it gives the current text of the field
         :return: self.text: str
         """
         return self.text
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
         """
         tells if the field is empty
         :return: bool
         """
         return self.text == ""
 
-    def text_color(self, color: Tuple):
-        """
-        sets the color for the text
-        :param color: Tuple
-        :return: None
-        """
-        self.text_color = color
-
-    def base_color(self, color: Tuple):
-        """
-        sets the color of the base field color
-        :param color:
-        :return: None
-        """
-        self.base_color = color
-
-    def event_handler(self, event: pygame.event.Event):
+    def event_handler(self, event: pygame.event.Event) -> None:
         """
         used only with numbers
         :param event: pygame.event.Event
@@ -202,41 +188,23 @@ class InputFieldNumbers(InputField):
                  y: int,
                  w: int,
                  h: int,
-                 base_color: Tuple[int, int, int]=(255, 255, 255),
+                 base_color: Tuple[int, int, int]=WHITE,
                  text_color: Tuple[int, int, int]=BLACK,
                  **kwargs):
         super().__init__(WIN, x, y, w, h, base_color, text_color, **kwargs)
 
-        self.key_num = {
+        self.key_num: dict = {
             "normal": {
-                0: 48,
-                1: 49,
-                2: 50,
-                3: 51,
-                4: 52,
-                5: 53,
-                6: 54,
-                7: 55,
-                8: 56,
-                9: 57
+                0: 48, 1: 49, 2: 50, 3: 51, 4: 52, 5: 53, 6: 54, 7: 55, 8: 56, 9: 57
             },
             "num_pad": {
-                0: 1073741922,
-                1: 1073741913,
-                2: 1073741914,
-                3: 1073741915,
-                4: 1073741916,
-                5: 1073741917,
-                6: 1073741918,
-                7: 1073741919,
-                8: 1073741920,
-                9: 1073741921
+                0: 1073741922, 1: 1073741913, 2: 1073741914, 3: 1073741915, 4: 1073741916, 5: 1073741917, 6: 1073741918, 7: 1073741919, 8: 1073741920, 9: 1073741921
             }
         }
 
-        self.update_field()
+        self.update()
 
-    def event_handler(self, event):
+    def event_handler(self, event) -> None:
         """
         used only with numbers
         :param event: pygame.Event
@@ -271,14 +239,14 @@ class InputFieldLetters(InputField):
                  y: int,
                  w: int,
                  h: int,
-                 base_color: Tuple[int, int, int]=(255, 255, 255),
+                 base_color: Tuple[int, int, int]=WHITE,
                  text_color: Tuple[int, int, int]=BLACK,
                  **kwargs):
         super().__init__(WIN, x, y, w, h, base_color, text_color, **kwargs)
 
-        self.update_field()
+        self.update()
 
-    def event_handler(self, event: pygame.event.Event):
+    def event_handler(self, event: pygame.event.Event) -> None:
         """
         used only with numbers
         :param event: pygame.Event

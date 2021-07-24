@@ -7,4 +7,3 @@ from .Classes import InputFieldLetters
 from .constants import *
 from .exceptions import *
 from .functions import *
-
