@@ -27,7 +27,7 @@ from typing import Tuple
 
 import pygame
 
-from PygameWidgets.functions import *
+from PygameWidgets.utils import *
 from PygameWidgets.constants import *
 from PygameWidgets.exceptions import *
 
@@ -301,3 +301,31 @@ class Button:
 
     def __repr__(self):
         return f"""Button at: {self.x, self.y} | with dimensions: {self.w, self.h}{f" | with text: {self.text.replace(LINE_SPLITTER, ' ')}" if self.text != '' else ''}"""
+
+
+class ButtonManager:
+    def __init__(self, WIN: pygame.surface.Surface):
+        self.WIN = WIN
+        self.buttons = []
+
+    def draw(self):
+        [button.draw() for button in self.buttons]
+
+    def event_Handler(self, event: pygame.event.Event):
+        [button.event_handler(event) for button in self.buttons]
+
+    def get_buttons(self):
+        return self.buttons
+
+    def add_button(self,
+                   WIN: pygame.surface.Surface,
+                   x: int,
+                   y: int,
+                   w: int,
+                   h: int,
+                   inactive_color: Tuple[int, int, int],
+                   hover_inactive_color: Tuple[int, int, int],
+                   active_color: Tuple[int, int, int],
+                   hover_active_color: Tuple[int, int, int],
+                   **kwargs):
+        self.buttons.append(Button(WIN, x, y, w, h, inactive_color, hover_inactive_color, active_color, hover_active_color, **kwargs))

@@ -27,7 +27,7 @@ from typing import Tuple
 
 import pygame
 
-from PygameWidgets.functions import *
+from PygameWidgets.utils import *
 from PygameWidgets.constants import *
 from PygameWidgets.exceptions import *
 

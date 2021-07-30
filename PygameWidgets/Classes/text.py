@@ -29,7 +29,7 @@ import pygame
 
 from PygameWidgets.constants import *
 from PygameWidgets.exceptions import *
-from PygameWidgets.functions import *
+from PygameWidgets.utils import *
 
 
 class SimpleText:
