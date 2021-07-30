@@ -42,8 +42,8 @@
 ```python
 # the imports
 import pygame  
-from PygameWidgets import Button
-from PygameWidgets.constants import *
+from PygameHelper import Button
+from PygameHelper.constants import *
 
 
 pygame.init()

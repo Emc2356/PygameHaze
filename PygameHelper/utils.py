@@ -29,8 +29,8 @@ from math import floor
 from typing import List
 from typing import Tuple
 
-from PygameWidgets.constants import *
-from PygameWidgets.exceptions import *
+from PygameHelper.constants import *
+from PygameHelper.exceptions import *
 
 
 def load_image(path: str) -> pygame.surface.Surface:

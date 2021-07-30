@@ -29,9 +29,9 @@
 
 # Example code
 ```python
-from PygameWidgets.constants import *
+from PygameHelper.constants import *
 import pygame
-from PygameWidgets import InputField
+from PygameHelper import InputField
 
 
 pygame.init()

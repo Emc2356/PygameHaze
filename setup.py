@@ -7,7 +7,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-PACKAGE_NAME = "PygameWidgets"
+PACKAGE_NAME = "PygameHelper"
 VERSION = "0.1.1"
 DESCRIPTION = "Some widgets for pygame"
 
@@ -19,7 +19,7 @@ setup(
     description=DESCRIPTION,
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/Emc2356/Pygame-Widgets",
+    url="https://github.com/Emc2356/PygameHelper",
     packages=find_packages(),
     python_requires=">=3.6",
     license="MIT",

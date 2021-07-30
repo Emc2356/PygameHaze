@@ -1,6 +1,6 @@
 import pygame
-from PygameWidgets import MultiLineText
-from PygameWidgets.constants import *
+from PygameHelper import MultiLineText
+from PygameHelper.constants import *
 
 
 pygame.init()

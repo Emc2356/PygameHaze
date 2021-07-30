@@ -26,8 +26,8 @@
 ```python
 # the imports
 import pygame
-from PygameWidgets import SimpleText
-from PygameWidgets.constants import *
+from PygameHelper import SimpleText
+from PygameHelper.constants import *
 
 
 pygame.init()

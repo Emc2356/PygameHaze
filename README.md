@@ -1,4 +1,4 @@
-# PygameWidgets
+# PygameHelper
 
 ###### [source code](https://github.com/Emc2356/Pygame-Widgets)
 ###### [creator](https://github.com/Emc2356)
@@ -16,7 +16,7 @@ InputField class
 InputFieldNumbers class
 InputFieldLetters class
 ~~~
-##### also PygameWidgets offers functions to help with every day use:
+##### also PygameHelper offers functions to help with every day use:
 ~~~
 load_image it loads a image 
 load_alpha_image it loads a image but it keeps the alpha values

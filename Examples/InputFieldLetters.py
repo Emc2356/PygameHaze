@@ -1,6 +1,6 @@
-from PygameWidgets.constants import *
+from PygameHelper.constants import *
 import pygame
-from PygameWidgets import InputFieldLetters
+from PygameHelper import InputFieldLetters
 
 
 pygame.init()

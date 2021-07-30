@@ -27,9 +27,9 @@ from typing import Tuple
 
 import pygame
 
-from PygameWidgets.utils import *
-from PygameWidgets.constants import *
-from PygameWidgets.exceptions import *
+from PygameHelper.utils import *
+from PygameHelper.constants import *
+from PygameHelper.exceptions import *
 
 
 class InputField:

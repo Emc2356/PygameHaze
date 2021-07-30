@@ -1,5 +1,5 @@
-from PygameWidgets.utils import pixel_perfect_collision, rectangle_collision
-from PygameWidgets.constants import *
+from PygameHelper.utils import pixel_perfect_collision, rectangle_collision
+from PygameHelper.constants import *
 import sys
 import pygame
 from pygame.locals import *

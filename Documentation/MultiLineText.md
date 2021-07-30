@@ -11,7 +11,7 @@
 | `WIN` | the surface that the button is going to be drawn in | - |
 | `x` | the x position of the button | - |
 | `y` | the x position of the button | - |
-| `text` | the text that is going to be used(use PygameWidgets.constants.LINE_SPLITTER to say were the new like is going to be) | - |
+| `text` | the text that is going to be used(use PygameHelper.constants.LINE_SPLITTER to say were the new like is going to be) | - |
 > this are the optional arguments
 
 | Argument | Description | Default Value |
@@ -25,8 +25,8 @@
 ```python
 # the imports
 import pygame
-from PygameWidgets import MultiLineText
-from PygameWidgets.constants import *
+from PygameHelper import MultiLineText
+from PygameHelper.constants import *
 
 
 pygame.init()
