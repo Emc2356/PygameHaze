@@ -166,12 +166,11 @@ class Button:
 
         # get the text info
         self.text = kwargs.get("text", "")  # for multiple lines use PygameHelper.constants.LINE_SPLITTER
-        if self.text != "":
-            self.antialias = kwargs.get("antialias", True)
-            self.text_color = kwargs.get("text_color", (0, 0, 0))
-            self.font_type = kwargs.get("font_type", "camicsans")
-            self.font_size = kwargs.get("font_size", 60)
-            self.font = get_font(self.font_size, self.font_type)
+        self.antialias = kwargs.get("antialias", True)
+        self.text_color = kwargs.get("text_color", (0, 0, 0))
+        self.font_type = kwargs.get("font_type", "camicsans")
+        self.font_size = kwargs.get("font_size", 60)
+        self.font = get_font(self.font_size, self.font_type)
 
         self.kwargs = kwargs
 
@@ -311,11 +310,20 @@ class ButtonManager:
     def draw(self):
         [button.draw() for button in self.buttons]
 
-    def event_Handler(self, event: pygame.event.Event):
+    def event_handler(self, event: pygame.event.Event):
         [button.event_handler(event) for button in self.buttons]
 
     def get_buttons(self):
         return self.buttons
+
+    def __getitem__(self, item):
+        return self.buttons[item]
+
+    def __setitem__(self, key, value):
+        self.buttons[key] = value
+
+    def __len__(self):
+        return len(self.buttons)
 
     def add_button(self,
                    WIN: pygame.surface.Surface,
