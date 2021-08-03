@@ -341,14 +341,14 @@ class ButtonManager:
     def __iadd__(self, other) -> None:
         if isinstance(other, ButtonManager):
             self.buttons += other.buttons
-            return
-        raise TypeError(f"the given obj is not a instance of {ButtonManager}")
+        else:
+            raise TypeError(f"the given obj is not a instance of {ButtonManager} and it is a instance of the class {type(other)}")
 
     def __add__(self, other) -> None:
         if isinstance(other, ButtonManager):
             self.buttons += other.buttons
-            return
-        raise TypeError(f"the given obj is not a instance of {ButtonManager}")
+        else:
+            raise TypeError(f"the given obj is not a instance of {ButtonManager} and it is a instance of the class {type(other)}")
 
     def __contains__(self, item) -> bool:
         if item in self.buttons:
