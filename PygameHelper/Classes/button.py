@@ -26,7 +26,6 @@ SOFTWARE.
 from typing import Tuple, List, Iterable
 
 import pygame
-from pprint import pprint
 
 from PygameHelper.utils import *
 from PygameHelper.constants import *
@@ -351,20 +350,20 @@ class ButtonManager:
             return
         raise TypeError(f"the given obj is not a instance of {ButtonManager}")
 
-    def __iter__(self) -> Iterable[Button]:
-        return iter(self.buttons)
-
     def __contains__(self, item) -> bool:
         if item in self.buttons:
             return True
         return False
-    
+
     def __del__(self) -> None:
         for button in self.buttons:
             del button
 
     def __len__(self) -> int:
         return len(self.buttons)
+
+    def __iter__(self) -> Iterable[Button]:
+        return iter(self.buttons)
 
     def __next__(self) -> Button:
         try:
@@ -393,7 +392,7 @@ class ButtonManager:
         return _str
 
     def __bool__(self) -> bool:
-        return True if len(self) > 0 else False
+        return len(self) > 0
 
     def __reversed__(self) -> List[Button]:
         reversed(self.buttons)
