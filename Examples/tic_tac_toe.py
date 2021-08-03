@@ -29,7 +29,7 @@ class Game:
         self.board = [[0, 0, 0] for _ in range(3)]
         self.spots = ButtonManager(self.WIN)
 
-        [[self.spots.add_button(self.WIN, x*(self.W//3), y*(self.W//3), self.W//3, self.H//3, WHITE, WHITE, WHITE, WHITE, font_size=200) for y in range(3)] for x in range(3)]
+        [[self.spots.add_button(x*(self.W//3), y*(self.W//3), self.W//3, self.H//3, WHITE, WHITE, WHITE, WHITE, font_size=200) for y in range(3)] for x in range(3)]
 
     def draw(self):
         self.WIN.fill(WHITE)
