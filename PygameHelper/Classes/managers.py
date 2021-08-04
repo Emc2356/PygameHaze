@@ -27,7 +27,9 @@ from typing import Tuple, List, Iterable
 
 import pygame
 
+from PygameHelper.constants import *
 from PygameHelper.Classes import Button
+from PygameHelper.Classes import SimpleText, MultiLineText
 
 
 class ButtonManager:
@@ -125,3 +127,104 @@ class ButtonManager:
     def __reversed__(self) -> List[Button]:
         reversed(self.buttons)
         return self.buttons
+
+
+class TextManager:
+    def __init__(self, WIN: pygame.surface.Surface):
+        self.WIN = WIN
+        self.texts = []
+        self.__i = 0
+
+    def draw(self) -> None:
+        [text.draw() for text in self.texts]
+
+    def update(self) -> None:
+        [text.update() for text in self.texts]
+
+    def get_texts(self) -> List[SimpleText or MultiLineText]:
+        return self.texts
+
+    def add_simple_text(self,
+                        x: int,
+                        y: int,
+                        text: str,
+                        color: Tuple[int, int, int]=BLACK,
+                        **kwargs):
+        self.texts.append(SimpleText(self.WIN, x, y, text, color, **kwargs))
+
+    def add_multi_line_text(self,
+                            x: int,
+                            y: int,
+                            text: str,
+                            color: Tuple[int, int, int]=BLACK,
+                            **kwargs):
+        self.texts.append(MultiLineText(self.WIN, x, y, text, color, **kwargs))
+
+    def __getitem__(self, item) -> SimpleText or MultiLineText:
+        return self.texts[item]
+
+    def __setitem__(self, key, value) -> None:
+        self.texts[key] = value
+
+    def __delitem__(self, key) -> None:
+        del self.texts[key]
+
+    def __iadd__(self, other) -> None:
+        if isinstance(other, TextManager):
+            self.texts += other.texts
+        else:
+            raise TypeError(f"the given obj is not a instance of {TextManager} and it is a instance of the class {type(other)}")
+
+    def __add__(self, other) -> None:
+        if isinstance(other, TextManager):
+            self.texts += other.texts
+        else:
+            raise TypeError(f"the given obj is not a instance of {TextManager} and it is a instance of the class {type(other)}")
+
+    def __contains__(self, item) -> bool:
+        if item in self.texts:
+            return True
+        return False
+
+    def __del__(self) -> None:
+        for text in self.texts:
+            del text
+
+    def __len__(self) -> int:
+        return len(self.texts)
+
+    def __iter__(self) -> Iterable[SimpleText or MultiLineText]:
+        return iter(self.texts)
+
+    def __next__(self) -> SimpleText or MultiLineText:
+        try:
+            item = self.texts[self.__i]
+            self.__i += 1
+        except IndexError:
+            self.__i = 0
+            item = self.__next__()
+
+        return item
+
+    def __repr__(self) -> str:
+        _str = "["
+        for text in self.texts:
+            _str += f"{text},\n"
+        _str = _str[:-2]
+        _str += "]"
+        return _str
+
+    def __str__(self) -> str:
+        _str = "["
+        for text in self.texts:
+            _str += f"{text},\n"
+        _str = _str[:-2]
+        _str += "]"
+        return _str
+
+    def __bool__(self) -> bool:
+        return len(self) > 0
+
+    def __reversed__(self) -> List[SimpleText or MultiLineText]:
+        reversed(self.texts)
+        return self.texts

@@ -79,6 +79,12 @@ class SimpleText:
         """
         self.WIN.blit(self.rendered_text, self.rendered_text_rect)
 
+    def __repr__(self):
+        return f"one line text at: [{self.x}, {self.y}] with text '{self.text}'"
+
+    def __str__(self):
+        return f"one line text at: [{self.x}, {self.y}] with text '{self.text}'"
+
 
 class MultiLineText:
     def __init__(self,
@@ -131,6 +137,12 @@ class MultiLineText:
         """
         for surface, cords in self.rendered_texts:
             self.WIN.blit(surface, cords)
+
+    def __repr__(self):
+        return f"one line text at: [{self.x}, {self.y}] with text '{self.text}'"
+
+    def __str__(self):
+        return f"one line text at: [{self.x}, {self.y}] with text '{self.text}'"
 
 
 __all__ = [

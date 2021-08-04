@@ -12,6 +12,7 @@ from .Classes import InputFieldLetters
 
 # the managers for the widgets/tools
 from .Classes import ButtonManager
+from .Classes import TextManager
 
 # general imports that can be used by the user with general use
 # in their projects
