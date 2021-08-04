@@ -17,6 +17,8 @@ pygame.init()
 WIDTH, HEIGHT = 500, 500
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
+pygame.display.set_caption("Particle example")
+
 particles = ParticleManager(WIN)
 
 rects = [

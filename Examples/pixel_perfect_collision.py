@@ -14,6 +14,8 @@ clock = pygame.time.Clock()
 WIN = pygame.display.set_mode((W, H))
 FPS = 120
 
+pygame.display.set_caption("Pixel perfect collision")
+
 
 obstacle = pygame.image.load("assets/obstacle.png").convert_alpha()
 obstacle_mask = pygame.mask.from_surface(obstacle)

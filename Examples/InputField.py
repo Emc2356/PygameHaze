@@ -8,6 +8,8 @@ pygame.font.init()
 
 WIN = pygame.display.set_mode((500, 500))
 
+pygame.display.set_caption("InputField")
+
 field = InputField(
     WIN,            # WIN
     250,            # x

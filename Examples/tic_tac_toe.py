@@ -12,6 +12,8 @@ from PygameHelper import ButtonManager
 
 pygame.init()
 
+pygame.display.set_caption("Tic Tac Toe")
+
 
 class Game:
     def __init__(self):
