@@ -31,6 +31,7 @@ from PygameHelper.constants import *
 from PygameHelper.Classes import Button
 from PygameHelper.Classes import SimpleText, MultiLineText
 from PygameHelper.Classes import InputField, InputFieldNumbers, InputFieldLetters
+from PygameHelper.Classes import Particle
 
 
 class ButtonManager:
@@ -107,19 +108,27 @@ class ButtonManager:
         return item
 
     def __repr__(self) -> str:
-        _str = "["
-        for button in self.buttons:
-            _str += f"{button},\n"
-        _str = _str[:-2]
-        _str += "]"
+        _str = ""
+        if self.buttons:
+            _str += "["
+            for button in self.buttons:
+                _str += f"{button},\n"
+            _str = _str[:-2]
+            _str += "]"
+        else:
+            _str += "[]"
         return _str
 
     def __str__(self) -> str:
-        _str = "["
-        for button in self.buttons:
-            _str += f"{button},\n"
-        _str = _str[:-2]
-        _str += "]"
+        _str = ""
+        if self.buttons:
+            _str += "["
+            for button in self.buttons:
+                _str += f"{button},\n"
+            _str = _str[:-2]
+            _str += "]"
+        else:
+            _str += "[]"
         return _str
 
     def __bool__(self) -> bool:
@@ -208,19 +217,27 @@ class TextManager:
         return item
 
     def __repr__(self) -> str:
-        _str = "["
-        for text in self.texts:
-            _str += f"{text},\n"
-        _str = _str[:-2]
-        _str += "]"
+        _str = ""
+        if self.texts:
+            _str += "["
+            for text in self.texts:
+                _str += f"{text},\n"
+            _str = _str[:-2]
+            _str += "]"
+        else:
+            _str += "[]"
         return _str
 
     def __str__(self) -> str:
-        _str = "["
-        for text in self.texts:
-            _str += f"{text},\n"
-        _str = _str[:-2]
-        _str += "]"
+        _str = ""
+        if self.texts:
+            _str += "["
+            for text in self.texts:
+                _str += f"{text},\n"
+            _str = _str[:-2]
+            _str += "]"
+        else:
+            _str += "[]"
         return _str
 
     def __bool__(self) -> bool:
@@ -326,19 +343,27 @@ class InputFieldManager:
         return item
 
     def __repr__(self) -> str:
-        _str = "["
-        for text in self.input_fields:
-            _str += f"{text},\n"
-        _str = _str[:-2]
-        _str += "]"
+        _str = ""
+        if self.input_fields:
+            _str += "["
+            for input_field in self.input_fields:
+                _str += f"{input_field},\n"
+            _str = _str[:-2]
+            _str += "]"
+        else:
+            _str += "[]"
         return _str
 
     def __str__(self) -> str:
-        _str = "["
-        for text in self.input_fields:
-            _str += f"{text},\n"
-        _str = _str[:-2]
-        _str += "]"
+        _str = ""
+        if self.input_fields:
+            _str += "["
+            for input_field in self.input_fields:
+                _str += f"{input_field},\n"
+            _str = _str[:-2]
+            _str += "]"
+        else:
+            _str += "[]"
         return _str
 
     def __bool__(self) -> bool:
@@ -347,3 +372,127 @@ class InputFieldManager:
     def __reversed__(self) -> List[InputField or InputFieldNumbers or InputFieldLetters]:
         reversed(self.input_fields)
         return self.input_fields
+
+
+class ParticleManager:
+    def __init__(self, WIN: pygame.surface.Surface):
+        self.WIN = WIN
+        self.particles = []
+        self.__i = 0
+
+    def draw(self) -> None:
+        [text.draw() for text in self.particles]
+
+    def shrink(self) -> None:
+        [text.shrink() for text in self.particles]
+
+    def delete_particles(self) -> None:
+        new_particles = [particle for particle in self.particles if particle.size > 0]
+        self.particles = new_particles
+
+    def collide_rects(self, rects: List[pygame.Rect]) -> None:
+        [particle.collide_with_rects(rects) for particle in self.particles]
+
+    def update_rects(self) -> None:
+        [particle.update_rect() for particle in self.particles]
+
+    def randomize_vels(self, limit_x: Tuple[float, float], limit_y: Tuple[float, float]) -> None:
+        [particle.randomize_vel(limit_x, limit_y) for particle in self.particles]
+
+    def move(self, dt: float=1) -> None:
+        [particle.move(dt) for particle in self.particles]
+
+    def activate_gravity(self, dt: float=1) -> None:
+        [particle.activate_gravity(dt) for particle in self.particles]
+
+    def get_particles(self) -> List[Particle]:
+        return self.particles
+
+    def add_particle(self,
+                     x: int,
+                     y: int,
+                     vel_x: float,
+                     vel_y: float,
+                     shrink_amount: float,
+                     size: float = 7,
+                     color: Tuple[int, int, int] = (255, 255, 255),
+                     collision_tolerance: float = 10,
+                     gravity: float = 0.1) -> None:
+        self.particles.append(Particle(self.WIN, x, y, vel_x, vel_y, shrink_amount, size, color, collision_tolerance, gravity))
+
+    def __getitem__(self, item) -> Particle:
+        return self.particles[item]
+
+    def __setitem__(self, key, value) -> None:
+        self.particles[key] = value
+
+    def __delitem__(self, key) -> None:
+        del self.particles[key]
+
+    def __iadd__(self, other) -> None:
+        if isinstance(other, ParticleManager):
+            self.particles += other.particles
+        else:
+            raise TypeError(f"the given obj is not a instance of {ParticleManager} and it is a instance of the class {type(other)}")
+
+    def __add__(self, other) -> None:
+        if isinstance(other, ParticleManager):
+            self.particles += other.particles
+        else:
+            raise TypeError(f"the given obj is not a instance of {ParticleManager} and it is a instance of the class {type(other)}")
+
+    def __contains__(self, item) -> bool:
+        if item in self.particles:
+            return True
+        return False
+
+    def __del__(self) -> None:
+        for particle in self.particles:
+            del particle
+
+    def __len__(self) -> int:
+        return len(self.particles)
+
+    def __iter__(self) -> Iterable[Particle]:
+        return iter(self.particles)
+
+    def __next__(self) -> Particle:
+        try:
+            item = self.particles[self.__i]
+            self.__i += 1
+        except IndexError:
+            self.__i = 0
+            item = self.__next__()
+
+        return item
+
+    def __repr__(self) -> str:
+        _str = ""
+        if self.particles:
+            _str += "["
+            for particle in self.particles:
+                _str += f"{particle},\n"
+            _str = _str[:-2]
+            _str += "]"
+        else:
+            _str += "[]"
+        return _str
+
+    def __str__(self) -> str:
+        _str = ""
+        if self.particles:
+            _str += "["
+            for particle in self.particles:
+                _str += f"{particle},\n"
+            _str = _str[:-2]
+            _str += "]"
+        else:
+            _str += "[]"
+        return _str
+
+    def __bool__(self) -> bool:
+        return len(self) > 0
+
+    def __reversed__(self) -> List[Particle]:
+        reversed(self.particles)
+        return self.particles
