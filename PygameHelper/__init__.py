@@ -20,11 +20,13 @@ from .Classes import InputField
 from .Classes import InputFieldNumbers
 from .Classes import InputFieldLetters
 from .Classes import Particle
+from .Classes import Animation
 
 # the managers for the widgets/tools
 from .Classes import ButtonManager
 from .Classes import TextManager
 from .Classes import ParticleManager
+from .Classes import AnimationManager
 
 # general imports that can be used by the user with general use
 # in their projects

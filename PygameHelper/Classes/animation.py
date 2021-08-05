@@ -29,7 +29,8 @@ from typing import List
 
 
 class Animation:
-    def __init__(self, x: int, y: int, images: List[pygame.surface.Surface], frames_per_image: int=5):
+    def __init__(self, WIN: pygame.surface.Surface, x: int, y: int, images: List[pygame.surface.Surface], frames_per_image: int=5):
+        self.WIN: pygame.surface.Surface = WIN
         self.x: int = x
         self.y: int = y
         self.images: cycle = cycle(images)
@@ -47,10 +48,9 @@ class Animation:
             self.time = 0
         self.time += 1
 
-    def draw(self, WIN: pygame.surface.Surface) -> None:
+    def draw(self) -> None:
         """
         it draws the animation to the screen
-        :param WIN: pygame.surface.Surface
         :return: None
         """
-        WIN.blit(self.current_image, (self.x, self.y))
+        self.WIN.blit(self.current_image, (self.x, self.y))

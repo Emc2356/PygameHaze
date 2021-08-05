@@ -4,7 +4,7 @@
 #### [source code](https://github.com/Emc2356/Pygame-Widgets)
 
 #### this is a class made for creating button with the [pygame](https://www.pygame.org)
-> this are the mandatory arguments
+> these are the mandatory arguments
 
 | Argument | Description | Default Value |
 |:----------:|:-------------:|:---------------:|
@@ -17,7 +17,7 @@
 | `hover_inactive_color` | the color of the button when the button is inactive and the mouse is over it | - |
 | `active_color` | the color of the button when the button is active | - |
 | `hover_active_color` | the color of the button when the button is active and the mouse is over it | - |
-> this are the optional arguments
+> these are the optional arguments
 
 | Argument | Description | Default Value |
 |:----------:|:-------------:|:---------------:|
