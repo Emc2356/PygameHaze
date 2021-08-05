@@ -324,8 +324,8 @@ class InputFieldManager:
         return False
 
     def __del__(self) -> None:
-        for text in self.input_fields:
-            del text
+        for input_field in self.input_fields:
+            del input_field
 
     def __len__(self) -> int:
         return len(self.input_fields)
@@ -511,7 +511,7 @@ class AnimationManager:
     def animate(self) -> None:
         [animation.animate() for animation in self.animations]
 
-    def get_animations(self) -> List[Particle]:
+    def get_animations(self) -> List[Animation]:
         return self.animations
 
     def add_animation(self,
@@ -521,7 +521,7 @@ class AnimationManager:
                       frames_per_image: int=5):
         self.animations.append(Animation(self.WIN, x, y, images, frames_per_image))
 
-    def __getitem__(self, item) -> Particle:
+    def __getitem__(self, item) -> Animation:
         return self.animations[item]
 
     def __setitem__(self, key, value) -> None:
@@ -548,16 +548,16 @@ class AnimationManager:
         return False
 
     def __del__(self) -> None:
-        for particle in self.animations:
-            del particle
+        for animation in self.animations:
+            del animation
 
     def __len__(self) -> int:
         return len(self.animations)
 
-    def __iter__(self) -> Iterable[Particle]:
+    def __iter__(self) -> Iterable[Animation]:
         return iter(self.animations)
 
-    def __next__(self) -> Particle:
+    def __next__(self) -> Animation:
         try:
             item = self.animations[self.__i]
             self.__i += 1
@@ -571,8 +571,8 @@ class AnimationManager:
         _str = ""
         if self.animations:
             _str += "["
-            for particle in self.animations:
-                _str += f"{particle},\n"
+            for animation in self.animations:
+                _str += f"{animation},\n"
             _str = _str[:-2]
             _str += "]"
         else:
@@ -583,8 +583,8 @@ class AnimationManager:
         _str = ""
         if self.animations:
             _str += "["
-            for particle in self.animations:
-                _str += f"{particle},\n"
+            for animation in self.animations:
+                _str += f"{animation},\n"
             _str = _str[:-2]
             _str += "]"
         else:
@@ -594,6 +594,6 @@ class AnimationManager:
     def __bool__(self) -> bool:
         return len(self) > 0
 
-    def __reversed__(self) -> List[Particle]:
+    def __reversed__(self) -> List[Animation]:
         reversed(self.animations)
         return self.animations
