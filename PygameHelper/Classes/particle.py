@@ -49,8 +49,8 @@ class Particle:
     def draw(self) -> None:
         pygame.draw.circle(self.WIN, self.color, (self.x, self.y), self.size)
 
-    def shrink(self) -> None:
-        self.size -= self.shrink_amount
+    def shrink(self, dt: float=1) -> None:
+        self.size -= self.shrink_amount * dt
         self.update_rect()
 
     def activate_gravity(self, dt: float):
@@ -68,7 +68,7 @@ class Particle:
         self.vel_x = random.uniform(*limit_x)
         self.vel_y = random.uniform(*limit_y)
 
-    def collide_with_rects(self, rects: List[pygame.Rect]) -> None:
+    def collide_with_rects(self, rects: List[pygame.Rect], dt: float=1) -> None:
         for rect in rects:
             rect = rect.copy()
             rect.x -= self.collision_tolerance
@@ -77,20 +77,20 @@ class Particle:
             rect.h += self.collision_tolerance*2
             if rect.colliderect(self.rect):
                 if abs(rect.top - self.rect.bottom) < self.collision_tolerance and self.vel_y > 0:
-                    self.vel_y *= -0.75
-                    self.y += self.vel_y*2
+                    self.vel_y *= (-0.75)*dt
+                    self.y += (self.vel_y*2)*dt
                     self.update_rect()
                 if abs(rect.bottom - self.rect.top) < self.collision_tolerance and self.vel_y < 0:
-                    self.vel_y *= -0.75
-                    self.y += self.vel_y*2
+                    self.vel_y *= (-0.75)*dt
+                    self.y += (self.vel_y*2)*dt
                     self.update_rect()
                 if abs(rect.right - self.rect.left) < self.collision_tolerance and self.vel_x < 0:
-                    self.vel_x *= -0.75
-                    self.x += self.vel_x*2
+                    self.vel_x *= (-0.75)*dt
+                    self.x += (self.vel_x*2)*dt
                     self.update_rect()
                 if abs(rect.left - self.rect.right) < self.collision_tolerance and self.vel_x > 0:
-                    self.vel_x *= -0.75
-                    self.x += self.vel_x*2
+                    self.vel_x *= (-0.75)*dt
+                    self.x += (self.vel_x*2)*dt
                     self.update_rect()
 
     def __repr__(self) -> str:

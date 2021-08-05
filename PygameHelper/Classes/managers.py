@@ -383,15 +383,15 @@ class ParticleManager:
     def draw(self) -> None:
         [text.draw() for text in self.particles]
 
-    def shrink(self) -> None:
-        [text.shrink() for text in self.particles]
+    def shrink(self, dt: float=1) -> None:
+        [text.shrink(dt) for text in self.particles]
 
     def delete_particles(self) -> None:
         new_particles = [particle for particle in self.particles if particle.size > 0]
         self.particles = new_particles
 
-    def collide_rects(self, rects: List[pygame.Rect]) -> None:
-        [particle.collide_with_rects(rects) for particle in self.particles]
+    def collide_rects(self, rects: List[pygame.Rect], dt: float=1) -> None:
+        [particle.collide_with_rects(rects, dt) for particle in self.particles]
 
     def update_rects(self) -> None:
         [particle.update_rect() for particle in self.particles]

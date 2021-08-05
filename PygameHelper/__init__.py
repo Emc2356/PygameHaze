@@ -31,3 +31,5 @@ from .Classes import ParticleManager
 from .constants import *
 from .exceptions import *
 from .utils import *
+
+print(f"PygameHelper {__version__}")

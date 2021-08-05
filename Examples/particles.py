@@ -38,13 +38,17 @@ last_time = time.time()
 while True:
     clock.tick(FPS)
 
+    # dt (Delta Time) is the time between the 2 calls it is
+    # used to make the particle movement more smooth as when you
+    # have 4000+ particles on the screen you start yo feel the drop
+    # in performance so it is recommended to use dt (Delta Time)
     dt = time.time() - last_time
     dt *= FPS
     last_time = time.time()
 
-    particles.shrink()  # it shrinks the particles
+    particles.shrink(dt)  # it shrinks the particles
     particles.delete_particles()  # it deletes particles that have a size smaller than 0
-    particles.collide_rects(rects)  # call this method to do collisions with rects
+    particles.collide_rects(rects, dt)  # call this method to do collisions with rects
     particles.move(dt)  # call this method to move the particles
     particles.activate_gravity(dt)  # call this method so the particles slowly go down the dt is optional
 
