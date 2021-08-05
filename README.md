@@ -9,14 +9,17 @@
 ##### at this point it has the following classes:
 ~~~
 Button class
-ButtonManager class
 SimpleText class
-MutliLineText class
+MultiLineText class
 InputField class
 InputFieldNumbers class
 InputFieldLetters class
+Particle class
+ButtonManager class
+TextManager class
+ParticleManager class
 ~~~
-##### also PygameHelper offers functions to help with every day use:
+##### also, PygameHelper offers functions to help with every day use:
 ~~~
 load_image it loads a image 
 load_alpha_image it loads a image but it keeps the alpha values
@@ -36,13 +39,13 @@ rectangle_collision it does a rectangle collision
 ##### TODO list 
 1. improve the text 
     * the text in the button class would be automatically wrapped and changed from single-line to multi-line
-    * the text in the button class would raise a error if the text goes out of bounds in the y axis    
+    * the text in the button class would raise a error if the text goes out of bounds in the y-axis    
 
 # Documentation 
-##### Documentation for the classes can be found in Documentation
+##### Documentation for the classes can be found in `./Documentation`
 
 # Examples
-##### Examples of the classes and functions can be found in Examples
+##### Examples of the classes and functions can be found in `./Examples`
 
 # contributions: 
 > Pull requests are welcome! For major refactors,
