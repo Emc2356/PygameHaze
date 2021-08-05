@@ -15,9 +15,11 @@ InputField class
 InputFieldNumbers class
 InputFieldLetters class
 Particle class
+Animation class
 ButtonManager class
 TextManager class
 ParticleManager class
+AnimationManager class
 ~~~
 ##### also, PygameHelper offers functions to help with every day use:
 ~~~
