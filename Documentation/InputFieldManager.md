@@ -1,9 +1,9 @@
-# ButtonManger
+# InputFieldManager
 
 #### [creator](https://github.com/Emc2356)
 #### [source code](https://github.com/Emc2356/Pygame-Widgets)
 
-#### this is a class made for managing buttons easier with the [pygame](https://www.pygame.org)
+#### this is a class made for managing texts easier with the [pygame](https://www.pygame.org)
 
 #### arguments
 
@@ -14,10 +14,13 @@
 #### methods 
 | Name | Description | Arguments |
 |:----:|:-----------:|:---------:|
-| `draw` | it draws the buttons in the screen | - |
-| `event_handler` | it sends the event to all of the buttons so it can do the commands | pygame.event.Event |
-| `get_buttons` | it returns a list with the buttons | - |
-| `add_button` | it creates a new button | x, y, w, h, inactive_color, hover_inactive_color, active_color, hover_active_color, **kwargs |
+| `draw` | it draws the input fields in the screen | - |
+| `update` | it updates all of the input fields | - |
+| `event_handler` | it sends the event to all of the input fields | event |
+| `get_input_fields` | it returns a list of all the stored input fields | - |
+| `add_Input_field` | it adds a Input field that can handle all of the characters (not recommended) | x, y, w, h, base_color, text_color, **kwargs |
+| `add_Input_field_numbers` | it adds a Input field that can handle numbers only | x, y, w, h, base_color, text_color, **kwargs |
+| `add_Input_field_letters` | it adds a Input field that can handle numbers and letters  | x, y, w, h, base_color, text_color, **kwargs |
 
 #### it also can handle some dunder(magic) methods
 | Name | Description | Arguments |

@@ -4,7 +4,7 @@
 #### [source code](https://github.com/Emc2356/Pygame-Widgets)
 
 #### this is a class made for creating single-line labels with the [pygame](https://www.pygame.org)
-> this are the mandatory arguments
+> these are the mandatory arguments
 
 | Argument | Description | Default Value |
 |:----------:|:-------------:|:---------------:|
@@ -12,7 +12,7 @@
 | `x` | the x position of the button | - |
 | `y` | the x position of the button | - |
 | `text` | the text that is going to be used | - |
-> this are the optional arguments
+> these are the optional arguments
 
 | Argument | Description | Default Value |
 |:----------:|:-------------:|:---------------:|

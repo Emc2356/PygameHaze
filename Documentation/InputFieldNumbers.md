@@ -4,7 +4,7 @@
 #### [source code](https://github.com/Emc2356/Pygame-Widgets)
 
 #### this is a class made for creating simple InputFields that accept only numbers with the [pygame](https://www.pygame.org)
-> this are the mandatory arguments
+> these are the mandatory arguments
 
 | Argument | Description | Default Value |
 |:----------:|:-------------:|:---------------:|
@@ -13,7 +13,7 @@
 | `y` | the x position of the button | - |
 | `w` | the width of the button | - |
 | `h` | the height of the button | - |
-> this are the optional arguments
+> these are the optional arguments
 
 | Argument | Description | Default Value |
 |:----------:|:-------------:|:---------------:|

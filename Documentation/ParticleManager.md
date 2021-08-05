@@ -1,9 +1,9 @@
-# ButtonManger
+# ParticleManager
 
 #### [creator](https://github.com/Emc2356)
 #### [source code](https://github.com/Emc2356/Pygame-Widgets)
 
-#### this is a class made for managing buttons easier with the [pygame](https://www.pygame.org)
+#### this is a class made for managing texts easier with the [pygame](https://www.pygame.org)
 
 #### arguments
 
@@ -14,10 +14,16 @@
 #### methods 
 | Name | Description | Arguments |
 |:----:|:-----------:|:---------:|
-| `draw` | it draws the buttons in the screen | - |
-| `event_handler` | it sends the event to all of the buttons so it can do the commands | pygame.event.Event |
-| `get_buttons` | it returns a list with the buttons | - |
-| `add_button` | it creates a new button | x, y, w, h, inactive_color, hover_inactive_color, active_color, hover_active_color, **kwargs |
+| `draw` | it draws the particle | - |
+| `shrink` | it makes the particles smaller | Optional[dt] |
+| `delete_particles` | it deletes particles that have a size smaller or equal than 0 | - |
+| `collide_rects` | it does collisions with a given list of pygame rects | rects, Optional[dt] |
+| `update_rects` | it updates the rects of the particles automatically called by shrink, activate_gravity, collide_with_rects | - |
+| `randomize_vels` | it randomizes the directions and the speed | limit_x[the smallest vel allowed, the biggest vel allowed], limit_y[the smallest vel allowed, the biggest vel allowed], Optional[dt] |
+| `move` | it moves the particle | Optional[dt] |
+| `activate_gravity` | it applies a given gravity to the particle | Optional[dt] |
+| `get_particles` | it returns a list of all the particles | - |
+| `add_particle` | it adds a new particle | x, y, vel_x, vel_y, shrink_amount, size, color, collision_tolerance, gravity |
 
 #### it also can handle some dunder(magic) methods
 | Name | Description | Arguments |

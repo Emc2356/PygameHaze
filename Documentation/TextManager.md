@@ -1,9 +1,9 @@
-# ButtonManger
+# TextManager
 
 #### [creator](https://github.com/Emc2356)
 #### [source code](https://github.com/Emc2356/Pygame-Widgets)
 
-#### this is a class made for managing buttons easier with the [pygame](https://www.pygame.org)
+#### this is a class made for managing texts easier with the [pygame](https://www.pygame.org)
 
 #### arguments
 
@@ -14,10 +14,11 @@
 #### methods 
 | Name | Description | Arguments |
 |:----:|:-----------:|:---------:|
-| `draw` | it draws the buttons in the screen | - |
-| `event_handler` | it sends the event to all of the buttons so it can do the commands | pygame.event.Event |
-| `get_buttons` | it returns a list with the buttons | - |
-| `add_button` | it creates a new button | x, y, w, h, inactive_color, hover_inactive_color, active_color, hover_active_color, **kwargs |
+| `draw` | it draws the texts in the screen | - |
+| `update` | it updates all of the texts | - |
+| `get_texts` | it returns a list of all the texts that the class has stored | - |
+| `add_simple_text` | it adds a one line text | x, y, text, color, **kwargs |
+| `add_multi_line_text` | it adds a multi-line text | x, y, text, color, **kwargs |
 
 #### it also can handle some dunder(magic) methods
 | Name | Description | Arguments |
