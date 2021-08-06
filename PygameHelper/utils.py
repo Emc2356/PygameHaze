@@ -204,6 +204,18 @@ def rectangle_collision(rect_1: pygame.Rect, rect_1_pos: Tuple[int, int],
     return False
 
 
+def get_positive(number: float or int) -> float or int:
+    if number > 0:
+        return number
+    return abs(number)
+
+
+def get_negative(number: float or int) -> float or int:
+    if number < 0:
+        return number
+    return abs(number)
+
+
 __all__ = [
     "load_image",
     "load_alpha_image",
@@ -218,5 +230,7 @@ __all__ = [
     "wrap_multi_lines",
     "blit_multiple_lines",
     "pixel_perfect_collision",
-    "rectangle_collision"
+    "rectangle_collision",
+    "get_positive",
+    "get_negative"
 ]

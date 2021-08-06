@@ -21,6 +21,7 @@
 
 | Argument | Description | Default Value |
 |:----------:|:-------------:|:---------------:|
+| `border_radius` | how much will the corners will be rounded | 0 |
 | `anchor` | the alignment of the x, y positions | topleft | 
 | `inactive_sprite` | the sprite that is used when the button is inactive | None |
 | `inactive_hover_sprite` | the sprite that is used when the button is inactive and the mouse is over the button | None |

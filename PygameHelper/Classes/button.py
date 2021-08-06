@@ -70,6 +70,7 @@ class Button:
         self.w: int = int(w)
         self.h: int = int(h)
         self.pressed: bool = False
+        self.border_radius: int = kwargs.get("border_radius", 0)
         self.anchor: str = kwargs.get("anchor", TOPLEFT)
         self.button_rect: pygame.Rect = pygame.Rect(1, 1, 1, 1)
         self.update(self.x, self.y, self.w, self.h)
@@ -235,7 +236,7 @@ class Button:
                 self.color = self.inactive_color
                 sprite = self.inactive_sprite
 
-        pygame.draw.rect(self.WIN, self.color, self.button_rect)
+        pygame.draw.rect(self.WIN, self.color, self.button_rect, border_radius=self.border_radius)
         if sprite:
             self.WIN.blit(sprite, self.button_rect)
 
