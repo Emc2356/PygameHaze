@@ -262,7 +262,7 @@ class InputFieldManager:
         [text.update() for text in self.input_fields]
 
     def event_handler(self, event: pygame.event.Event) -> None:
-        [input_field.event_hanler(event) for input_field in self.input_fields]
+        [input_field.event_handler(event) for input_field in self.input_fields]
 
     def get_input_fields(self) -> List[InputField or InputFieldNumbers or InputFieldLetters]:
         return self.input_fields
@@ -597,3 +597,12 @@ class AnimationManager:
     def __reversed__(self) -> List[Animation]:
         reversed(self.animations)
         return self.animations
+
+
+__all__ = [
+    "ButtonManager",
+    "TextManager",
+    "InputFieldManager",
+    "ParticleManager",
+    "AnimationManager"
+]

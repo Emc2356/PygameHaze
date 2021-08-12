@@ -23,7 +23,7 @@ SOFTWARE.
 """
 
 
-class BaseException(Exception):
+class PygameHelperException(Exception):
     """
     the base exception for the rest of the exception
     that are used for this package
@@ -35,10 +35,13 @@ class BaseException(Exception):
         super().__init__(message)
 
     def __str__(self):
+        return str(self.message)
+
+    def __repr__(self):
         return repr(self.message)
 
 
-class TextOfOutBounds(BaseException):
+class TextOfOutBounds(PygameHelperException):
     """
     the exception that is raised when the
     text that is passed is out of the given
@@ -47,7 +50,7 @@ class TextOfOutBounds(BaseException):
     pass
 
 
-class InvalidAnchor(BaseException):
+class InvalidAnchor(PygameHelperException):
     """
     the exception that is raised when the
     user provides a invalid anchor for a widget.
@@ -55,7 +58,7 @@ class InvalidAnchor(BaseException):
     pass
 
 
-class MissingRequiredArgument(BaseException):
+class MissingRequiredArgument(PygameHelperException):
     """
     this exception is raised when a method is
     missing a required argument.
@@ -63,7 +66,7 @@ class MissingRequiredArgument(BaseException):
     pass
 
 
-class WordTooLong(BaseException):
+class WordTooLong(PygameHelperException):
     """
     this is the exception that is going to be raised
     when the word to be splitted to multi-line text

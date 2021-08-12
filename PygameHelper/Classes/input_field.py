@@ -68,6 +68,7 @@ class InputField:
         self.focused: bool = False
 
         self.MAX: int = kwargs.get("MAX", 0)
+        self.delete_mode: bool = False
 
         self.base_rect: pygame.Rect = None
         self.rendered_text: pygame.surface.Surface = None
@@ -174,11 +175,19 @@ class InputField:
                 self.focused = True
             else:
                 self.focused = False
-        if event.type == pygame.KEYDOWN and self.focused:
-            if event.key == pygame.K_BACKSPACE:
-                self.delete_last()
-            else:
-                self.write(event.unicode)
+        if self.focused:
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    self.delete_mode = True
+                else:
+                    self.write(event.unicode)
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_BACKSPACE:
+                    self.delete_mode = False
+
+        if self.delete_mode:
+            self.delete_last()
 
 
 class InputFieldNumbers(InputField):
@@ -192,16 +201,6 @@ class InputFieldNumbers(InputField):
                  text_color: Tuple[int, int, int]=BLACK,
                  **kwargs):
         super().__init__(WIN, x, y, w, h, base_color, text_color, **kwargs)
-
-        self.key_num: dict = {
-            "normal": {
-                0: 48, 1: 49, 2: 50, 3: 51, 4: 52, 5: 53, 6: 54, 7: 55, 8: 56, 9: 57
-            },
-            "num_pad": {
-                0: 1073741922, 1: 1073741913, 2: 1073741914, 3: 1073741915, 4: 1073741916, 5: 1073741917, 6: 1073741918, 7: 1073741919, 8: 1073741920, 9: 1073741921
-            }
-        }
-
         self.update()
 
     def event_handler(self, event) -> None:
@@ -215,21 +214,18 @@ class InputFieldNumbers(InputField):
                 self.focused = True
             else:
                 self.focused = False
-        if event.type == pygame.KEYDOWN and self.focused:
-            if event.key in self.key_num["normal"].values() or self.key_num["num_pad"].values():
-                # check for normal 0-9 values
-                if event.key in self.key_num["normal"].values():
-                    for char_value in list(self.key_num["normal"].values()):
-                        if char_value == event.key:
-                            self.write(str(list(self.key_num["normal"].values()).index(char_value)))
-                # check for numpad input 0-9
-                elif event.key in self.key_num["num_pad"].values():
-                    for char_value in list(self.key_num["num_pad"].values()):
-                        if char_value == event.key:
-                            self.write(str(list(self.key_num["num_pad"].values()).index(char_value)))
-            # delete last character from the text
-            if event.key == pygame.K_BACKSPACE:
-                self.delete_last()
+        if self.focused:
+            if event.type == pygame.KEYDOWN:
+                if event.unicode.isdigit():
+                    self.write(event.unicode)
+                elif event.key == pygame.K_BACKSPACE:
+                    self.delete_mode = True
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_BACKSPACE:
+                    self.delete_mode = False
+
+        if self.delete_mode:
+            self.delete_last()
 
 
 class InputFieldLetters(InputField):
@@ -257,10 +253,16 @@ class InputFieldLetters(InputField):
                 self.focused = True
             else:
                 self.focused = False
-        if event.type == pygame.KEYDOWN and self.focused:
-            if event.key == pygame.K_BACKSPACE:
-                self.delete_last()
-            elif str(event.unicode).startswith("\t") or str(event.unicode).startswith("\r"):
-                pass
-            elif event.unicode != "" and not str(event.unicode).startswith("\t") or not str(event.unicode).startswith("\r"):
-                self.write(event.unicode)
+        if self.focused:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    self.delete_mode = True
+                elif str(event.unicode).startswith("\t") or str(event.unicode).startswith("\r"):
+                    pass
+                elif event.unicode != "" and not str(event.unicode).startswith("\t") or not str(event.unicode).startswith("\r"):
+                    self.write(event.unicode)
+            elif event.type == pygame.KEYUP:
+                self.delete_mode = False
+
+        if self.delete_mode:
+            self.delete_last()
