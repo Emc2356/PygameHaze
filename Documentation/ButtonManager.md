@@ -15,6 +15,7 @@
 | Name | Description | Arguments |
 |:----:|:-----------:|:---------:|
 | `draw` | it draws the buttons in the screen | - |
+| `update` | it updates the texts and the rects of the buttons | - |
 | `event_handler` | it sends the event to all of the buttons so it can do the commands | pygame.event.Event |
 | `get_buttons` | it returns a list with the buttons | - |
 | `add_button` | it creates a new button | x, y, w, h, inactive_color, hover_inactive_color, active_color, hover_active_color, **kwargs |

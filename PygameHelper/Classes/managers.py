@@ -38,11 +38,14 @@ from PygameHelper.Classes import Animation
 class ButtonManager:
     def __init__(self, WIN: pygame.surface.Surface):
         self.WIN = WIN
-        self.buttons = []
+        self.buttons: List[Button] = []
         self.__i = 0
 
     def draw(self) -> None:
         [button.draw() for button in self.buttons]
+
+    def update(self) -> None:
+        [button.update() for button in self.buttons]
 
     def event_handler(self, event: pygame.event.Event) -> None:
         [button.event_handler(event) for button in self.buttons]

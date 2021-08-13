@@ -45,6 +45,7 @@ class Game:
             pygame.draw.line(self.WIN, BLACK, (i * (self.W // 3) - (line_width // 2), 0),
                              (i * (self.W // 3) - (line_width // 2), self.H), line_width)
 
+        self.spots.update()  # u don't have to call this method every time just when the text changes or you want to change the buttons position
         i = 0
         for y, column in enumerate(self.board):
             for x, item in enumerate(column):
@@ -59,7 +60,7 @@ class Game:
                 pygame.quit()
                 quit(-1)
             elif left_click(event):
-                for button in self.spots.get_buttons():
+                for button in self.spots:
                     if button.button_rect.collidepoint(event.pos) and not button.pressed:
                         button.event_handler(event)
                         self.board[event.pos[0]//(self.W//3)][event.pos[1]//(self.H//3)] = self.turn + 1
@@ -95,7 +96,7 @@ class Game:
 
     def run(self):
         while True:
-            self.clock.tick(30)
+            self.clock.tick(60)
             self.draw()
             self.event_handler()
             if self.check_for_winner():

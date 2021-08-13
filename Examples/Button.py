@@ -22,7 +22,7 @@ button = Button(
         (0, 255, 0),                                                                            # active_color
         (0, 200, 0),                                                                            # hover_active_color
         anchor=CENTER,                                                                          # anchor
-        text=f"hello{LINE_SPLITTER}HELLO",                                                      # text
+        text=f"\nHELLO{LINE_SPLITTER}WORLD\n",                                                  # text
         on_click=lambda name, age=20: print(f"""hello my name is {name} and i am {age}"""),     # what is going to be called when the button is clicked
         on_click_args=("George", ),                                                             # the positional argument that it can accept
         on_click_kwargs={"age": 20}                                                             # the key-word argument that the function can accept
