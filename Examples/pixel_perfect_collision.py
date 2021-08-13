@@ -1,4 +1,4 @@
-from PygameHelper.utils import pixel_perfect_collision, rectangle_collision
+from PygameHelper.utils import pixel_perfect_collision
 from PygameHelper.constants import *
 import sys
 import pygame
@@ -26,22 +26,21 @@ oy = H//2 - obstacle_rect.center[1]
 green_blob = pygame.image.load("assets/green_blob.png").convert_alpha()
 orange_blob = pygame.image.load("assets/orange_blob.png").convert_alpha()
 blob_mask = pygame.mask.from_surface(green_blob)
-blob_rect = green_blob.get_rect()
 blob_color = green_blob
 
 # main loop
 while True:
     clock.tick(FPS)
+    blob_rect = green_blob.get_rect(topleft=pygame.mouse.get_pos())
     for event in pygame.event.get():
         if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
             pygame.quit()
             sys.exit()
 
-    if rectangle_collision(obstacle_rect, (ox, oy), blob_rect, pygame.mouse.get_pos()):
-        if pixel_perfect_collision(obstacle, (ox, oy), green_blob, pygame.mouse.get_pos()):
-            blob_color = orange_blob
-        else:
-            blob_color = green_blob
+    if pixel_perfect_collision(obstacle, (ox, oy), green_blob, pygame.mouse.get_pos()):
+        blob_color = orange_blob
+    else:
+        blob_color = green_blob
 
     WIN.fill(BLACK)
     WIN.blit(obstacle, (ox, oy))

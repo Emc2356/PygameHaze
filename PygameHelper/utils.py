@@ -169,7 +169,7 @@ def blit_multiple_lines(x: int, y: int, lines: list, WIN: pygame.surface.Surface
 def pixel_perfect_collision(image_1: pygame.surface.Surface, image_1_pos: Tuple[int, int],
                             image_2: pygame.surface.Surface, image_2_pos: Tuple[int, int]) -> bool:
     """
-    this function is recommended to be used with rectangle_collision as pixel perfect collision is really heavy
+    this function is recommended to be used with rectangle collision as pixel perfect collision is really heavy
     :param image_1: pygame.surface.Surface
     :param image_1_pos: Tuple[int, int]
     :param image_2: pygame.surface.Surface
@@ -183,23 +183,6 @@ def pixel_perfect_collision(image_1: pygame.surface.Surface, image_1_pos: Tuple[
 
     result = mask_2.overlap(mask_1, offset)
     if result:
-        return True
-    return False
-
-
-def rectangle_collision(rect_1: pygame.Rect, rect_1_pos: Tuple[int, int],
-                        rect_2: pygame.Rect, rect_2_pos: Tuple[int, int]) -> bool:
-    """
-    it tells you if you rects have collided
-    :param rect_1: pygame.Rect
-    :param rect_1_pos: Tuple[int, int]
-    :param rect_2: pygame.Rect
-    :param rect_2_pos: Tuple[int, int]
-    :return:
-    """
-    rect_1.topleft = rect_1_pos
-    rect_2.topleft = rect_2_pos
-    if rect_1.colliderect(rect_2):
         return True
     return False
 
@@ -230,7 +213,6 @@ __all__ = [
     "wrap_multi_lines",
     "blit_multiple_lines",
     "pixel_perfect_collision",
-    "rectangle_collision",
     "get_positive",
     "get_negative"
 ]

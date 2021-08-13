@@ -37,8 +37,7 @@
 | `__bool__` or `bool(class_instance)` | it returns a boolian wether the ButtonManager contains any button | - |
 | `__reversed__` or `reversed(class_instance)` | it reverses the list that the buttons are stored in incase you want the button to be rendered the oposite way | - |
 
-contributions:
+# contributions:
 ---
-> Pull requests are welcome! For major refactors,
-> please open an issue first to discuss what you would like to improve.
+> Pull requests are welcome!
 > Feel free to create a fork of this repository and use the code for any noncommercial purposes.

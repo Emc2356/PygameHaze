@@ -49,8 +49,7 @@ while True:
     pygame.display.update()
 ```
 
-contributions: 
+# contributions:
 ---
-> Pull requests are welcome! For major refactors,
-> please open an issue first to discuss what you would like to improve.
+> Pull requests are welcome!
 > Feel free to create a fork of this repository and use the code for any noncommercial purposes.

@@ -37,20 +37,29 @@ get_font it returns you a font
 wrap_multi_lines it returns a list of a given string so it can fit given width
 blit_multiple_lines it blits in the window multiple lines
 pixel_perfect_collision it does a pixel perfect collision
-rectangle_collision it does a rectangle collision
 ~~~
 ##### TODO list 
-1. improve the text 
-    * the text in the button class would be automatically wrapped and changed from single-line to multi-line
-    * the text in the button class would raise an error if the text goes out of bounds in the y-axis
+~~~
+1. improve the text
+   * the text in the button class would be automatically wrapped and changed from single-line to multi-line
+   * the text in the button class would raise an error if the text goes out of bounds in the y-axis
+2. add a menu class
+   * add a menu class for building menus
+   * it will accept managers
+3. add a dropdown class
+   * dropdowns will have an animation when clicked
+   * it will change color when the mouse is over an option
+   * won't have support for multi-line text
+   * the options will be instances of the button class
+~~~
 
-# Documentation 
+# Documentation
 ##### Documentation for the classes can be found in `./Documentation`
 
 # Examples
 ##### Examples of the classes and functions can be found in `./Examples`
 
-# contributions: 
-> Pull requests are welcome! For major refactors,
-> please open an issue first to discuss what you would like to improve.
+# contributions:
+---
+> Pull requests are welcome!
 > Feel free to create a fork of this repository and use the code for any noncommercial purposes.
