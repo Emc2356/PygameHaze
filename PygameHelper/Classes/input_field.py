@@ -78,7 +78,7 @@ class InputField:
 
     def update(self) -> None:
         """
-        it sets up the field with the text if you dont call this method what is displayed on the screen wont be changing
+        it sets up the field with the text if you don't call this method what is displayed on the screen wont be changing
         :return: None
         """
         try:
@@ -120,7 +120,7 @@ class InputField:
 
     def write(self, character: str) -> None:
         """
-        writes a character to the field you dont need to call the update() method as it is automatically called when the character is written
+        writes a character to the field you don't need to call the update() method as it is automatically called when the character is written
         :param character: str
         :return: None
         """
@@ -136,7 +136,7 @@ class InputField:
 
     def clear(self) -> None:
         """
-        clears the text that is writen you dont need to call the update() method as it is automatically called when the character is written
+        clears the text that is writen you don't need to call the update() method as it is automatically called when the character is written
         :return: None
         """
         self.text = ""
@@ -201,7 +201,6 @@ class InputFieldNumbers(InputField):
                  text_color: Tuple[int, int, int]=BLACK,
                  **kwargs):
         super().__init__(WIN, x, y, w, h, base_color, text_color, **kwargs)
-        self.update()
 
     def event_handler(self, event) -> None:
         """
@@ -239,8 +238,6 @@ class InputFieldLetters(InputField):
                  text_color: Tuple[int, int, int]=BLACK,
                  **kwargs):
         super().__init__(WIN, x, y, w, h, base_color, text_color, **kwargs)
-
-        self.update()
 
     def event_handler(self, event: pygame.event.Event) -> None:
         """

@@ -23,7 +23,7 @@ SOFTWARE.
 """
 
 
-from typing import Tuple
+from typing import Tuple, List
 
 import pygame
 
@@ -40,24 +40,24 @@ class SimpleText:
                  text: str,
                  color: Tuple[int, int, int]=BLACK,
                  **kwargs):
-        self.WIN = WIN
-        self.x = int(x)
-        self.y = int(y)
-        self.color = color
-        self.text = str(text)
-        self.anchor = kwargs.get("anchor", TOPLEFT)
+        self.WIN: pygame.surface.Surface = WIN
+        self.x: int = int(x)
+        self.y: int = int(y)
+        self.color: Tuple[int, int, int] = color
+        self.text: str = str(text)
+        self.anchor: str = kwargs.get("anchor", TOPLEFT).lower()
 
-        self.font_size = kwargs.get("font_size", 60)
-        self.font_type = kwargs.get("font_type", "comicsans")
-        self.antialias = kwargs.get("antialias", True)
-        self.font = get_font(self.font_size, self.font_type)
-        self.rendered_text = None
-        self.rendered_text_rect = None
-        self.update(self.x, self.y)
+        self.font_size: int = kwargs.get("font_size", 60)
+        self.font_type: str = kwargs.get("font_type", "comicsans")
+        self.antialias: bool = kwargs.get("antialias", True)
+        self.font: pygame.font.Font = get_font(self.font_size, self.font_type)
+        self.rendered_text: pygame.surface.Surface = None
+        self.rendered_text_rect: pygame.Rect = None
+        self.update()
 
-        self.kwargs = kwargs
+        self.kwargs: dict = kwargs
 
-    def update(self, x, y) -> None:
+    def update(self) -> None:
         """
         call this method to update the text otherwise the text on the screen wont change
         :return: None
@@ -65,12 +65,9 @@ class SimpleText:
         self.rendered_text = self.font.render(self.text, self.antialias, self.color)
         self.rendered_text_rect = self.rendered_text.get_rect()
         try:
-            self.rendered_text_rect.__setattr__(self.anchor, (x, y))
+            self.rendered_text_rect.__setattr__(self.anchor, (self.x, self.y))
         except AttributeError:
             raise InvalidAnchor(f"""The anchor '{self.anchor}' is not a valid anchor.""")
-
-        self.x = x
-        self.y = y
 
     def draw(self) -> None:
         """
@@ -94,18 +91,20 @@ class MultiLineText:
                  text: str,
                  color: Tuple[int, int, int]=BLACK,
                  **kwargs):
-        self.WIN = WIN
-        self.x = x
-        self.y = y
-        self.text = text
-        self.color = color
+        self.WIN: pygame.surface.Surface = WIN
+        self.x: int = int(x)
+        self.y: int = int(y)
+        self.color: Tuple[int, int, int] = color
+        self.text: str = str(text)
 
-        self.font_size = kwargs.get("font_size", 60)
-        self.font_type = kwargs.get("font_type", "comicsans")
-        self.antialias = kwargs.get("antialias", True)
-        self.font = get_font(self.font_size, self.font_type)
-        self.rendered_texts = []
+        self.font_size: int = kwargs.get("font_size", 60)
+        self.font_type: str = kwargs.get("font_type", "comicsans")
+        self.antialias: bool = kwargs.get("antialias", True)
+        self.font: pygame.font.Font = get_font(self.font_size, self.font_type)
+        self.rendered_texts: List[pygame.surface.Surface] = []
         self.update()
+
+        self.kwargs: dict = kwargs
         
     def update(self, centered_x=False, centered_x_pos: int=None) -> None:
         """
@@ -117,33 +116,21 @@ class MultiLineText:
         if centered_x and not centered_x_pos:
             raise MissingRequiredArgument(f"""in the "update method the centered_x_pos is missing.""")
         height = self.font.get_height()
-        lines = self.text.split(LINE_SPLITTER)
-        new_lines = []
-        for i, ln in enumerate(lines):
-            if "\n" in ln:
-                for item in ln.split("\n"):
-                    new_lines.append(item)
-                continue
-            new_lines.append(ln)
         self.rendered_texts = []
-        for i, text in enumerate(new_lines):
-            self.rendered_texts.append([])
+        for i, text in enumerate(split_string(self.text)):
             rendered_text_surface = self.font.render(text, self.antialias, self.color)
-            self.rendered_texts[i].append(rendered_text_surface)
 
-            if centered_x:
-                self.rendered_texts[i].append([centered_x_pos - rendered_text_surface.get_width()/2, self.y + (i * height)])
-
-            else:
-                self.rendered_texts[i].append([self.x, self.y + (i * height)])
+            if centered_x: pos = [centered_x_pos - rendered_text_surface.get_width()/2, self.y + (i * height)]
+            else: pos = [self.x, self.y + (i * height)]
+            self.rendered_texts.append([rendered_text_surface, pos])
 
     def draw(self) -> None:
         """
         it blits multiple lines on the screen
         :return: None
         """
-        for surface, cords in self.rendered_texts:
-            self.WIN.blit(surface, cords)
+        for surface, pos in self.rendered_texts:
+            self.WIN.blit(surface, pos)
 
     def __repr__(self):
         return f"one line text at: [{self.x}, {self.y}] with text '{self.text}'"
