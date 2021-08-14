@@ -36,6 +36,27 @@ from PygameHelper.Classes import Animation
 
 
 class ButtonManager:
+    """
+    Creates a storage for the buttons
+
+    Parameters:
+    -----------
+    WIN: pygame.surface.Surface
+        the screen that buttons are going to be drawn in
+
+    Methods:
+    -----------
+    draw():
+        it draws the buttons on the screen
+    update():
+        it updates the rects and the texts
+    event_handler(pygame.event.Event):
+        it sends the event to all of the stored buttons
+    get_buttons():
+        it returns a list of the buttons
+    add_button(x, y, w, h, inactive_color, hover_inactive_color, active_color, hover_active_color, **kwargs):
+        it adds a new button
+    """
     def __init__(self, WIN: pygame.surface.Surface):
         self.WIN = WIN
         self.buttons: List[Button] = []
@@ -144,6 +165,27 @@ class ButtonManager:
 
 
 class TextManager:
+    """
+    Creates a storage for the texts
+
+    Parameters:
+    -----------
+    WIN: pygame.surface.Surface
+        the screen that texts are going to be drawn in
+
+    Methods:
+    -----------
+    draw():
+        it draws the texts on the screen
+    update():
+        it updates the texts
+    get_texts():
+        it returns a list with the stored texts
+    add_simple_text(x, y, text, color, **kwargs):
+        it adds a new one-line text
+    add_multi_line_text(x, y, text, color, **kwargs):
+        it adds a new multi-line text
+    """
     def __init__(self, WIN: pygame.surface.Surface):
         self.WIN = WIN
         self.texts = []
@@ -253,6 +295,31 @@ class TextManager:
 
 
 class InputFieldManager:
+    """
+    Creates a storage for the input fields
+
+    Parameters:
+    -----------
+    WIN: pygame.surface.Surface
+        the screen that input fields are going to be drawn in
+
+    Methods:
+    -----------
+    draw():
+        it draws the input fields
+    update():
+        it updates the rects and the texts in the input fields
+    event_handler(pygame.event.Event):
+        it sends the event to the input fields
+    get_input_fields():
+        it returns a list with the input fields
+    add_Input_field(x, y, w, h, base_color, text_color, **kwargs):
+        it adds a new input field that can write anything
+    add_Input_field_numbers(x, y, w, h, base_color, text_color, **kwargs):
+        it adds a new input field that can accept numbers
+    add_Input_field_letters(x, y, w, h, base_color, text_color, **kwargs):
+        it adds a new input field that can accept numbers and letters
+    """
     def __init__(self, WIN: pygame.surface.Surface):
         self.WIN = WIN
         self.input_fields = []
@@ -379,6 +446,37 @@ class InputFieldManager:
 
 
 class ParticleManager:
+    """
+    Creates a storage for the particles with more functions
+
+    Parameters:
+    -----------
+    WIN: pygame.surface.Surface
+        the screen that particles are going to be drawn in
+
+    Methods:
+    -----------
+    draw():
+        it draws the particles on the screen
+    shrink():
+        it shrinks the particles
+    delete_particles():
+        it deletes particles that have a size smaller than 0
+    collide_rects(pygame_rects, DeltaTime):
+        it checks for collisions with pygame rects
+    update_rects():
+        it updates the rects
+    randomize_vels():
+        it it randomizes the velocities of the particles (why did i even made this smh)
+    move(DeltaTime=1):
+        it moves the particle
+    activate_gravity(DeltaTime=1):
+        it applies the gravity to the particles
+    get_particles():
+        it returns a list of the particles
+    add_particle(x, y, vel_x, vel_y, shrink_amount, size, color, collision_tolerance, gravity):
+        it adds a new particle
+    """
     def __init__(self, WIN: pygame.surface.Surface):
         self.WIN = WIN
         self.particles = []
@@ -503,6 +601,25 @@ class ParticleManager:
 
 
 class AnimationManager:
+    """
+    Creates a storage for the animations
+
+    Parameters:
+    -----------
+    WIN: pygame.surface.Surface
+        the screen that the animations are going to be drawn in
+
+    Methods:
+    -----------
+    draw():
+        it draws the animations on the screen
+    animate():
+        it animates the stored animations
+    get_animations():
+        it returns a list with the stored animations
+    add_animation(x, y, images, frames_per_image):
+        it creates a new animation
+    """
     def __init__(self, WIN: pygame.surface.Surface):
         self.WIN = WIN
         self.animations = []

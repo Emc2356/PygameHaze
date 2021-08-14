@@ -29,6 +29,27 @@ from typing import List
 
 
 class Animation:
+    """
+    Creates a animation
+
+    Parameters:
+    -----------
+    WIN: pygame.surface.Surface
+        the screen that the animation is going to be drawn in
+    x: int
+        the x position of the animation
+    y: int
+        the y position of the animation
+    frames_per_image: int
+        how many frames per sprite
+
+    Methods:
+    -----------
+    animate():
+        it animates the given sprites
+    draw():
+        it draws the animation
+    """
     def __init__(self, WIN: pygame.surface.Surface, x: int, y: int, images: List[pygame.surface.Surface], frames_per_image: int=5):
         self.WIN: pygame.surface.Surface = WIN
         self.x: int = x

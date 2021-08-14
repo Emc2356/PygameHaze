@@ -31,6 +31,49 @@ import random
 
 
 class Particle:
+    """
+    Creates a particle
+
+    Parameters:
+    -----------
+    WIN: pygame.surface.Surface
+        the screen that the button is going to be drawn in
+    x: int
+        the x position of the particle
+    y: int
+        the y position of the particle
+    vel_x: float
+        the velocity of the particle in the x-axis
+    vel_y: float
+        the velocity of the particle in the y-axis
+    shrink_amount: float
+        how much will the particle be called per time
+    size: float
+        how big a particle is
+    color: Tuple[int, int, int]
+        the color of the particle
+    collision_tolerance: float
+        how close it has to be in a rect to trigger a collision
+    gravity: float
+        what gravity is going to be applied on the particle
+
+    Methods:
+    -----------
+    draw():
+        it draws the particle
+    shrink(DeltaTime=1):
+        it shrinks the particle
+    activate_gravity(DeltaTime=1):
+        it makes the particle be effected by gravity
+    move(DeltaTime=1):
+        it moves the particle
+    update_rect():
+        it updates the Rect of the particle
+    randomize_vel():
+        it randomizes the velocities (don't know why i even made it tbh)
+    collide_with_rects(pygame_rects, DeltaTime=1):
+        it does collisions with pygame rects
+    """
     def __init__(self, WIN: pygame.surface.Surface, x: int, y: int, vel_x: float, vel_y: float, shrink_amount: float,
                  size: float=7, color: Tuple[int, int, int]=(255, 255, 255), collision_tolerance: float=10, gravity: float=0.1):
         self.WIN: pygame.surface.Surface = WIN

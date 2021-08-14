@@ -33,6 +33,41 @@ from PygameHelper.exceptions import *
 
 
 class Button:
+    """
+    Creates a button on the screen
+
+    Parameters:
+    -----------
+    WIN: pygame.surface.Surface
+        the screen that the button is going to be drawn in
+    x: int
+        the x position of the button
+    y: int
+        the y position of the button
+    w: int
+        the width of the button
+    h: int
+        the height of the button
+    inactive_color: Tuple[int, int, int]
+        the color of the button when it is inactive
+    hover_inactive_color: Tuple[int, int, int]
+        the color of the button when it is inactive and the mouse is over it
+    active_color: Tuple[int, int, int]
+        the color of the button when it is active
+    hover_active_color: Tuple[int, int, int]
+        the color of the button when it is active and the mouse is over it
+    **kwargs: optional parameters
+        optional parameters
+
+    Methods:
+    -----------
+    update():
+        it updates the text and the button rect
+    draw():
+        it draws the button on the screen
+    event_handler(pygame.event.Event):
+        it handles the events
+    """
     def __init__(self,
                  WIN: pygame.surface.Surface,
                  x: int,
@@ -181,14 +216,8 @@ class Button:
         pygame.draw.rect(self.WIN, self.color, self.button_rect, border_radius=self.border_radius)
         if self.current_sprite is not None: self.WIN.blit(self.current_sprite, self.button_rect)
 
-        if self.text != "":
-            for i, items in enumerate(self.rendered_text_surfaces):
-                surf, pos = items
-                self.WIN.blit(surf, pos)
-                width = surf.get_width()
-                if width > self.w:
-                    lns = split_string(self.text)
-                    raise TextOfOutBounds(f"the given string: '{lns[i]}' is {width - self.w}pxls out of bounds in the x-axis")
+        if self.rendered_text_surfaces:
+            [self.WIN.blit(surf, pos) for surf, pos in self.rendered_text_surfaces]
 
     def event_handler(self, event: pygame.event.Event) -> None:
         """

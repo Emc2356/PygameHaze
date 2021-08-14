@@ -33,6 +33,51 @@ from PygameHelper.exceptions import *
 
 
 class InputField:
+    """
+    Creates a input field on the screen
+
+    Parameters:
+    -----------
+    WIN: pygame.surface.Surface
+        the screen that the input field is going to be drawn in
+    x: int
+        the x position of the button
+    y: int
+        the y position of the button
+    w: int
+        the width of the button
+    h: int
+        the height of the button
+    base_color: Tuple[int, int, int]
+        the color of the field
+    text_color: Tuple[int, int, int]
+        the color of the text
+    **kwargs: optional parameters
+        optional parameters
+
+    Methods:
+    -----------
+    update():
+        it updates the text and the rect
+    draw():
+        it draws the input field
+    get_width():
+        it returns the width of the field
+    get_height():
+        it returns the height of the field
+    write(str):
+        it writes a character in the input field
+    clear():
+        it clears the text in the input field
+    delete_last():
+        it deletes the last character from the input field
+    get_text():
+        it returns the text of the input field
+    is_empty():
+        it tells you whether the field is emtpy or not
+    event_handler(pygame.event.Event):
+        it checks the events and this is how you write in hte field
+    """
     def __init__(self,
                  WIN: pygame.Surface,
                  x: int,
@@ -191,6 +236,51 @@ class InputField:
 
 
 class InputFieldNumbers(InputField):
+    """
+    Creates a input field on the screen
+
+    Parameters:
+    -----------
+    WIN: pygame.surface.Surface
+        the screen that the input field is going to be drawn in
+    x: int
+        the x position of the button
+    y: int
+        the y position of the button
+    w: int
+        the width of the button
+    h: int
+        the height of the button
+    base_color: Tuple[int, int, int]
+        the color of the field
+    text_color: Tuple[int, int, int]
+        the color of the text
+    **kwargs: optional parameters
+        optional parameters
+
+    Methods:
+    -----------
+    update():
+        it updates the text and the rect
+    draw():
+        it draws the input field
+    get_width():
+        it returns the width of the field
+    get_height():
+        it returns the height of the field
+    write(str):
+        it writes a character in the input field
+    clear():
+        it clears the text in the input field
+    delete_last():
+        it deletes the last character from the input field
+    get_text():
+        it returns the text of the input field
+    is_empty():
+        it tells you whether the field is emtpy or not
+    event_handler(pygame.event.Event):
+        it checks the events and this is how you write in hte field
+    """
     def __init__(self,
                  WIN: pygame.Surface,
                  x: int,
@@ -228,6 +318,51 @@ class InputFieldNumbers(InputField):
 
 
 class InputFieldLetters(InputField):
+    """
+    Creates a input field on the screen
+
+    Parameters:
+    -----------
+    WIN: pygame.surface.Surface
+        the screen that the input field is going to be drawn in
+    x: int
+        the x position of the button
+    y: int
+        the y position of the button
+    w: int
+        the width of the button
+    h: int
+        the height of the button
+    base_color: Tuple[int, int, int]
+        the color of the field
+    text_color: Tuple[int, int, int]
+        the color of the text
+    **kwargs: optional parameters
+        optional parameters
+
+    Methods:
+    -----------
+    update():
+        it updates the text and the rect
+    draw():
+        it draws the input field
+    get_width():
+        it returns the width of the field
+    get_height():
+        it returns the height of the field
+    write(str):
+        it writes a character in the input field
+    clear():
+        it clears the text in the input field
+    delete_last():
+        it deletes the last character from the input field
+    get_text():
+        it returns the text of the input field
+    is_empty():
+        it tells you whether the field is emtpy or not
+    event_handler(pygame.event.Event):
+        it checks the events and this is how you write in hte field
+    """
     def __init__(self,
                  WIN: pygame.Surface,
                  x: int,

@@ -33,6 +33,31 @@ from PygameHelper.utils import *
 
 
 class SimpleText:
+    """
+    Creates a single-line text
+
+    Parameters:
+    -----------
+    WIN: pygame.surface.Surface
+        the screen that buttons are going to be drawn in
+    x: int
+        the x position of the text
+    y: int
+        the y position of the text
+    text: str
+        the text of the text
+    color: Tuple[int, int, int]
+        the color of the text
+    **kwargs: optional parameters
+        optional parameters
+
+    Methods:
+    -----------
+    update(centered_x=False, centered_x_pos: int=None):
+        it updates the rect and the text
+    draw():
+        it draws the text
+    """
     def __init__(self,
                  WIN: pygame.surface.Surface,
                  x: int,
@@ -84,6 +109,31 @@ class SimpleText:
 
 
 class MultiLineText:
+    """
+    Creates a multi-line text
+
+    Parameters:
+    -----------
+    WIN: pygame.surface.Surface
+        the screen that buttons are going to be drawn in
+    x: int
+        the x position of the text
+    y: int
+        the y position of the text
+    text: str
+        the text of the text
+    color: Tuple[int, int, int]
+        the color of the text
+    **kwargs: optional parameters
+        optional parameters
+
+    Methods:
+    -----------
+    update(centered_x=False, centered_x_pos: int=None):
+        it updates the rect and the text
+    draw():
+        it draws the text
+    """
     def __init__(self,
                  WIN: pygame.surface.Surface,
                  x: int,

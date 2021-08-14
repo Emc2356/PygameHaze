@@ -40,13 +40,10 @@ pixel_perfect_collision it does a pixel perfect collision
 ~~~
 ##### TODO list 
 ~~~
-1. improve the text
-   * the text in the button class would be automatically wrapped and changed from single-line to multi-line
-   * the text in the button class would raise an error if the text goes out of bounds in the y-axis
-2. add a menu class
+1. add a menu class
    * add a menu class for building menus
    * it will accept managers
-3. add a dropdown class
+2. add a dropdown class
    * dropdowns will have an animation when clicked
    * it will change color when the mouse is over an option
    * won't have support for multi-line text
