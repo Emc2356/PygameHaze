@@ -18,7 +18,7 @@ font = Font("assets/pixel_font.png",
 
 while True:
     rendered_text = font.render(
-        f"hello this is another test just for testing!!\nmulti-line wrapping also supported{LINE_SPLITTER}. Also support for PygameHelper LINE_SPLITTER | i know the actual font sucks not gud at drawing",
+        f"hello{LINE_SPLITTER} this is another test just for testing!! multi-line wrapping also supported.\n Also support for PygameHelper LINE_SPLITTER | i know the actual font sucks not gud at drawing",
         max_width=400
     )
     for event in pygame.event.get():

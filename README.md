@@ -8,19 +8,21 @@
 
 ##### at this point it has the following classes:
 ~~~
-Button class
-SimpleText class
-MultiLineText class
-InputField class
-InputFieldNumbers class
-InputFieldLetters class
-Particle class
-Animation class
-ButtonManager class
-TextManager class
-ParticleManager class
-AnimationManager class
-InputFieldManager class
+Button Class
+SimpleText Class
+MultiLineText Class
+InputField Class
+InputFieldNumbers Class
+InputFieldLetters Class
+Particle Class
+Animation Class
+SpriteSheet Class
+Font Class
+ButtonManager Class
+TextManager Class
+ParticleManager Class
+AnimationManager Class
+InputFieldManager Class
 ~~~
 ##### also, PygameHelper offers functions to help with every day use:
 ~~~

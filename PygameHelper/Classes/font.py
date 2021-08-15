@@ -123,9 +123,7 @@ class Font:
         :return: pygame.surface.Surface
         """
         storage: List[List[pygame.surface.Surface, List[int, int]]] = []
-        string_c = text.split(LINE_SPLITTER)
-        words = []
-        for s in string_c: words += s.split(" ")
+        words = text.replace(LINE_SPLITTER, "\n").split(" ")
         width, temp_w, height = 0, 0, self.max_h
         for word in words:
             word_length = self.__word_width_render(word)
@@ -136,6 +134,7 @@ class Font:
                 width = temp_w if temp_w > width else width
                 temp_w = 0
 
+            new_ln = False
             for ltr in word:
                 if ltr != "\n":
                     storage.append([self.rendered_chars[ltr], [temp_w, height - self.max_h]])
@@ -144,8 +143,9 @@ class Font:
                     height += self.max_h + self.spacing
                     width = temp_w if temp_w > width else width
                     temp_w = 0
+                    new_ln = True
 
-            temp_w += self.max_w
+            if not new_ln: temp_w += self.max_w
 
         width = (temp_w if temp_w > width else width) - self.max_w
 
