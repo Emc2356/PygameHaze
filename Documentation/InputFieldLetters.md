@@ -1,7 +1,7 @@
 # inputFieldLetters
 
 #### [creator](https://github.com/Emc2356)
-#### [source code](https://github.com/Emc2356/Pygame-Widgets)
+#### [source code](https://github.com/Emc2356/PygameHelper)
 
 #### this is a class made for creating simple InputFields that accept letters and numbers with the [pygame](https://www.pygame.org)
 > these are the mandatory arguments

@@ -1,5 +1,5 @@
 __author__ = "emc235"
-__version__ = "0.3.2"
+__version__ = "0.3.3"
 __name__ = "PygameHelper"
 
 
@@ -12,6 +12,8 @@ from PygameHelper.Classes import InputFieldNumbers
 from PygameHelper.Classes import InputFieldLetters
 from PygameHelper.Classes import Particle
 from PygameHelper.Classes import Animation
+from PygameHelper.Classes import SpriteSheet
+from PygameHelper.Classes import Font
 
 # the managers for the widgets/tools
 from PygameHelper.Classes import ButtonManager
@@ -27,6 +29,8 @@ from PygameHelper.Classes import input_field
 from PygameHelper.Classes import managers
 from PygameHelper.Classes import particle
 from PygameHelper.Classes import text
+from PygameHelper.Classes import font
+from PygameHelper.Classes import spritesheet
 
 # general imports that can be used by the user with general use
 # in their projects

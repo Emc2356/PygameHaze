@@ -194,12 +194,9 @@ def split_string(string: str) -> List[str]:
     :return: List[str]
     """
     lines = []
-    for ln in string[:].split(LINE_SPLITTER):
-        if "\n" in ln:
-            for item in ln.split("\n"):
-                lines.append(item)
-            continue
-        lines.append(ln)
+    for line in string.split(LINE_SPLITTER):
+        if "\n" in line: lines += line.split("\n")
+        else: lines.append(line)
     return lines
 
 
@@ -222,7 +219,7 @@ def get_negative(number: float or int) -> float or int:
     """
     if number < 0:
         return number
-    return abs(number)
+    return -number
 
 
 __all__ = [
