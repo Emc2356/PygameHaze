@@ -35,7 +35,98 @@ from PygameHelper.Classes import Particle
 from PygameHelper.Classes import Animation
 
 
-class ButtonManager:
+class _BaseManager:
+    """
+    override:
+    __getitem__
+    __iter__
+    __next__
+    __reversed__
+    """
+    def __init__(self, WIN: pygame.surface.Surface):
+        self.WIN = WIN
+        self.__items: List[any] = []
+        self.__i = 0
+
+    def __getitem__(self, item) -> any:
+        pass
+
+    def __iter__(self) -> Iterable[any]:
+        pass
+
+    def __next__(self) -> any:
+        try:
+            item = self.__items[self.__i]
+            self.__i += 1
+        except IndexError:
+            self.__i = 0
+            item = self.__next__()
+
+        return item
+
+    def __reversed__(self) -> List[any]:
+        pass
+
+    # global method
+    def __setitem__(self, key, value) -> None:
+        self.__items[key] = value
+
+    def __delitem__(self, key) -> None:
+        del self.__items[key]
+
+    def __iadd__(self, other) -> None:
+        if isinstance(other, type(self)):
+            self.__items += other.__items
+        else:
+            raise TypeError(f"the given obj is not a instance of {type(self)} and it is a instance of the class {type(other)}")
+
+    def __add__(self, other) -> None:
+        if isinstance(other, type(self)):
+            self.__items += other.__items
+        else:
+            raise TypeError(f"the given obj is not a instance of {type(self)} and it is a instance of the class {type(other)}")
+
+    def __contains__(self, item) -> bool:
+        if item in self.__items:
+            return True
+        return False
+
+    def __del__(self) -> None:
+        for i in range(len(self.__items)):
+            del self.__items[i]
+
+    def __len__(self) -> int:
+        return len(self.__items)
+
+    def __repr__(self) -> str:
+        _str = ""
+        if self.__items:
+            _str += "["
+            for item in self.__items:
+                _str += f"{item},\n"
+            _str = _str[:-2]
+            _str += "]"
+        else:
+            _str += "[]"
+        return _str
+
+    def __str__(self) -> str:
+        _str = ""
+        if self.__items:
+            _str += "["
+            for item in self.__items:
+                _str += f"{item},\n"
+            _str = _str[:-2]
+            _str += "]"
+        else:
+            _str += "[]"
+        return _str
+
+    def __bool__(self) -> bool:
+        return len(self) > 0
+    
+
+class ButtonManager(_BaseManager):
     """
     Creates a storage for the buttons
 
@@ -58,21 +149,20 @@ class ButtonManager:
         it adds a new button
     """
     def __init__(self, WIN: pygame.surface.Surface):
-        self.WIN = WIN
-        self.buttons: List[Button] = []
-        self.__i = 0
+        super().__init__(WIN)
+        self.__items: List[Button] = []
 
     def draw(self) -> None:
-        [button.draw() for button in self.buttons]
+        [button.draw() for button in self.__items]
 
     def update(self) -> None:
-        [button.update() for button in self.buttons]
+        [button.update() for button in self.__items]
 
     def event_handler(self, event: pygame.event.Event) -> None:
-        [button.event_handler(event) for button in self.buttons]
+        [button.event_handler(event) for button in self.__items]
 
     def get_buttons(self) -> List[Button]:
-        return self.buttons
+        return self.__items
 
     def add_button(self,
                    x: int,
@@ -84,47 +174,17 @@ class ButtonManager:
                    active_color: Tuple[int, int, int],
                    hover_active_color: Tuple[int, int, int],
                    **kwargs) -> None:
-        self.buttons.append(Button(self.WIN, x, y, w, h, inactive_color, hover_inactive_color, active_color, hover_active_color, **kwargs))
+        self.__items.append(Button(self.WIN, x, y, w, h, inactive_color, hover_inactive_color, active_color, hover_active_color, **kwargs))
 
     def __getitem__(self, item) -> Button:
-        return self.buttons[item]
-
-    def __setitem__(self, key, value) -> None:
-        self.buttons[key] = value
-
-    def __delitem__(self, key) -> None:
-        del self.buttons[key]
-
-    def __iadd__(self, other) -> None:
-        if isinstance(other, ButtonManager):
-            self.buttons += other.buttons
-        else:
-            raise TypeError(f"the given obj is not a instance of {ButtonManager} and it is a instance of the class {type(other)}")
-
-    def __add__(self, other) -> None:
-        if isinstance(other, ButtonManager):
-            self.buttons += other.buttons
-        else:
-            raise TypeError(f"the given obj is not a instance of {ButtonManager} and it is a instance of the class {type(other)}")
-
-    def __contains__(self, item) -> bool:
-        if item in self.buttons:
-            return True
-        return False
-
-    def __del__(self) -> None:
-        for button in self.buttons:
-            del button
-
-    def __len__(self) -> int:
-        return len(self.buttons)
+        return self.__items[item]
 
     def __iter__(self) -> Iterable[Button]:
-        return iter(self.buttons)
+        return iter(self.__items)
 
     def __next__(self) -> Button:
         try:
-            item = self.buttons[self.__i]
+            item = self.__items[self.__i]
             self.__i += 1
         except IndexError:
             self.__i = 0
@@ -132,39 +192,12 @@ class ButtonManager:
 
         return item
 
-    def __repr__(self) -> str:
-        _str = ""
-        if self.buttons:
-            _str += "["
-            for button in self.buttons:
-                _str += f"{button},\n"
-            _str = _str[:-2]
-            _str += "]"
-        else:
-            _str += "[]"
-        return _str
-
-    def __str__(self) -> str:
-        _str = ""
-        if self.buttons:
-            _str += "["
-            for button in self.buttons:
-                _str += f"{button},\n"
-            _str = _str[:-2]
-            _str += "]"
-        else:
-            _str += "[]"
-        return _str
-
-    def __bool__(self) -> bool:
-        return len(self) > 0
-
     def __reversed__(self) -> List[Button]:
-        reversed(self.buttons)
-        return self.buttons
+        reversed(self.__items)
+        return self.__items
 
 
-class TextManager:
+class TextManager(_BaseManager):
     """
     Creates a storage for the texts
 
@@ -187,74 +220,43 @@ class TextManager:
         it adds a new multi-line text
     """
     def __init__(self, WIN: pygame.surface.Surface):
-        self.WIN = WIN
-        self.texts = []
-        self.__i = 0
+        super().__init__(WIN)
+        self.__items: List[SimpleText or MultiLineText] = []
 
     def draw(self) -> None:
-        [text.draw() for text in self.texts]
+        [text.draw() for text in self.__items]
 
     def update(self) -> None:
-        [text.update() for text in self.texts]
+        [text.update() for text in self.__items]
 
     def get_texts(self) -> List[SimpleText or MultiLineText]:
-        return self.texts
+        return self.__items
 
     def add_simple_text(self,
                         x: int,
                         y: int,
                         text: str,
                         color: Tuple[int, int, int]=BLACK,
-                        **kwargs):
-        self.texts.append(SimpleText(self.WIN, x, y, text, color, **kwargs))
+                        **kwargs) -> None:
+        self.__items.append(SimpleText(self.WIN, x, y, text, color, **kwargs))
 
     def add_multi_line_text(self,
                             x: int,
                             y: int,
                             text: str,
                             color: Tuple[int, int, int]=BLACK,
-                            **kwargs):
-        self.texts.append(MultiLineText(self.WIN, x, y, text, color, **kwargs))
+                            **kwargs) -> None:
+        self.__items.append(MultiLineText(self.WIN, x, y, text, color, **kwargs))
 
     def __getitem__(self, item) -> SimpleText or MultiLineText:
-        return self.texts[item]
-
-    def __setitem__(self, key, value) -> None:
-        self.texts[key] = value
-
-    def __delitem__(self, key) -> None:
-        del self.texts[key]
-
-    def __iadd__(self, other) -> None:
-        if isinstance(other, TextManager):
-            self.texts += other.texts
-        else:
-            raise TypeError(f"the given obj is not a instance of {TextManager} and it is a instance of the class {type(other)}")
-
-    def __add__(self, other) -> None:
-        if isinstance(other, TextManager):
-            self.texts += other.texts
-        else:
-            raise TypeError(f"the given obj is not a instance of {TextManager} and it is a instance of the class {type(other)}")
-
-    def __contains__(self, item) -> bool:
-        if item in self.texts:
-            return True
-        return False
-
-    def __del__(self) -> None:
-        for text in self.texts:
-            del text
-
-    def __len__(self) -> int:
-        return len(self.texts)
+        return self.__items[item]
 
     def __iter__(self) -> Iterable[SimpleText or MultiLineText]:
-        return iter(self.texts)
+        return iter(self.__items)
 
     def __next__(self) -> SimpleText or MultiLineText:
         try:
-            item = self.texts[self.__i]
+            item = self.__items[self.__i]
             self.__i += 1
         except IndexError:
             self.__i = 0
@@ -262,39 +264,12 @@ class TextManager:
 
         return item
 
-    def __repr__(self) -> str:
-        _str = ""
-        if self.texts:
-            _str += "["
-            for text in self.texts:
-                _str += f"{text},\n"
-            _str = _str[:-2]
-            _str += "]"
-        else:
-            _str += "[]"
-        return _str
-
-    def __str__(self) -> str:
-        _str = ""
-        if self.texts:
-            _str += "["
-            for text in self.texts:
-                _str += f"{text},\n"
-            _str = _str[:-2]
-            _str += "]"
-        else:
-            _str += "[]"
-        return _str
-
-    def __bool__(self) -> bool:
-        return len(self) > 0
-
     def __reversed__(self) -> List[SimpleText or MultiLineText]:
-        reversed(self.texts)
-        return self.texts
+        reversed(self.__items)
+        return self.__items
 
 
-class InputFieldManager:
+class InputFieldManager(_BaseManager):
     """
     Creates a storage for the input fields
 
@@ -321,21 +296,20 @@ class InputFieldManager:
         it adds a new input field that can accept numbers and letters
     """
     def __init__(self, WIN: pygame.surface.Surface):
-        self.WIN = WIN
-        self.input_fields = []
-        self.__i = 0
+        super().__init__(WIN)
+        self.__items: List[InputField or InputFieldNumbers or InputFieldLetters] = []
 
     def draw(self) -> None:
-        [text.draw() for text in self.input_fields]
+        [text.draw() for text in self.__items]
 
     def update(self) -> None:
-        [text.update() for text in self.input_fields]
+        [text.update() for text in self.__items]
 
     def event_handler(self, event: pygame.event.Event) -> None:
-        [input_field.event_handler(event) for input_field in self.input_fields]
+        [input_field.event_handler(event) for input_field in self.__items]
 
     def get_input_fields(self) -> List[InputField or InputFieldNumbers or InputFieldLetters]:
-        return self.input_fields
+        return self.__items
 
     def add_Input_field(self,
                         x: int,
@@ -344,8 +318,8 @@ class InputFieldManager:
                         h: int,
                         base_color: Tuple[int, int, int]=WHITE,
                         text_color: Tuple[int, int, int]=BLACK,
-                        **kwargs):
-        self.input_fields.append(InputField(self.WIN, x, y, w, h, base_color, text_color, **kwargs))
+                        **kwargs) -> None:
+        self.__items.append(InputField(self.WIN, x, y, w, h, base_color, text_color, **kwargs))
 
     def add_Input_field_numbers(self,
                                 x: int,
@@ -354,8 +328,8 @@ class InputFieldManager:
                                 h: int,
                                 base_color: Tuple[int, int, int]=WHITE,
                                 text_color: Tuple[int, int, int]=BLACK,
-                                **kwargs):
-        self.input_fields.append(InputFieldNumbers(self.WIN, x, y, w, h, base_color, text_color, **kwargs))
+                                **kwargs) -> None:
+        self.__items.append(InputFieldNumbers(self.WIN, x, y, w, h, base_color, text_color, **kwargs))
 
     def add_Input_field_letters(self,
                                 x: int,
@@ -364,48 +338,18 @@ class InputFieldManager:
                                 h: int,
                                 base_color: Tuple[int, int, int] = WHITE,
                                 text_color: Tuple[int, int, int] = BLACK,
-                                **kwargs):
-        self.input_fields.append(InputFieldLetters(self.WIN, x, y, w, h, base_color, text_color, **kwargs))
+                                **kwargs) -> None:
+        self.__items.append(InputFieldLetters(self.WIN, x, y, w, h, base_color, text_color, **kwargs))
 
     def __getitem__(self, item) -> InputField or InputFieldNumbers or InputFieldLetters:
-        return self.input_fields[item]
-
-    def __setitem__(self, key, value) -> None:
-        self.input_fields[key] = value
-
-    def __delitem__(self, key) -> None:
-        del self.input_fields[key]
-
-    def __iadd__(self, other) -> None:
-        if isinstance(other, InputFieldManager):
-            self.input_fields += other.input_fields
-        else:
-            raise TypeError(f"the given obj is not a instance of {InputFieldManager} and it is a instance of the class {type(other)}")
-
-    def __add__(self, other) -> None:
-        if isinstance(other, InputFieldManager):
-            self.input_fields += other.input_fields
-        else:
-            raise TypeError(f"the given obj is not a instance of {InputFieldManager} and it is a instance of the class {type(other)}")
-
-    def __contains__(self, item) -> bool:
-        if item in self.input_fields:
-            return True
-        return False
-
-    def __del__(self) -> None:
-        for input_field in self.input_fields:
-            del input_field
-
-    def __len__(self) -> int:
-        return len(self.input_fields)
+        return self.__items[item]
 
     def __iter__(self) -> Iterable[InputField or InputFieldNumbers or InputFieldLetters]:
-        return iter(self.input_fields)
+        return iter(self.__items)
 
     def __next__(self) -> InputField or InputFieldNumbers or InputFieldLetters:
         try:
-            item = self.input_fields[self.__i]
+            item = self.__items[self.__i]
             self.__i += 1
         except IndexError:
             self.__i = 0
@@ -413,39 +357,12 @@ class InputFieldManager:
 
         return item
 
-    def __repr__(self) -> str:
-        _str = ""
-        if self.input_fields:
-            _str += "["
-            for input_field in self.input_fields:
-                _str += f"{input_field},\n"
-            _str = _str[:-2]
-            _str += "]"
-        else:
-            _str += "[]"
-        return _str
-
-    def __str__(self) -> str:
-        _str = ""
-        if self.input_fields:
-            _str += "["
-            for input_field in self.input_fields:
-                _str += f"{input_field},\n"
-            _str = _str[:-2]
-            _str += "]"
-        else:
-            _str += "[]"
-        return _str
-
-    def __bool__(self) -> bool:
-        return len(self) > 0
-
     def __reversed__(self) -> List[InputField or InputFieldNumbers or InputFieldLetters]:
-        reversed(self.input_fields)
-        return self.input_fields
+        reversed(self.__items)
+        return self.__items
 
 
-class ParticleManager:
+class ParticleManager(_BaseManager):
     """
     Creates a storage for the particles with more functions
 
@@ -478,37 +395,36 @@ class ParticleManager:
         it adds a new particle
     """
     def __init__(self, WIN: pygame.surface.Surface):
-        self.WIN = WIN
-        self.particles = []
-        self.__i = 0
+        super().__init__(WIN)
+        self.__items: List[Particle] = []
 
     def draw(self) -> None:
-        [text.draw() for text in self.particles]
+        [text.draw() for text in self.__items]
 
     def shrink(self, dt: float=1) -> None:
-        [text.shrink(dt) for text in self.particles]
+        [text.shrink(dt) for text in self.__items]
 
     def delete_particles(self) -> None:
-        new_particles = [particle for particle in self.particles if particle.size > 0]
-        self.particles = new_particles
+        new_particles = [particle for particle in self.__items if particle.size > 0]
+        self.__items = new_particles
 
     def collide_rects(self, rects: List[pygame.Rect], dt: float=1) -> None:
-        [particle.collide_with_rects(rects, dt) for particle in self.particles]
+        [particle.collide_with_rects(rects, dt) for particle in self.__items]
 
     def update_rects(self) -> None:
-        [particle.update_rect() for particle in self.particles]
+        [particle.update_rect() for particle in self.__items]
 
     def randomize_vels(self, limit_x: Tuple[float, float], limit_y: Tuple[float, float]) -> None:
-        [particle.randomize_vel(limit_x, limit_y) for particle in self.particles]
+        [particle.randomize_vel(limit_x, limit_y) for particle in self.__items]
 
     def move(self, dt: float=1) -> None:
-        [particle.move(dt) for particle in self.particles]
+        [particle.move(dt) for particle in self.__items]
 
     def activate_gravity(self, dt: float=1) -> None:
-        [particle.activate_gravity(dt) for particle in self.particles]
+        [particle.activate_gravity(dt) for particle in self.__items]
 
     def get_particles(self) -> List[Particle]:
-        return self.particles
+        return self.__items
 
     def add_particle(self,
                      x: int,
@@ -520,47 +436,17 @@ class ParticleManager:
                      color: Tuple[int, int, int] = (255, 255, 255),
                      collision_tolerance: float = 10,
                      gravity: float = 0.1) -> None:
-        self.particles.append(Particle(self.WIN, x, y, vel_x, vel_y, shrink_amount, size, color, collision_tolerance, gravity))
+        self.__items.append(Particle(self.WIN, x, y, vel_x, vel_y, shrink_amount, size, color, collision_tolerance, gravity))
 
     def __getitem__(self, item) -> Particle:
-        return self.particles[item]
-
-    def __setitem__(self, key, value) -> None:
-        self.particles[key] = value
-
-    def __delitem__(self, key) -> None:
-        del self.particles[key]
-
-    def __iadd__(self, other) -> None:
-        if isinstance(other, ParticleManager):
-            self.particles += other.particles
-        else:
-            raise TypeError(f"the given obj is not a instance of {ParticleManager} and it is a instance of the class {type(other)}")
-
-    def __add__(self, other) -> None:
-        if isinstance(other, ParticleManager):
-            self.particles += other.particles
-        else:
-            raise TypeError(f"the given obj is not a instance of {ParticleManager} and it is a instance of the class {type(other)}")
-
-    def __contains__(self, item) -> bool:
-        if item in self.particles:
-            return True
-        return False
-
-    def __del__(self) -> None:
-        for particle in self.particles:
-            del particle
-
-    def __len__(self) -> int:
-        return len(self.particles)
+        return self.__items[item]
 
     def __iter__(self) -> Iterable[Particle]:
-        return iter(self.particles)
+        return iter(self.__items)
 
     def __next__(self) -> Particle:
         try:
-            item = self.particles[self.__i]
+            item = self.__items[self.__i]
             self.__i += 1
         except IndexError:
             self.__i = 0
@@ -568,39 +454,12 @@ class ParticleManager:
 
         return item
 
-    def __repr__(self) -> str:
-        _str = ""
-        if self.particles:
-            _str += "["
-            for particle in self.particles:
-                _str += f"{particle},\n"
-            _str = _str[:-2]
-            _str += "]"
-        else:
-            _str += "[]"
-        return _str
-
-    def __str__(self) -> str:
-        _str = ""
-        if self.particles:
-            _str += "["
-            for particle in self.particles:
-                _str += f"{particle},\n"
-            _str = _str[:-2]
-            _str += "]"
-        else:
-            _str += "[]"
-        return _str
-
-    def __bool__(self) -> bool:
-        return len(self) > 0
-
     def __reversed__(self) -> List[Particle]:
-        reversed(self.particles)
-        return self.particles
+        reversed(self.__items)
+        return self.__items
 
 
-class AnimationManager:
+class AnimationManager(_BaseManager):
     """
     Creates a storage for the animations
 
@@ -621,65 +480,34 @@ class AnimationManager:
         it creates a new animation
     """
     def __init__(self, WIN: pygame.surface.Surface):
-        self.WIN = WIN
-        self.animations = []
-        self.__i = 0
+        super().__init__(WIN)
+        self.__items: List[Animation] = []
 
     def draw(self) -> None:
-        [animation.draw() for animation in self.animations]
+        [animation.draw() for animation in self.__items]
 
     def animate(self) -> None:
-        [animation.animate() for animation in self.animations]
+        [animation.animate() for animation in self.__items]
 
     def get_animations(self) -> List[Animation]:
-        return self.animations
+        return self.__items
 
     def add_animation(self,
                       x: int,
                       y: int,
                       images: List[pygame.surface.Surface],
-                      frames_per_image: int=5):
-        self.animations.append(Animation(self.WIN, x, y, images, frames_per_image))
+                      frames_per_image: int=5) -> None:
+        self.__items.append(Animation(self.WIN, x, y, images, frames_per_image))
 
     def __getitem__(self, item) -> Animation:
-        return self.animations[item]
-
-    def __setitem__(self, key, value) -> None:
-        self.animations[key] = value
-
-    def __delitem__(self, key) -> None:
-        del self.animations[key]
-
-    def __iadd__(self, other) -> None:
-        if isinstance(other, AnimationManager):
-            self.animations += other.animations
-        else:
-            raise TypeError(f"the given obj is not a instance of {AnimationManager} and it is a instance of the class {type(other)}")
-
-    def __add__(self, other) -> None:
-        if isinstance(other, AnimationManager):
-            self.animations += other.animations
-        else:
-            raise TypeError(f"the given obj is not a instance of {AnimationManager} and it is a instance of the class {type(other)}")
-
-    def __contains__(self, item) -> bool:
-        if item in self.animations:
-            return True
-        return False
-
-    def __del__(self) -> None:
-        for animation in self.animations:
-            del animation
-
-    def __len__(self) -> int:
-        return len(self.animations)
+        return self.__items[item]
 
     def __iter__(self) -> Iterable[Animation]:
-        return iter(self.animations)
+        return iter(self.__items)
 
     def __next__(self) -> Animation:
         try:
-            item = self.animations[self.__i]
+            item = self.__items[self.__i]
             self.__i += 1
         except IndexError:
             self.__i = 0
@@ -687,36 +515,9 @@ class AnimationManager:
 
         return item
 
-    def __repr__(self) -> str:
-        _str = ""
-        if self.animations:
-            _str += "["
-            for animation in self.animations:
-                _str += f"{animation},\n"
-            _str = _str[:-2]
-            _str += "]"
-        else:
-            _str += "[]"
-        return _str
-
-    def __str__(self) -> str:
-        _str = ""
-        if self.animations:
-            _str += "["
-            for animation in self.animations:
-                _str += f"{animation},\n"
-            _str = _str[:-2]
-            _str += "]"
-        else:
-            _str += "[]"
-        return _str
-
-    def __bool__(self) -> bool:
-        return len(self) > 0
-
     def __reversed__(self) -> List[Animation]:
-        reversed(self.animations)
-        return self.animations
+        reversed(self.__items)
+        return self.__items
 
 
 __all__ = [

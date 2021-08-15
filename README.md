@@ -4,7 +4,7 @@
 ###### [creator](https://github.com/Emc2356)
 ###### [PyGame](https://pygame.org/) 
 
-##### this is a package created to help you with basic widgets
+##### this is a package created to help you with pygame functionality 
 
 ##### at this point it has the following classes:
 ~~~
@@ -24,7 +24,8 @@ ParticleManager Class
 AnimationManager Class
 InputFieldManager Class
 ~~~
-##### also, PygameHelper offers functions to help with every day use:
+
+##### also, PygameHelper, offers functions to help with every day use:
 ~~~
 load_image it loads a image 
 load_alpha_image it loads a image but it keeps the alpha values
@@ -40,6 +41,7 @@ wrap_multi_lines it returns a list of a given string so it can fit given width
 blit_multiple_lines it blits in the window multiple lines
 pixel_perfect_collision it does a pixel perfect collision
 ~~~
+
 ##### TODO list 
 ~~~
 1. add a menu class

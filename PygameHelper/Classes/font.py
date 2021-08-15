@@ -29,7 +29,6 @@ import pygame
 
 from PygameHelper.Classes import SpriteSheet
 from PygameHelper.utils import *
-from PygameHelper.constants import *
 from PygameHelper.exceptions import *
 
 
@@ -123,7 +122,7 @@ class Font:
         :return: pygame.surface.Surface
         """
         storage: List[List[pygame.surface.Surface, List[int, int]]] = []
-        words = text.replace(LINE_SPLITTER, "\n").split(" ")
+        words = text.split(" ")
         width, temp_w, height = 0, 0, self.max_h
         for word in words:
             word_length = self.__word_width_render(word)

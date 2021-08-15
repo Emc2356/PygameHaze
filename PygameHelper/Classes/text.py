@@ -167,7 +167,7 @@ class MultiLineText:
             raise MissingRequiredArgument(f"""in the "update method the centered_x_pos is missing.""")
         height = self.font.get_height()
         self.rendered_texts = []
-        for i, text in enumerate(split_string(self.text)):
+        for i, text in enumerate(self.text.split("\n")):
             rendered_text_surface = self.font.render(text, self.antialias, self.color)
 
             if centered_x: pos = [centered_x_pos - rendered_text_surface.get_width()/2, self.y + (i * height)]

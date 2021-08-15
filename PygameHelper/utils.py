@@ -187,19 +187,6 @@ def pixel_perfect_collision(image_1: pygame.surface.Surface, image_1_pos: Tuple[
     return False
 
 
-def split_string(string: str) -> List[str]:
-    """
-    it splits a string with the LINE_SPLITTER and \n
-    :param string: str
-    :return: List[str]
-    """
-    lines = []
-    for line in string.split(LINE_SPLITTER):
-        if "\n" in line: lines += line.split("\n")
-        else: lines.append(line)
-    return lines
-
-
 def get_positive(number: float or int) -> float or int:
     """
     it return a positive number
@@ -236,7 +223,6 @@ __all__ = [
     "wrap_multi_lines",
     "blit_multiple_lines",
     "pixel_perfect_collision",
-    "split_string",
     "get_positive",
     "get_negative"
 ]

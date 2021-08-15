@@ -165,7 +165,7 @@ class Button:
         self.on_release_kwargs = kwargs.get("on_release_kwargs", None)  # the key-word arguments of the function that is called when the button is deactivated
 
         # get the text info
-        self.text = kwargs.get("text", "")  # for multiple lines use PygameHelper.constants.LINE_SPLITTER or "\n"
+        self.text = kwargs.get("text", "")  # for multiple lines use "\n"
         self.antialias = kwargs.get("antialias", True)
         self.text_color = kwargs.get("text_color", (0, 0, 0))
         self.font_type = kwargs.get("font_type", "camicsans")
@@ -193,9 +193,9 @@ class Button:
 
         self.rendered_text_surfaces = []
         font_h = self.font.get_height()
-        y = self.button_rect.centery - ((len(split_string(self.text))*font_h)/2)
+        y = self.button_rect.centery - ((len(self.text.split("\n"))*font_h)/2)
 
-        for i, text in enumerate(split_string(self.text)):
+        for i, text in enumerate(self.text.split("\n")):
             surf = self.font.render(text, self.antialias, self.text_color)
             pos = [self.button_rect.centerx - surf.get_width()/2, y + (i * font_h)]
             self.rendered_text_surfaces.append([surf, pos])
@@ -204,9 +204,9 @@ class Button:
             if width > self.w:
                 raise TextOfOutBounds(f"the given string: '{text}' is {width - self.w}pxls out of bounds in the x-axis")
 
-        h = len(split_string(self.text))*font_h
+        h = len(self.text.split("\n"))*font_h
         if h > self.h:
-            raise TextOfOutBounds(f"the text: [{self.text.replace(LINE_SPLITTER, ' ')}] is {h - self.h}pxls out of bounds in the y-axis")
+            raise TextOfOutBounds(f"the text: [{self.text}] is {h - self.h}pxls out of bounds in the y-axis")
 
     def draw(self) -> None:
         """
@@ -260,4 +260,4 @@ class Button:
                 self.pressed = not self.pressed
 
     def __repr__(self):
-        return f"""Button at: {self.x, self.y} | with dimensions: {self.w, self.h}{f" | with text: {self.text.replace(LINE_SPLITTER, ' ')}" if self.text != '' else ''}"""
+        return f"""Button at: {self.x, self.y} | with dimensions: {self.w, self.h}{f" | with text: {self.text}" if self.text != '' else ''}"""

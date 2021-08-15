@@ -101,10 +101,6 @@ ANCHORS = [
 ]
 
 
-# if you change this use something unique so it would be hard for someone to randomly find it
-LINE_SPLITTER = "jntiNgieNfivNrivni305un@4o2*"
-
-
 __all__ = [
     "BLACK",
     "WHITE",
@@ -137,7 +133,6 @@ __all__ = [
     "MIDLEFT",
     "MIDBOTTOM",
     "MIDRIGHT",
-    "LINE_SPLITTER",
     "COLORS",
     "ANCHORS"
 ]

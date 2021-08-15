@@ -11,7 +11,7 @@
 | `WIN` | the surface that the button is going to be drawn in | - |
 | `x` | the x position of the button | - |
 | `y` | the x position of the button | - |
-| `text` | the text that is going to be used(use PygameHelper.constants.LINE_SPLITTER to say were the new like is going to be) | - |
+| `text` | the text that is going to be used(use "\n" to say were the new like is going to be) | - |
 > these are the optional arguments
 
 | Argument | Description | Default Value |
@@ -40,7 +40,7 @@ text = MultiLineText(
     WIN,                                    # WIN
     250,                                    # x
     250,                                    # y
-    f"Hello Word{LINE_SPLITTER}Bey World",  # text
+    f"Hello Word\nBey World",               # text
     RED,                                    # color
     anchor=CENTER,                          # anchor
     font_size=60,                           # font_size

@@ -16,7 +16,7 @@ text = MultiLineText(
     WIN,                                    # WIN
     250,                                    # x
     250,                                    # y
-    f"Hello Word{LINE_SPLITTER}Bey World",  # text
+    f"Hello Word\nBey World",               # text
     RED,                                    # color
     anchor=CENTER,                          # anchor
     font_size=60,                           # font_size
