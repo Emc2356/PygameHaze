@@ -128,8 +128,3 @@ while True:
     field.draw()
     pygame.display.update()
 ```
-
-# contributions:
----
-> Pull requests are welcome!
-> Feel free to create a fork of this repository and use the code for any noncommercial purposes.

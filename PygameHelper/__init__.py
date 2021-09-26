@@ -14,6 +14,9 @@ from PygameHelper.Classes import Particle
 from PygameHelper.Classes import Animation
 from PygameHelper.Classes import SpriteSheet
 from PygameHelper.Classes import Font
+from PygameHelper.Classes import Cloth
+from PygameHelper.Classes import Point
+from PygameHelper.Classes import Connection
 
 # the managers for the widgets/tools
 from PygameHelper.Classes import ButtonManager
@@ -31,11 +34,12 @@ from PygameHelper.Classes import particle
 from PygameHelper.Classes import text
 from PygameHelper.Classes import font
 from PygameHelper.Classes import spritesheet
+from PygameHelper.Classes import cloth
 
 # general imports that can be used by the user with general use
 # in their projects
+from PygameHelper.exceptions import PygameHelperException as error
 from PygameHelper.constants import *
-from PygameHelper.exceptions import *
 from PygameHelper.utils import *
 
 print(f"PygameHelper {__version__}")

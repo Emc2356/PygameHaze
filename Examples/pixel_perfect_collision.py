@@ -1,8 +1,5 @@
-from PygameHelper.utils import pixel_perfect_collision
-from PygameHelper.constants import *
-import sys
 import pygame
-from pygame.locals import *
+import PygameHelper as pgh
 
 
 # define display surface
@@ -33,16 +30,16 @@ while True:
     clock.tick(FPS)
     blob_rect = green_blob.get_rect(topleft=pygame.mouse.get_pos())
     for event in pygame.event.get():
-        if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
+        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             pygame.quit()
-            sys.exit()
+            quit(-1)
 
-    if pixel_perfect_collision(obstacle, (ox, oy), green_blob, pygame.mouse.get_pos()):
+    if pgh.pixel_perfect_collision(obstacle, (ox, oy), green_blob, pygame.mouse.get_pos()):
         blob_color = orange_blob
     else:
         blob_color = green_blob
 
-    WIN.fill(BLACK)
+    WIN.fill(pgh.BLACK)
     WIN.blit(obstacle, (ox, oy))
     WIN.blit(blob_color, pygame.mouse.get_pos())
 

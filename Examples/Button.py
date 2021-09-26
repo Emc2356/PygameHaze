@@ -1,6 +1,5 @@
 import pygame
-from PygameHelper import Button
-from PygameHelper.constants import *
+import PygameHelper as pgh
 
 
 pygame.init()
@@ -11,7 +10,7 @@ WIN = pygame.display.set_mode((500, 500))
 pygame.display.set_caption("Button")
 
 
-button = Button(
+button = pgh.Button(
         WIN,                                                                                    # WIN
         250,                                                                                    # x
         250,                                                                                    # y
@@ -21,7 +20,7 @@ button = Button(
         (200, 0, 0),                                                                            # hover_inactive_color
         (0, 255, 0),                                                                            # active_color
         (0, 200, 0),                                                                            # hover_active_color
-        anchor=CENTER,                                                                          # anchor
+        anchor=pgh.CENTER,                                                                      # anchor
         text=f"\nHELLO\nWORLD\n",                                                               # text
         on_click=lambda name, age=20: print(f"""hello my name is {name} and i am {age}"""),     # what is going to be called when the button is clicked
         on_click_args=("George", ),                                                             # the positional argument that it can accept

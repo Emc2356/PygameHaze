@@ -1,13 +1,5 @@
-"""
-a simple game of Tic Tac Toe made with PygameHelper
-as a core for the detections of clicks
-"""
-
-
 import pygame
-from PygameHelper import BLACK, WHITE
-from PygameHelper import left_click
-from PygameHelper import ButtonManager
+import PygameHelper as pgh
 
 
 pygame.init()
@@ -29,20 +21,20 @@ class Game:
 
     def reset_game(self):
         self.board = [[0, 0, 0] for _ in range(3)]
-        self.spots = ButtonManager(self.WIN)
+        self.spots = pgh.ButtonManager(self.WIN)
 
-        [[self.spots.add_button(x*(self.W//3), y*(self.W//3), self.W//3, self.H//3, WHITE, WHITE, WHITE, WHITE, font_size=200) for y in range(3)] for x in range(3)]
+        [[self.spots.add_button(x*(self.W//3), y*(self.W//3), self.W//3, self.H//3, pgh.WHITE, pgh.WHITE, pgh.WHITE, pgh.WHITE, font_size=200) for y in range(3)] for x in range(3)]
 
     def draw(self):
-        self.WIN.fill(WHITE)
+        self.WIN.fill(pgh.WHITE)
 
         self.spots.draw()
 
         line_width = 10
         for i in range(3):
-            pygame.draw.line(self.WIN, BLACK, (0, i * (self.H // 3) - (line_width // 2)),
+            pygame.draw.line(self.WIN, pgh.BLACK, (0, i * (self.H // 3) - (line_width // 2)),
                              (self.W, i * (self.H // 3) - (line_width // 2)), line_width)
-            pygame.draw.line(self.WIN, BLACK, (i * (self.W // 3) - (line_width // 2), 0),
+            pygame.draw.line(self.WIN, pgh.BLACK, (i * (self.W // 3) - (line_width // 2), 0),
                              (i * (self.W // 3) - (line_width // 2), self.H), line_width)
 
         self.spots.update()  # u don't have to call this method every time just when the text changes or you want to change the buttons position
@@ -59,7 +51,7 @@ class Game:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit(-1)
-            elif left_click(event):
+            elif pgh.left_click(event):
                 for button in self.spots:
                     if button.button_rect.collidepoint(event.pos) and not button.pressed:
                         button.event_handler(event)

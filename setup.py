@@ -1,3 +1,4 @@
+import PygameHelper as pgh
 from setuptools import setup, find_packages
 import codecs
 import os
@@ -8,8 +9,8 @@ with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
 PACKAGE_NAME = "PygameHelper"
-VERSION = "0.1.1"
-DESCRIPTION = "Some widgets for pygame"
+VERSION = pgh.__version__
+DESCRIPTION = "Some tools/widgets for pygame"
 
 # Setting up
 setup(

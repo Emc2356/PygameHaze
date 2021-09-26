@@ -1,6 +1,5 @@
-from PygameHelper.constants import *
 import pygame
-from PygameHelper import InputFieldNumbers
+import PygameHelper as pgh
 
 
 pygame.init()
@@ -10,13 +9,13 @@ WIN = pygame.display.set_mode((500, 500))
 
 pygame.display.set_caption("InputFieldNumbers")
 
-field = InputFieldNumbers(
-    WIN,            # WIN
-    250,            # x
-    250,            # y
-    300,            # w
-    100,            # h
-    anchor=CENTER   # anchor
+field = pgh.InputFieldNumbers(
+    WIN,                # WIN
+    250,                # x
+    250,                # y
+    300,                # w
+    100,                # h
+    anchor=pgh.CENTER   # anchor
 )
 
 while True:

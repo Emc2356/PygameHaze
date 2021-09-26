@@ -1,6 +1,5 @@
-from PygameHelper import *
 import pygame
-
+import PygameHelper as pgh
 
 pygame.init()
 pygame.font.init()
@@ -9,12 +8,12 @@ WIN = pygame.display.set_mode((500, 500))
 
 pygame.display.set_caption("Custom Font")
 
-font = Font("assets/pixel_font.png",
-            size=4,
-            spacing=1,
-            barrier=(69, 69, 69),
-            colorkey_for_char=(255, 255, 255)
-)
+font = pgh.Font("assets/pixel_font.png",
+                size=4,
+                spacing=1,
+                barrier=(69, 69, 69),
+                colorkey_for_char=(255, 255, 255)
+                )
 
 while True:
     rendered_text = font.render(

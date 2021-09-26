@@ -9,6 +9,9 @@ from PygameHelper.Classes.input_field import InputFieldLetters
 from PygameHelper.Classes.animation import Animation
 from PygameHelper.Classes.particle import Particle
 from PygameHelper.Classes.font import Font
+from PygameHelper.Classes.cloth import Cloth
+from PygameHelper.Classes.cloth import Point
+from PygameHelper.Classes.cloth import Connection
 from PygameHelper.Classes.managers import ButtonManager
 from PygameHelper.Classes.managers import TextManager
 from PygameHelper.Classes.managers import ParticleManager
@@ -22,3 +25,4 @@ from PygameHelper.Classes import input_field
 from PygameHelper.Classes import managers
 from PygameHelper.Classes import particle
 from PygameHelper.Classes import text
+from PygameHelper.Classes import cloth

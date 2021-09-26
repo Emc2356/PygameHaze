@@ -204,9 +204,10 @@ class Button:
             if width > self.w:
                 raise TextOfOutBounds(f"the given string: '{text}' is {width - self.w}pxls out of bounds in the x-axis")
 
-        h = len(self.text.split("\n"))*font_h
-        if h > self.h:
-            raise TextOfOutBounds(f"the text: [{self.text}] is {h - self.h}pxls out of bounds in the y-axis")
+        if self.text != "":
+            h = len(self.text.split("\n"))*font_h
+            if h > self.h:
+                raise TextOfOutBounds(f"the text: [{self.text}] is {h - self.h}pxls out of bounds in the y-axis")
 
     def draw(self) -> None:
         """

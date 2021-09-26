@@ -17,8 +17,3 @@
 |:--------:|:-----------:|:-------------:|
 | `get_sheet` | it returns the sheet | - |
 | `clip` | it returns the image in a specified location | [x, y, w, h], colorkey |
-
-# contributions:
----
-> Pull requests are welcome!
-> Feel free to create a fork of this repository and use the code for any noncommercial purposes.

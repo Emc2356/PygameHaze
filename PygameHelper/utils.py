@@ -25,38 +25,65 @@ SOFTWARE.
 
 import pygame
 
-from math import floor
-from typing import List
-from typing import Tuple
+import math
+import json
+from typing import List, Tuple, Iterable, Generator, Union
 
 from PygameHelper.constants import *
 from PygameHelper.exceptions import *
 
 
 def load_image(path: str) -> pygame.surface.Surface:
+    """
+    it loads an image from a given path and it performs a .convert
+    :param path: str
+    :return: pygame.surface.Surface
+    """
     return pygame.image.load(path).convert()
 
 
 def load_alpha_image(path: str) -> pygame.surface.Surface:
+    """
+    it loads an image from a given path and it performs a .convert_alpha
+    :param path: str
+    :return: pygame.surface.Surface
+    """
     return pygame.image.load(path).convert_alpha()
 
 
-def resize_smooth_image(image: pygame.Surface, new_size: Tuple[int, int]) -> pygame.surface.Surface:
+def resize_smooth_image(image: pygame.surface.Surface, new_size: Union[List[int], Tuple[int, int]]) -> pygame.surface.Surface:
+    """
+    wrapper for pygame.transform.smoothscale
+    :param image: pygame.surface.Surface
+    :param new_size: Union[List[int], Tuple[int, int, int]]
+    :return:
+    """
     return pygame.transform.smoothscale(image, new_size)
 
 
-def resize_image(image: pygame.Surface, new_size: Tuple[int, int]) -> pygame.surface.Surface:
+def resize_image(image: pygame.surface.Surface, new_size: Union[List[int], Tuple[int, int, int]]) -> pygame.surface.Surface:
+    """
+    wrapper for pygame.transform.scale
+    :param image: pygame.surface.Surface
+    :param new_size: Union[List[int], Tuple[int, int, int]]
+    :return: pygame.surface.Surface
+    """
     return pygame.transform.scale(image, new_size)
 
 
-def resize_image_ratio(image: pygame.Surface, new_size: Tuple[int, int]) -> pygame.surface.Surface:
+def resize_image_ratio(image: pygame.surface.Surface, new_size: Tuple[int, int]) -> pygame.surface.Surface:
     ratio = new_size[0] / image.get_width()
-    return pygame.transform.scale(image, (floor(image.get_width() * ratio), floor(image.get_height() * ratio)))
+    return pygame.transform.scale(image, (math.floor(image.get_width() * ratio), math.floor(image.get_height() * ratio)))
 
 
-def resizex(image: pygame.surface.Surface, amount: int or float) -> pygame.surface.Surface:
-    w, h = image.get_width(), image.get_height()
-    return pygame.transform.scale(image, (w*amount, h*amount))
+def resizex(image: pygame.surface.Surface, amount: Union[int, float]) -> pygame.surface.Surface:
+    """
+    it resizes a image in both axis by the same amount
+    :param image: pygame.surface.Surface
+    :param amount: Union[int, float]
+    :return: pygame.surface.Surface
+    """
+    return pygame.transform.scale(image, (image.get_width()*amount, image.get_height()*amount))
 
 
 def left_click(event: pygame.event.Event) -> bool:
@@ -139,13 +166,13 @@ def wrap_multi_lines(text: str, font: pygame.font.Font, max_width: int, max_heig
     return finished_lines
 
 
-def blit_multiple_lines(x: int, y: int, lines: list, WIN: pygame.surface.Surface, font: pygame.font.Font, centered_x=False,
+def blit_multiple_lines(x: int, y: int, lines: List[str], WIN: pygame.surface.Surface, font: pygame.font.Font, centered_x=False,
                         centered_x_pos: int=None, color: Tuple[int, int, int]=(0, 0, 0)) -> None:
     """
     it sets-up the text. this method has to be called when the text changes
     :param x: int
     :param y: int
-    :param lines: list
+    :param lines: list[str]
     :param WIN: pygame.surface.Surface
     :param font: pygame.font.Font
     :param centered_x: if the text is going to be x-centered
@@ -187,26 +214,58 @@ def pixel_perfect_collision(image_1: pygame.surface.Surface, image_1_pos: Tuple[
     return False
 
 
-def get_positive(number: float or int) -> float or int:
+def get_distance(x1: int, y1: int, x2: int, y2: int) -> float:
+    """
+    it returns the distance between two points
+    :param x1: int
+    :param y1: int
+    :param x2: int
+    :param y2: int
+    :return: float
+    """
+    return math.sqrt(((x1 - x2)**2 + (y1 - y2)**2))
+
+
+def get_positive(number: Union[int, float]) -> Union[int, float]:
     """
     it return a positive number
-    :param number: int or float
-    :return: int or float
+    :param number: Union[int, float]
+    :return: Union[int, float]
     """
     if number > 0:
         return number
     return abs(number)
 
 
-def get_negative(number: float or int) -> float or int:
+def get_negative(number: Union[int, float]) -> Union[int, float]:
     """
     it return a negative number
-    :param number: int or float
-    :return: int or float
+    :param number: Union[int, float]
+    :return: Union[int, float]
     """
     if number < 0:
         return number
     return -number
+
+
+def flatten(iterable: Iterable) -> Generator:
+    """
+    it takes a iterable object and it flattens the object
+    :param iterable: Iterable
+    :return: any
+    """
+    for item in iterable:
+        if isinstance(item, list) or isinstance(item, tuple):
+            for subitem in flatten(item):
+                yield subitem
+        else:
+            yield item
+
+
+def get_cloth(path) -> dict:
+    with open(path, "r") as f:
+        data = json.loads(f.read())
+    return data
 
 
 __all__ = [
@@ -223,6 +282,9 @@ __all__ = [
     "wrap_multi_lines",
     "blit_multiple_lines",
     "pixel_perfect_collision",
+    "get_distance",
     "get_positive",
-    "get_negative"
+    "get_negative",
+    "flatten",
+    "get_cloth"
 ]

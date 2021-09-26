@@ -75,9 +75,28 @@ class WordTooLong(PygameHelperException):
     pass
 
 
+class NoLockedPoints(PygameHelperException):
+    """
+    this is the exception that is going to be raised
+    when a cloth has no points that are locked so
+    it will just drop until who knows how much
+    """
+    pass
+
+
+class NoConnection(PygameHelperException):
+    """
+    this exception is going to be raised
+    when a point in a cloth has no connection
+    with another point
+    """
+
+
 __all__ = [
     "TextOfOutBounds",
     "InvalidAnchor",
     "MissingRequiredArgument",
-    "WordTooLong"
+    "WordTooLong",
+    "NoLockedPoints",
+    "NoConnection"
 ]

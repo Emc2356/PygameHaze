@@ -1,5 +1,1 @@
-certifi
-pip
 pygame
-wheel
-wincertstore

@@ -1,6 +1,5 @@
 import pygame
-from PygameHelper import MultiLineText
-from PygameHelper.constants import *
+import PygameHelper as pgh
 
 
 pygame.init()
@@ -12,13 +11,13 @@ WIN = pygame.display.set_mode((500, 500))
 pygame.display.set_caption("MultiLineText")
 
 
-text = MultiLineText(
+text = pgh.MultiLineText(
     WIN,                                    # WIN
     250,                                    # x
     250,                                    # y
     f"Hello Word\nBey World",               # text
-    RED,                                    # color
-    anchor=CENTER,                          # anchor
+    pgh.RED,                                # color
+    anchor=pgh.CENTER,                      # anchor
     font_size=60,                           # font_size
     font_type="comicsans",                  # font_type
     antialias=True                          # antialias
