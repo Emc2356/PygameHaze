@@ -63,4 +63,4 @@ pixel_perfect_collision it does a pixel perfect collision
 # contributions:
 ---
 > Pull requests are welcome!
-> Feel free to create a fork of this repository and use the code for any noncommercial purposes.
+> Feel free to create a fork of this repository and use the code for any purpose.
