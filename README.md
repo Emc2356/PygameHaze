@@ -7,40 +7,45 @@
 ##### this is a package created to help you with pygame functionality 
 
 ##### at this point it has the following classes:
-~~~
-Button Class
-SimpleText Class
-MultiLineText Class
-InputField Class
-InputFieldNumbers Class
-InputFieldLetters Class
-Particle Class
-Animation Class
-SpriteSheet Class
-Font Class
-ButtonManager Class
-TextManager Class
-ParticleManager Class
-AnimationManager Class
-InputFieldManager Class
-~~~
+| Class name |
+|:----------:|
+|`Button` |
+|`SimpleText` |
+|`MultiLineText` |
+|`InputField` |
+|`InputFieldNumbers` |
+|`InputFieldLetters` |
+|`Particle` |
+|`Animation` |
+|`SpriteSheet` |
+|`Font` |
+|`ButtonManager` |
+|`TextManager` |
+|`ParticleManager` |
+|`AnimationManager` |
+|`InputFieldManager` |
 
 ##### also, PygameHelper, offers functions to help with every day use:
-~~~
-load_image it loads a image 
-load_alpha_image it loads a image but it keeps the alpha values
-resize_image it resizes a image
-resize_smooth_image it resizes a image with smoothscale
-resize_image_ratio 
-resizex it scales a image by a amount 
-left_click it tells you if the use has clicked the left mouse button
-middle_click it tells you if the use has clicked the middle mouse button
-right_click it tells you if the use has clicked the right mouse button
-get_font it returns you a font
-wrap_multi_lines it returns a list of a given string so it can fit given width
-blit_multiple_lines it blits in the window multiple lines
-pixel_perfect_collision it does a pixel perfect collision
-~~~
+| Function name | description |
+|:-------------:|:-----------:|
+| `load_image` | it loads an image and it does .convert() |
+| `load_alpha_image` | it loads an image and it does .convert_alpha() |
+| `resize_smooth_image` | wrapper for pygame.transform.smoothscale |
+| `resize_image` | wrapper for pygame.transform.scale |
+| `resize_image_ratio` | - |
+| `resizex` | it resizes a image in both axis by the same amount |
+| `left_click` | checks for left-click event the screen |
+| `middle_click` | checks for middle-click event the screen |
+| `right_click` | checks for right-click event the screen |
+| `get_font` | it returns a font |
+| `wrap_multi_lines` |  |
+| `blit_multiple_lines` | it blits in a surface a list of strings |
+| `pixel_perfect_collision` | it is a wrapper for pygame.mask.overlap and it handles the offset |
+| `get_distance` | it returns the distance between two points |
+| `flatten` | it takes a iterable object and it flattens the object |
+| `get_cloth` | it returns the cloth data from a file |
+| `map_num` | it Re-maps a number from one range to another |
+| `clamp` | it clamps a value between mini and maxi
 
 ##### TODO list 
 ~~~

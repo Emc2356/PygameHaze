@@ -26,3 +26,6 @@ from PygameHelper.Classes import managers
 from PygameHelper.Classes import particle
 from PygameHelper.Classes import text
 from PygameHelper.Classes import cloth
+
+# instances
+from PygameHelper.Classes.noise import noise

@@ -1,5 +1,5 @@
-__author__ = "emc235"
-__version__ = "0.3.3"
+__author__ = "emc2356"
+__version__ = "0.3.4"
 __name__ = "PygameHelper"
 
 
@@ -24,6 +24,9 @@ from PygameHelper.Classes import TextManager
 from PygameHelper.Classes import ParticleManager
 from PygameHelper.Classes import AnimationManager
 from PygameHelper.Classes import InputFieldManager
+
+# instances
+from PygameHelper.Classes import noise
 
 # classes files
 from PygameHelper.Classes import animation
