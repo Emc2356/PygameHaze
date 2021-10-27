@@ -1,32 +1,29 @@
-# MIT License
-#
-# Copyright (c) 2021 Emc2356
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-
-
 """
-a button class with a lot of abilities
+MIT License
+
+Copyright (c) 2021 Emc2356
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 """
 
 
-from typing import Tuple, List, Union
+from typing import Tuple, List
 
 import pygame
 
@@ -82,15 +79,30 @@ class Button:
                  active_color: Tuple[int, int, int]=WHITE,
                  hover_active_color: Tuple[int, int, int]=WHITESMOKE,
                  **kwargs):
+        """
+
+        Parameters
+        ----------
+        :param WIN: pygame.surface.Surface
+        :param x: int
+        :param y: int
+        :param w: int
+        :param h: int
+        :param inactive_color: Tuple[int, int, int]
+        :param hover_inactive_color: Tuple[int, int, int]
+        :param active_color: Tuple[int, int, int]
+        :param hover_active_color: Tuple[int, int, int]
+        :param kwargs: optional parameters
+        """
 
         # get the screen to draw the button
         self.WIN: pygame.surface.Surface = WIN
 
         # get the positions/dimensions of the button
-        self._x: int = int(x)
-        self._y: int = int(y)
-        self._w: int = int(w)
-        self._h: int = int(h)
+        self.x: int = int(x)
+        self.y: int = int(y)
+        self.w: int = int(w)
+        self.h: int = int(h)
         self.pressed: bool = False
         self.border_radius: int = kwargs.get("border_radius", 0)
         self.anchor: str = kwargs.get("anchor", TOPLEFT).lower()
@@ -112,7 +124,7 @@ class Button:
         elif isinstance(inactive_sprite, str):
             inactive_sprite = load_alpha_image(inactive_sprite)
         if transform_scale_image and inactive_sprite is not None:
-            inactive_sprite = resize_smooth_image(inactive_sprite, (self._w, self._h))
+            inactive_sprite = resize_smooth_image(inactive_sprite, (self.w, self.h))
         self.inactive_sprite = inactive_sprite
 
         inactive_hover_sprite = kwargs.get("inactive_hover_sprite", None)  # the sprite that is used when the button is deactivated and the mouse is over it
@@ -121,7 +133,7 @@ class Button:
         elif isinstance(inactive_hover_sprite, str):
             inactive_hover_sprite = load_alpha_image(inactive_hover_sprite)
         if transform_scale_image and inactive_hover_sprite is not None:
-            inactive_hover_sprite = resize_smooth_image(inactive_hover_sprite, (self._w, self._h))
+            inactive_hover_sprite = resize_smooth_image(inactive_hover_sprite, (self.w, self.h))
         self.inactive_hover_sprite = inactive_hover_sprite
 
         active_sprite = kwargs.get("active_sprite", None)  # the sprite that is used when the button is activated
@@ -130,7 +142,7 @@ class Button:
         elif isinstance(active_sprite, str):
             active_sprite = load_alpha_image(active_sprite)
         if transform_scale_image and active_sprite is not None:
-            active_sprite = resize_smooth_image(active_sprite, (self._w, self._h))
+            active_sprite = resize_smooth_image(active_sprite, (self.w, self.h))
         self.active_sprite = active_sprite
 
         active_hover_sprite = kwargs.get("active_hover_sprite", None)  # the sprite that is used when the button is activated and the mouse is over it
@@ -139,7 +151,7 @@ class Button:
         elif isinstance(active_hover_sprite, str):
             active_hover_sprite = load_alpha_image(active_hover_sprite)
         if transform_scale_image and active_hover_sprite is not None:
-            active_hover_sprite = resize_smooth_image(active_hover_sprite, (self._w, self._h))
+            active_hover_sprite = resize_smooth_image(active_hover_sprite, (self.w, self.h))
         self.active_hover_sprite = active_hover_sprite
 
         self.current_sprite: pygame.surface.Surface = self.inactive_sprite if not self.pressed else self.active_sprite
@@ -153,13 +165,13 @@ class Button:
         self.on_release_kwargs = kwargs.get("on_release_kwargs", None)  # the key-word arguments of the function that is called when the button is deactivated
 
         # get the text info
-        self._text = kwargs.get("text", "")  # for multiple lines use "\n"
+        self.text = kwargs.get("text", "")  # for multiple lines use "\n"
         self.antialias = kwargs.get("antialias", True)
         self.text_color = kwargs.get("text_color", (0, 0, 0))
         self.font_type = kwargs.get("font_type", "camicsans")
         self.font_size = kwargs.get("font_size", 60)
         self.font = get_font(self.font_size, self.font_type)
-        self.rendered_text_surfaces: List[Union[pygame.surface.Surface, List[int, int]]] = []
+        self.rendered_text_surfaces: List[pygame.surface.Surface, List[int, int]] = []
 
         self.kwargs = kwargs
 
@@ -170,77 +182,32 @@ class Button:
 
     def update(self) -> None:
         """
-        it updates the button's rect and surfaces (automatically getting called when you set the x, y, w, h, text)
+        it reinitialise the button rect
         :return: None
         """
         try:
-            self.button_rect = pygame.Rect(self._x, self._y, self._w, self._h)
-            self.button_rect.__setattr__(self.anchor, (self._x, self._y))
+            self.button_rect = pygame.Rect(self.x, self.y, self.w, self.h)
+            self.button_rect.__setattr__(self.anchor, (self.x, self.y))
         except AttributeError:
             raise InvalidAnchor(f"""The anchor '{self.anchor}' is not a valid anchor.""")
 
         self.rendered_text_surfaces = []
         font_h = self.font.get_height()
-        y = self.button_rect.centery - ((len(self._text.split("\n"))*font_h)/2)
+        y = self.button_rect.centery - ((len(self.text.split("\n"))*font_h)/2)
 
-        for i, text in enumerate(self._text.split("\n")):
+        for i, text in enumerate(self.text.split("\n")):
             surf = self.font.render(text, self.antialias, self.text_color)
             pos = [self.button_rect.centerx - surf.get_width()/2, y + (i * font_h)]
             self.rendered_text_surfaces.append([surf, pos])
 
             width = surf.get_width()
-            if width > self._w:
-                raise TextOfOutBounds(f"the given string: '{text}' is {width - self._w}pxls out of bounds in the x-axis")
+            if width > self.w:
+                raise TextOfOutBounds(f"the given string: '{text}' is {width - self.w}pxls out of bounds in the x-axis")
 
-        if self._text != "":
-            h = len(self._text.split("\n"))*font_h
-            if h > self._h:
-                raise TextOfOutBounds(f"the text: [{self._text}] is {h - self._h}pxls out of bounds in the y-axis")
-
-    @property
-    def x(self) -> int:
-        return self._x
-
-    @x.setter
-    def x(self, val: int) -> None:
-        self._x = val
-        self.update()
-
-    @property
-    def y(self) -> int:
-        return self._y
-
-    @y.setter
-    def y(self, val: int) -> None:
-        self._y = val
-        self.update()
-
-    @property
-    def w(self) -> int:
-        return self._w
-
-    @w.setter
-    def w(self, val: int) -> None:
-        self._w = val
-        self.update()
-
-    @property
-    def h(self) -> int:
-        return self._h
-
-    @h.setter
-    def h(self, val: int) -> None:
-        self._h = val
-        self.update()
-
-    @property
-    def text(self) -> str:
-        return self._text
-
-    @text.setter
-    def text(self, text: str) -> None:
-        self._text = text
-        self.update()
+        if self.text != "":
+            h = len(self.text.split("\n"))*font_h
+            if h > self.h:
+                raise TextOfOutBounds(f"the text: [{self.text}] is {h - self.h}pxls out of bounds in the y-axis")
 
     def draw(self) -> None:
         """
@@ -248,12 +215,10 @@ class Button:
         :return: None
         """
         pygame.draw.rect(self.WIN, self.color, self.button_rect, border_radius=self.border_radius)
-        if self.current_sprite is not None:
-            self.WIN.blit(self.current_sprite, self.button_rect)
+        if self.current_sprite is not None: self.WIN.blit(self.current_sprite, self.button_rect)
 
         if self.rendered_text_surfaces:
-            for surf, pos in self.rendered_text_surfaces:
-                self.WIN.blit(surf, pos)
+            [self.WIN.blit(surf, pos) for surf, pos in self.rendered_text_surfaces]
 
     def event_handler(self, event: pygame.event.Event) -> None:
         """
@@ -296,4 +261,4 @@ class Button:
                 self.pressed = not self.pressed
 
     def __repr__(self):
-        return f"""Button at: {self._x, self._y} | with dimensions: {self._w, self._h}{f" | with text: {self._text}" if self._text != '' else ''}"""
+        return f"""Button at: {self.x, self.y} | with dimensions: {self.w, self.h}{f" | with text: {self.text}" if self.text != '' else ''}"""

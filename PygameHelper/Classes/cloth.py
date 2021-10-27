@@ -1,28 +1,25 @@
-# MIT License
-#
-# Copyright (c) 2021 Emc2356
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-
-
 """
-a cloth object made with verlet integration
+MIT License
+
+Copyright (c) 2021 Emc2356
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 """
 
 
@@ -66,7 +63,6 @@ class Cloth:
     def __init__(self, WIN: pygame.surface.Surface, data: Dict[str, list]):
         self._data: dict = data.copy()
         self.WIN: pygame.surface.Surface = WIN
-        self.W, self.H = self.WIN.get_size()
 
         self.points: List[Point] = Point.load_list(data["points"])
         if not any([p.locked for p in self.points]):
@@ -74,67 +70,11 @@ class Cloth:
         self.connections: List[Connection] = [Connection(self.points[cn[0]], self.points[cn[1]], cn[2]) for cn in data["connections"]]
 
     def update(self, dt: Union[int, float]=1) -> None:
-        """
-        it moves the points
-        :param dt: Union[int, float]
-        :return: None
-        """
         for point in self.points:
             point.update(dt)
         for _ in range(10):
             for con in self.connections:
                 con.update(dt)
-
-    def collide(self, rects: List[pygame.Rect]) -> None:
-        raise Notimplemented("collide method for cloth object is not implemented yet.")
-        rects = [pygame.Rect(r) for r in rects]
-        for point in self.points:
-            for rect in rects:
-                r = pygame.Rect(rect.x + 1, rect.y + 1, rect.w - 2, rect.h - 2)
-                if point.locked or not r.collidepoint(*point.pos):
-                    continue
-                dx = point.pos.x - point.prev_pos.x
-                dy = point.pos.y - point.prev_pos.y
-                if dx:
-                    if dx > 0:  # right
-                        point.pos.x = rect.left
-                        point.prev_pos.x = point.pos.x + dx
-                    else:  # left
-                        point.pos.x = rect.right
-                        point.prev_pos.x = point.pos.x + dx
-                if dy:
-                    if dy > 0:  # down
-                        point.pos.y = rect.top
-                        point.prev_pos.y = point.pos.y + dy
-                    else:  # up
-                        point.pos.y = rect.bottom
-                        point.prev_pos.y = point.pos.y + dy
-                break
-        del rects
-
-    def borders(self) -> None:
-        """
-        it keeps the points inside the window that is passed when the class is initialized
-        :return: None
-        """
-        for point in self.points:
-            dx = point.pos.x - point.prev_pos.x
-            dy = point.pos.y - point.prev_pos.y
-            if point.pos.x > self.W:
-                point.pos.x = self.W
-                point.prev_pos.x = point.pos.x + dx
-
-            elif point.pos.x < 0:
-                point.pos.x = 0
-                point.prev_pos.x = point.pos.x + dx
-
-            if point.pos.y > self.H:
-                point.pos.y = self.H
-                point.prev_pos.y = point.pos.y + dy
-
-            elif point.pos.y < 0:
-                point.pos.y = 0
-                point.prev_pos.y = point.pos.y + dy
 
     def move_locked(self, pos: Union[Tuple[Union[int, float], Union[int, float]], List[Union[int, float]], pygame.math.Vector2]) -> None:
         """

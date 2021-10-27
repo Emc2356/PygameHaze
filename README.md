@@ -9,46 +9,45 @@
 ##### at this point it has the following classes:
 | Class name |
 |:----------:|
-|[Button](./Documentation/Button.md) |
-|[SimpleText](./Documentation/SimpleText.md) |
-| [MultiLineText](./Documentation/MultiLineText.md) |
-| [InputField](./Documentation/InputField.md) |
-| [InputFieldNumbers](./Documentation/InputFieldNumbers.md) |
-| [InputFieldLetters](./Documentation/InputFieldLetters.md) |
-| [Particle](./Documentation/Particle.md) |
-| [Animation](./Documentation/Animation.md) |
-| [SpriteSheet](./Documentation/SpriteSheet.md) |
-| [Font](./Documentation/Font.md) |
+|`Button` |
+|`SimpleText` |
+|`MultiLineText` |
+|`InputField` |
+|`InputFieldNumbers` |
+|`InputFieldLetters` |
+|`Particle` |
+|`Animation` |
+|`SpriteSheet` |
+|`Font` |
+|`ButtonManager` |
+|`TextManager` |
+|`ParticleManager` |
+|`AnimationManager` |
+|`InputFieldManager` |
 
-##### also, PygameHelper, offers functions::
-| Function name | description | cached |
-|:-------------:|:-----------:|:------:|
-| `load_image` | it loads an image from a given path and it performs .convert() | True |
-| `load_alpha_image` | it loads an image from a given path and it performs .convert_alpha() | True |
-| `resize_smooth_image` | wrapper for pygame.transform.smoothscale | False |
-| `resize_image` | wrapper for pygame.transform.scale | False |
-| `resize_image_ratio` | - | False |
-| `resizex` | it resizes a image in both axis by the same amount | False |
-| `left_click` | it checks for the left-click event  | False |
-| `middle_click` | it checks for the middle-click event  | False |
-| `right_click` | it checks for the right-click event  | False |
-| `get_font` | it returns a font | True |
-| `wrap_multi_lines` |  | True |
-| `blit_multiple_lines` | it blits in a surface a list of strings | False |
-| `pixel_perfect_collision` | it is a wrapper for pygame.mask.overlap and it handles the offset | False |
-| `get_distance` | it calculates the distance between two points | True |
-| `flatten` | it takes a iterable object and it flattens the object | False |
-| `get_cloth` | it returns the cloth data from a file (basically a json reader) | False |
-| `clamp` | it clamps a value between two values | False |
-| `remap` | it Re-maps a number from one range to another | False |
-| `lerp` |  Calculates a number between two numbers at a specific increment | False |
-| `quadratic_bezier` | Quadratic bezier curve (1 static, 1 control and 1 static point) | False |
-| `bezier` | it creates a bezier curve based on 4 points (1 static, 2 control points an 1 static) aka a cubic bezier | False |
-| `get_neighbors` | it returns the directly adjacent cells (it makes the assumption that it has rows of the same length) | False |
-| `get_neighbors_index` | it returns the directly adjacent cells index (it makes the assumption that it has rows of the same length) | False |
-| `pathfinding` | if finds the most efficient path from 1 point to another | False |
+##### also, PygameHelper, offers functions to help with every day use:
+| Function name | description |
+|:-------------:|:-----------:|
+| `load_image` | it loads an image and it does .convert() |
+| `load_alpha_image` | it loads an image and it does .convert_alpha() |
+| `resize_smooth_image` | wrapper for pygame.transform.smoothscale |
+| `resize_image` | wrapper for pygame.transform.scale |
+| `resize_image_ratio` | - |
+| `resizex` | it resizes a image in both axis by the same amount |
+| `left_click` | checks for left-click event the screen |
+| `middle_click` | checks for middle-click event the screen |
+| `right_click` | checks for right-click event the screen |
+| `get_font` | it returns a font |
+| `wrap_multi_lines` |  |
+| `blit_multiple_lines` | it blits in a surface a list of strings |
+| `pixel_perfect_collision` | it is a wrapper for pygame.mask.overlap and it handles the offset |
+| `get_distance` | it returns the distance between two points |
+| `flatten` | it takes a iterable object and it flattens the object |
+| `get_cloth` | it returns the cloth data from a file |
+| `map_num` | it Re-maps a number from one range to another |
+| `clamp` | it clamps a value between mini and maxi
 
-##### TODO list (at this point this is a joke lmao)
+##### TODO list 
 ~~~
 1. add a menu class
    * add a menu class for building menus
@@ -58,16 +57,15 @@
    * it will change color when the mouse is over an option
    * won't have support for multi-line text
    * the options will be instances of the button class
-3. add sliders
 ~~~
 
 # Documentation
-##### Documentation for the classes can be found in [./Documentation](./Documentation)
+##### Documentation for the classes can be found in `./Documentation`
 
 # Examples
-##### Examples of the classes and functions can be found in [./Examples](./Examples)
+##### Examples of the classes and functions can be found in `./Examples`
 
 # contributions:
 ---
-> Pull requests are welcome!  
-> Feel free to create a fork of this repository and use the code for any purpose. Credit is appreciated but not needed  
+> Pull requests are welcome!
+> Feel free to create a fork of this repository and use the code for any purpose.

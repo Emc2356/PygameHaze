@@ -17,10 +17,8 @@ from PygameHelper.Classes import Font
 from PygameHelper.Classes import Cloth
 from PygameHelper.Classes import Point
 from PygameHelper.Classes import Connection
-from PygameHelper.Classes import QuadTree
-from PygameHelper.Classes import Vector
 
-# the managers for some classes
+# the managers for the widgets/tools
 from PygameHelper.Classes import ButtonManager
 from PygameHelper.Classes import TextManager
 from PygameHelper.Classes import ParticleManager
@@ -40,8 +38,6 @@ from PygameHelper.Classes import text
 from PygameHelper.Classes import font
 from PygameHelper.Classes import spritesheet
 from PygameHelper.Classes import cloth
-from PygameHelper.Classes import quadtree
-from PygameHelper.Classes import vector
 
 # general imports that can be used by the user with general use
 # in their projects
