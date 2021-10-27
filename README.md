@@ -67,7 +67,10 @@
 # Examples
 ##### Examples of the classes and functions can be found in [./Examples](./Examples)
 
+# NOTES
+> in commit 73 I accidentally pushed everything in 1 batch, and they have wrong titles  
+
 # contributions:
 ---
 > Pull requests are welcome!  
-> Feel free to create a fork of this repository and use the code for any purpose. Credit is appreciated but not needed  
+> Feel free to create a fork of this repository and use the code for any purpose. Credit is appreciated but not needed.
