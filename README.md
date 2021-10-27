@@ -68,7 +68,7 @@
 ##### Examples of the classes and functions can be found in [./Examples](./Examples)
 
 # NOTES
-> in commit 73 I accidentally pushed everything in 1 batch, and they have wrong titles  
+> in commit 72 I accidentally pushed everything in 1 batch, and they have wrong titles  
 
 # contributions:
 ---
