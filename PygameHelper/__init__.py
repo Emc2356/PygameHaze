@@ -48,5 +48,6 @@ from PygameHelper.Classes import vector
 from PygameHelper.exceptions import PygameHelperException as error
 from PygameHelper.constants import *
 from PygameHelper.utils import *
+from PygameHelper.types import *
 
 print(f"PygameHelper {__version__}")

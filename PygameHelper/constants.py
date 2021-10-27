@@ -63,23 +63,10 @@ TWO_PI: float = math.pi * 2
 HALF_PI: float = math.pi / 2
 QUARTER_PI: float = math.pi / 4
 
-# this are some types taken from inside the pygame library about some common types or commonly needed types
-Number = Union[int, float]
-VectorType = Union[pgh.Vector, pygame.math.Vector2]
-CoordsType = Union[Tuple[Number, Number], List[Number], pygame.math.Vector2, pgh.Vector]
-ColorType = Union[pygame.Color, str, Tuple[Number, Number, Number], List[Number], int, Tuple[Number, Number, Number, Number]]
-RectType = Union[
-    pygame.Rect, Tuple[Number, Number, Number, Number], Tuple[Tuple[Number, Number], Tuple[Number, Number]],
-    List[pygame.math.Vector2], Tuple[pygame.math.Vector2, pygame.math.Vector2], Iterable[pygame.math.Vector2],
-    List[Union[pgh.Vector]], Tuple[Union[pgh.Vector], Union[pgh.Vector]], Iterable[Union[pgh.Vector]], List[Number]
-]
-
-types = [Number, VectorType, CoordsType, RectType, ColorType]
 
 __all__ = [
     "BLACK", "WHITE", "BLUE", "TRUE_BLUE", "PURPLE", "RED", "GREEN", "DK_GREEN", "ORANGE", "GREY", "DARK_GREY",
     "LIGHT_GREY", "PINK", "FLASH_GREEN", "NAVY", "GOLD", "WHITESMOKE", "TURQUOISE", "YELLOW", "CONCRETE",
     "PUMPKIN", "NICE_BLUE", "MIDNIGHT_BLUE", "CENTER", "TOPLEFT", "BOTTOMLEFT", "TOPRIGHT", "BOTTOMRIGHT", "MIDTOP",
-    "MIDLEFT", "MIDBOTTOM", "MIDRIGHT", "COLORS", "PI", "TAU", "TWO_PI", "HALF_PI", "QUARTER_PI", "Number",
-    "VectorType", "CoordsType", "ColorType", "RectType", "types"
+    "MIDLEFT", "MIDBOTTOM", "MIDRIGHT", "COLORS", "PI", "TAU", "TWO_PI", "HALF_PI", "QUARTER_PI"
 ]
