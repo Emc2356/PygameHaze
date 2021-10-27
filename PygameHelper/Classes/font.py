@@ -79,7 +79,7 @@ class Font:
         self.rendered_chars: Dict[str, pygame.surface.Surface] = {}
 
         cur_index = 0
-        sheet = self.spritesheet.get_sheet()
+        sheet = self.spritesheet.sheet
         char_width = 0
         for x in range(sheet.get_width()):
             color = sheet.get_at((x, 0))[0:3]

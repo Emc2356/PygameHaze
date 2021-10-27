@@ -26,16 +26,16 @@ a class for handling spritesheets
 """
 
 
-from typing import Tuple, List
+from PygameHelper.types import RectType, ColorType
+from typing import Tuple, List, Optional
+from functools import cached_property
 
 import pygame
-
-from PygameHelper.utils import *
 
 
 class SpriteSheet:
     """
-    Creates a button on the screen
+    a class to handle SpriteSheets
 
     Parameters:
     -----------
@@ -51,35 +51,46 @@ class SpriteSheet:
     clip([x, y, w, h], colorkey):
         it returns a image in the specified coordinates
     """
-    def __init__(self, path: str, colorkey: Tuple[int, int, int] or int=None):
-        self.sheet: pygame.surface.Surface = load_image(path)
+    def __init__(self, path: str, colorkey: ColorType=None, alpha: bool=False) -> None:
+        img = pygame.image.load(path)
+        self.sheet: pygame.surface.Surface = img.convert_alpha() if alpha else img.convert()
 
-        if colorkey is not None:
+        if colorkey is not None and not alpha:
             if colorkey == -1:
-                self.sheet.set_colorkey(self.sheet.get_at((0, 0)))
-            else:
-                self.sheet.set_colorkey(colorkey)
+                colorkey = self.sheet.get_at((0, 0))
+            self.sheet.set_colorkey(colorkey)
 
-    def get_sheet(self) -> pygame.surface.Surface:
-        return self.sheet
+    @cached_property
+    def rect(self) -> pygame.Rect:
+        return self.sheet.get_rect()
 
-    def clip(self, r: Tuple[int, int, int, int], colorkey: Tuple[int, int, int] or int=None) -> pygame.surface.Surface:
+    @cached_property
+    def size(self) -> Tuple[int, int]:
+        return self.sheet.get_size()
+
+    @cached_property
+    def w(self) -> int:
+        return self.size[0]
+
+    @cached_property
+    def h(self) -> int:
+        return self.size[1]
+
+    def clip(self, rect: RectType, colorkey: Optional[ColorType]=None) -> pygame.surface.Surface:
         """
-        Load a specific image from a specific rectangle.
-        :param r: Tuple[int, int, int, int]
-        :param colorkey: Tuple[int, int, int]
+        Load a specific image from a specified rectangle
+        :param rect: RectStyle
+        :param colorkey: ColorStyle
         :return: pygame.surface.Surface
         """
-        rect = pygame.Rect(r)
-        image = pygame.Surface(rect.size).convert()
-        image.blit(self.sheet, (0, 0), rect)
+        image = self.sheet.subsurface(pygame.Rect(rect)).copy()
         if colorkey is not None:
             if colorkey == -1:
                 colorkey = image.get_at((0, 0))
             image.set_colorkey(colorkey, pygame.RLEACCEL)
         return image
 
-    def clips(self, rects: List[Tuple[int, int, int, int]], colorkey: Tuple[int, int, int] or int=None) -> List[pygame.surface.Surface]:
+    def clips(self, rects: RectType, colorkey: Optional[ColorType]=None) -> List[pygame.surface.Surface]:
         """
         it returns a list with images
         :param rects: List[Tuple[int, int, int, int]]

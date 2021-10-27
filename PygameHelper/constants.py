@@ -2,10 +2,8 @@
 some constants and useful things
 """
 
-from typing import Tuple, List, Union, Iterable
-import PygameHelper as pgh
+from typing import Tuple, List
 
-import pygame
 import math
 
 
