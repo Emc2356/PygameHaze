@@ -11,7 +11,7 @@
 | `x` | the x position of the image | - |
 | `y` | the y position of the image | - |
 | `images` | a list of the images that are going to be used in the animations | - |
-| `frames_per_image` | how many frames one image is drawn on the screen | 5 |
+| `delay` | how many frames one image is drawn on the screen | 5 |
 | `anchor` | were the x, y is going to be placed | topleft |
 
 # Example code

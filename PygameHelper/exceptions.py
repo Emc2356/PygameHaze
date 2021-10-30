@@ -103,6 +103,29 @@ class Notimplemented(PygameHelperException):
     """
 
 
+class ShapeError(PygameHelperException):
+    """
+    this exception is raised when an
+    error from the user or from the inner code
+    occurs
+    """
+
+
+class NoLocationFound(PygameHelperException):
+    """
+    this exception is raised when the user tries
+    to pop a location with PygameHelper.utils.draw.Draw.pop
+    and ne hasn't pushed any yet
+    """
+
+
+class UnrecognisedCharacter(PygameHelperException):
+    """
+    this exception is raised when in the Font.render
+    was passed a character that is not recognised
+    """
+
+
 __all__ = [
     "TextOfOutBounds",
     "InvalidAnchor",
@@ -110,5 +133,8 @@ __all__ = [
     "WordTooLong",
     "NoLockedPoints",
     "NoConnection",
-    "Notimplemented"
+    "Notimplemented",
+    "ShapeError",
+    "NoLocationFound",
+    "UnrecognisedCharacter"
 ]

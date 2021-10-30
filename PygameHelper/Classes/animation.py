@@ -43,8 +43,8 @@ class Animation:
         the x position of the animation
     y: int
         the y position of the animation
-    frames_per_image: int
-        how many frames per sprite
+    delay: int
+        the delay between sprites
 
     Methods:
     -----------
@@ -53,12 +53,12 @@ class Animation:
     draw():
         it draws the animation
     """
-    def __init__(self, WIN: pygame.surface.Surface, x: int, y: int, images: List[pygame.surface.Surface], frames_per_image: int=5):
+    def __init__(self, WIN: pygame.surface.Surface, x: int, y: int, images: List[pygame.surface.Surface], delay: int=5):
         self.WIN: pygame.surface.Surface = WIN
         self.x: int = x
         self.y: int = y
         self.images: cycle = cycle(images)
-        self.frames_per_image: int = frames_per_image
+        self.delay: int = delay
         self.current_image: pygame.surface.Surface = next(self.images)
         self.time: int = 0
 
@@ -67,7 +67,7 @@ class Animation:
         it cycles throw the images
         :return: None
         """
-        if self.time >= self.frames_per_image:
+        if self.time >= self.delay:
             self.current_image = next(self.images)
             self.time = 0
         self.time += 1
