@@ -20,7 +20,7 @@
 | [SpriteSheet](./Documentation/SpriteSheet.md) |
 | [Font](./Documentation/Font.md) |
 
-##### also, PygameHelper, offers functions::
+##### also, PygameHelper, offers functions:
 | Function name | description | cached |
 |:-------------:|:-----------:|:------:|
 | `load_image` | it loads an image from a given path and it performs .convert() | True |
@@ -42,11 +42,32 @@
 | `clamp` | it clamps a value between two values | False |
 | `remap` | it Re-maps a number from one range to another | False |
 | `lerp` |  Calculates a number between two numbers at a specific increment | False |
-| `quadratic_bezier` | Quadratic bezier curve (1 static, 1 control and 1 static point) | False |
-| `bezier` | it creates a bezier curve based on 4 points (1 static, 2 control points an 1 static) aka a cubic bezier | False |
 | `get_neighbors` | it returns the directly adjacent cells (it makes the assumption that it has rows of the same length) | False |
 | `get_neighbors_index` | it returns the directly adjacent cells index (it makes the assumption that it has rows of the same length) | False |
 | `pathfinding` | if finds the most efficient path from 1 point to another | False |
+| `combine_rects` | it creates the smallest possible rect that contains all of the rects | False |
+
+##### some drawing utils  
+##### they are wrapping `pygame.draw` but with some extra functionality
+| Function name | description |
+|:-------------:|:-----------:|
+| `quadratic_bezier` | Quadratic bezier curve (1 static, 1 control and 1 static point) |
+| `bezier` | it creates a bezier curve based on 4 points (1 static, 2 control points an 1 static) aka a cubic bezier |
+| `push` | it saves the current draw location |
+| `translate` | it moves the current draw location |
+| `pop` | it goes to the previous draw location |
+| `beginShape` | it begins tracing the vertices |
+| `vertex` | it adds a new vertex |
+| `endShape` | it stops tracing the vertices and draw the shape |
+| `rect` | a wrapper for `pygame.draw.rect` but it takes advantage of the position from translate |
+| `polygon` | a wrapper for `pygame.draw.polygon` but it takes advantage of the position from translate |
+| `circle` | a wrapper for `pygame.draw.circle` but it takes advantage of the position from translate |
+| `ellipse` | a wrapper for `pygame.draw.ellipse` but it takes advantage of the position from translate |
+| `arc` | a wrapper for `pygame.draw.arc` but it takes advantage of the position from translate |
+| `line` | a wrapper for `pygame.draw.line` but it takes advantage of the position from translate |
+| `lines` | a wrapper for `pygame.draw.lines` but it takes advantage of the position from translate |
+| `aaline` | a wrapper for `pygame.draw.aaline` but it takes advantage of the position from translate |
+| `aalines` | a wrapper for `pygame.draw.aalines` but it takes advantage of the position from translate |
 
 ##### TODO list (at this point this is a joke lmao)
 ~~~

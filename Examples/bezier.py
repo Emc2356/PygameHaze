@@ -15,16 +15,13 @@ while True:
             pygame.quit()
             quit(-1)
 
-    points = pgh.bezier((0, 250), pygame.mouse.get_pos(), (350, 350), (500, 250), 0.03)
-    # points = pgh.quadratic_bezier((0, 250), pygame.mouse.get_pos(), (500, 250), 0.03)
-
     WIN.fill(pgh.DARK_GREY)
 
-    pygame.draw.circle(WIN, pgh.RED, (0, 250), 3)
-    pygame.draw.circle(WIN, pgh.GREEN, pygame.mouse.get_pos(), 3)
-    pygame.draw.circle(WIN, pgh.GREEN, (350, 350), 3)
-    pygame.draw.circle(WIN, pgh.RED, (500, 250), 3)
+    pgh.draw.circle(WIN, pgh.RED, (0, 250), 3)
+    pgh.draw.circle(WIN, pgh.GREEN, pygame.mouse.get_pos(), 3)
+    pgh.draw.circle(WIN, pgh.GREEN, (350, 350), 3)
+    pgh.draw.circle(WIN, pgh.RED, (500, 250), 3)
 
-    pygame.draw.lines(WIN, pgh.WHITE, False, points, 1)
-
+    pgh.draw.bezier(WIN, (0, 250), pygame.mouse.get_pos(), (350, 350), (500, 250), 0.03, pgh.WHITE, 3)
+    # pgh.quadratic_bezier(WIN, (0, 250), pygame.mouse.get_pos(), (500, 250), 0.03, pgh.WHITE, 3)
     pygame.display.update()

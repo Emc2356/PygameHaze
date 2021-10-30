@@ -35,7 +35,6 @@ path = []
 
 while True:
     clock.tick(fps)
-    print(clock.get_fps())
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             pygame.quit()
@@ -47,7 +46,7 @@ while True:
                 start = None
                 grid = [[0 for _ in range(rows)] for _ in range(columns)]
             elif event.key == pygame.K_SPACE and end is not None and start is not None:
-                path = pgh.pathfinding(grid, start, end, algorithm="A*")  # the algorithm is optional and bfs not ready yet
+                path = pgh.pathfinding(grid, start, end, algorithm="A*")  # the algorithm is optional (bfs slower for larger maps)
 
     mouse_pressed = pygame.mouse.get_pressed(3)
     mpos = pgh.Vector(pygame.mouse.get_pos())
