@@ -39,14 +39,10 @@ while True:
     dt *= FPS
     last_time = time.time()
 
-    particles.shrink(dt)  # it shrinks the particles
-    particles.delete_particles()  # it deletes particles that have a size smaller than 0
-    particles.collide_rects(rects, dt)  # call this method to do collisions with rects
-    particles.move(dt)  # call this method to move the particles
-    particles.activate_gravity(dt)  # call this method so the particles slowly go down the dt is optional
+    particles.update(dt, rects)
 
     if pygame.mouse.get_pressed(3)[0]:
-        for _ in range(5):        # unpack the mouse location
+        for _ in range(50):
             particles.add_particle(*pygame.mouse.get_pos(), random.uniform(-3, 3), random.uniform(-3, 3), random.uniform(0.1, 0.3), random.randrange(7, 10), (255, 255, 255), 5, 0.1)
 
     for event in pygame.event.get():

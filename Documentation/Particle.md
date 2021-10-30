@@ -23,12 +23,8 @@
 | Name | Description | Arguments |
 |:----:|:-----------:|:---------:|
 | `draw` | it draws the particle | - |
-| `shrink` | it makes the particle smaller per call | dt |
-| `activate_gravity` | it makes the particle be effected by gravity | dt |
-| `move` | it moves the particle | dt |
-| `update_rect` | it updates the rect of the particle automatically called by (shrink, activate_gravity, collide_with_rects) | - |
+| `update` | it shrinks, apply gravity, moves and collide with rects | dt: float=1, rects: List[pygame.Rect]=[] |
 | `randomize_vel` | it randomizes the velocities of the of the particle | limit_x[the smallest vel allowed, the biggest vel allowed], limit_y[the smallest vel allowed, the biggest vel allowed], dt |
-| `collide_with_rects` | it makes the particle collide with pygame rects and if a collision is triggered it will change directions | rects, dt |
 
 # Example code
 ```python

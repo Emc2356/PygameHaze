@@ -378,20 +378,8 @@ class ParticleManager(_BaseManager):
     -----------
     draw():
         it draws the particles on the screen
-    shrink():
-        it shrinks the particles
-    delete_particles():
-        it deletes particles that have a size smaller than 0
-    collide_rects(pygame_rects, DeltaTime):
-        it checks for collisions with pygame rects
-    update_rects():
-        it updates the rects
-    randomize_vels():
-        it it randomizes the velocities of the particles (why did i even made this smh)
-    move(DeltaTime=1):
-        it moves the particle
-    activate_gravity(DeltaTime=1):
-        it applies the gravity to the particles
+    update(dt: float=1, rects=[]):
+        it shrinks, apply gravity, move and collide with rects
     get_particles():
         it returns a list of the particles
     add_particle(x, y, vel_x, vel_y, shrink_amount, size, color, collision_tolerance, gravity):
@@ -402,29 +390,11 @@ class ParticleManager(_BaseManager):
         self.__items: List[Particle] = []
 
     def draw(self) -> None:
-        [text.draw() for text in self.__items]
+        [particle.draw(self.WIN) for particle in self.__items]
 
-    def shrink(self, dt: float=1) -> None:
-        [text.shrink(dt) for text in self.__items]
-
-    def delete_particles(self) -> None:
-        new_particles = [particle for particle in self.__items if particle.size > 0]
-        self.__items = new_particles
-
-    def collide_rects(self, rects: List[pygame.Rect], dt: float=1) -> None:
-        [particle.collide_with_rects(rects, dt) for particle in self.__items]
-
-    def update_rects(self) -> None:
-        [particle.update_rect() for particle in self.__items]
-
-    def randomize_vels(self, limit_x: Tuple[float, float], limit_y: Tuple[float, float]) -> None:
-        [particle.randomize_vel(limit_x, limit_y) for particle in self.__items]
-
-    def move(self, dt: float=1) -> None:
-        [particle.move(dt) for particle in self.__items]
-
-    def activate_gravity(self, dt: float=1) -> None:
-        [particle.activate_gravity(dt) for particle in self.__items]
+    def update(self, dt: float=1, rects: list[pygame.Rect]=[]) -> None:
+        [particle.update(dt, rects) for particle in self.__items]
+        self.__items = [particle for particle in self.__items if particle.size > 0]
 
     def get_particles(self) -> List[Particle]:
         return self.__items
@@ -439,7 +409,7 @@ class ParticleManager(_BaseManager):
                      color: Tuple[int, int, int] = (255, 255, 255),
                      collision_tolerance: float = 10,
                      gravity: float = 0.1) -> None:
-        self.__items.append(Particle(self.WIN, x, y, vel_x, vel_y, shrink_amount, size, color, collision_tolerance, gravity))
+        self.__items.append(Particle(x, y, vel_x, vel_y, shrink_amount, size, color, collision_tolerance, gravity))
 
     def __getitem__(self, item) -> Particle:
         return self.__items[item]
