@@ -13,8 +13,8 @@ pygame.display.set_caption("MultiLineText")
 
 text = pgh.MultiLineText(
     WIN,                                    # WIN
-    250,                                    # x
-    250,                                    # y
+    50,                                     # x
+    50,                                     # y
     f"Hello Word\nBey World",               # text
     pgh.RED,                                # color
     anchor=pgh.CENTER,                      # anchor

@@ -226,12 +226,12 @@ class InputField:
         if self.focused:
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_BACKSPACE:
+                if event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
                     self.delete_mode = True
                 else:
                     self.write(event.unicode)
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_BACKSPACE:
+                if event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
                     self.delete_mode = False
 
         if self.delete_mode:
@@ -310,10 +310,10 @@ class InputFieldNumbers(InputField):
             if event.type == pygame.KEYDOWN:
                 if event.unicode.isdigit():
                     self.write(event.unicode)
-                elif event.key == pygame.K_BACKSPACE:
+                elif event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
                     self.delete_mode = True
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_BACKSPACE:
+                if event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
                     self.delete_mode = False
 
         if self.delete_mode:
@@ -390,7 +390,7 @@ class InputFieldLetters(InputField):
                 self.focused = False
         if self.focused:
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_BACKSPACE:
+                if event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
                     self.delete_mode = True
                 elif str(event.unicode).startswith("\t") or str(event.unicode).startswith("\r"):
                     pass

@@ -90,7 +90,7 @@ class Vector:
     limit(maxV: Union[int, flaot]):
         it limits the magnitude of the Vector
     rotate(angle: Union[int, float]):
-        it rotates the vector
+        it rotates the vector in degrees or radians
     @property
     heading
         it calculate the angle of rotation for the vector
@@ -390,13 +390,15 @@ class Vector:
             self.div(math.sqrt(mSq)).mul(maxV)
         return self
 
-    def rotate(self, angle: Union[int, float]) -> "Vector":
+    def rotate(self, angle: Union[int, float], degrees: bool=True) -> "Vector":
         """
-        it rotates the vector
+        it rotates the vector in degrees or radians
         :param angle: Union[int, float]
+        :param degrees: bool=True
         :return: Vector
         """
         m = self.mag
+        if degrees: angle = math.radians(angle)
         self.x = m * math.cos(angle)
         self.y = m * math.sin(angle)
         return self
