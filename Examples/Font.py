@@ -18,15 +18,17 @@ font = pgh.Font(
 )
 
 while True:
-    rendered_text = font.render(
-        f"hello\n this is another test just for testing!! multi-line wrapping also supported.\n Also i know the actual font sucks not gud at drawing",
-        max_width=400
-    )
     for event in pygame.event.get():
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             pygame.quit()
             quit(-1)
 
     WIN.fill((30, 30, 30))
-    WIN.blit(rendered_text, (50, 50))
+    font.render_to(
+        WIN,
+        50,
+        50,
+        f"hello\n this is another test just for testing!! multi-line wrapping also supported.\n Also i know the actual font sucks not gud at drawing",
+        max_width=400
+    )
     pygame.display.update()
