@@ -62,7 +62,7 @@ def clamp(value: Number, mini: Number, maxi: Number) -> Number:
 
 @lru_cache()
 def remap(
-        n: Number, start1: Number, stop1: Number, start2: Number, stop2: Number, within_bounds: bool = False
+        n: Number, start1: Number, stop1: Number, start2: Number, stop2: Number, within_bounds: bool=False
 ) -> float:
     """
     it Re-maps a number from one range to another (nothing to do with regex it is just the name)
@@ -71,7 +71,7 @@ def remap(
     :param stop1: Union[int, float]
     :param start2: Union[int, float]
     :param stop2: Union[int, float]
-    :param within_bounds: bool
+    :param within_bounds: bool=False
     :return: Union[int, float]
     """
     v = ((n - start1) / (stop1 - start1)) * (stop2 - start2) + start2

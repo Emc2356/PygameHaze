@@ -21,8 +21,7 @@ grid = [[0 for _ in range(rows)] for _ in range(columns)]
 grid_surface = pygame.surface.Surface(WIN.get_size())
 grid_surface.fill(pgh.WHITE)
 
-for i in range(columns): pygame.draw.line(grid_surface, pgh.BLACK, (i * w, 0), (i * w, H), 1)
-for j in range(rows): pygame.draw.line(grid_surface, pgh.BLACK, (0, j * h), (W, j * h), 1)
+for i in range(columns): pygame.draw.line(grid_surface, pgh.BLACK, (i * w, 0), (i * w, H), 1);pygame.draw.line(grid_surface, pgh.BLACK, (0, i * h), (W, i * h), 1)
 
 
 start = None
@@ -46,7 +45,7 @@ while True:
                 start = None
                 grid = [[0 for _ in range(rows)] for _ in range(columns)]
             elif event.key == pygame.K_SPACE and end is not None and start is not None:
-                path = pgh.pathfinding(grid, start, end, algorithm="A*")  # the algorithm is optional (bfs slower for larger maps)
+                path = pgh.pathfinding(grid, start, end)  # it uses A* to find the optimal path
 
     mouse_pressed = pygame.mouse.get_pressed(3)
     mpos = pgh.Vector(pygame.mouse.get_pos())
@@ -83,7 +82,7 @@ while True:
 
     if path:
         for i, j in path:
-            pygame.draw.rect(WIN, (0, 0, 255), (j*w + 1, i*h + 1, w - 1, h - 1))
+            pygame.draw.rect(WIN, (0, 0, 255), [j*w + 1, i*h + 1, w - 1, h - 1])
             time.sleep(0.125)
             pygame.display.update()
             for event in pygame.event.get():
@@ -97,7 +96,7 @@ while True:
                         start = None
                         grid = [[0 for _ in range(rows)] for _ in range(columns)]
                         break
-            else: continue
+            else: continue  # this else statement is triggered when the for loop doesnt hit a break statement
             break
 
     pygame.display.update()

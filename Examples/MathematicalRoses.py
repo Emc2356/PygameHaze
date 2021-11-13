@@ -1,0 +1,60 @@
+from math import sin, cos, radians
+import PygameHelper as pgh
+import pygame
+import time
+import sys
+
+
+class Game:
+    def __init__(self):
+        self.W: int = 750
+        self.H: int = 750
+        self.WIN: pygame.surface.Surface = pygame.display.set_mode((self.W, self.H))
+
+        self.running: bool = True
+        self.clock: pygame.time.Clock = pygame.time.Clock()
+        self.FPS: int = 60
+
+        # values taken from https://en.wikipedia.org/wiki/Maurer_rose
+        self.n: int = 6
+        self.d: int = 71
+
+        self.max_rad: int = 250
+        self.breath = lambda: pgh.remap(sin(time.time()), 0, 1, -10, 10)
+        # self.breath = lambda: 0  # uncomment this if you dont want the brething in the rose
+
+        # transfer the 0, 0 of the screen to the center (at least how PygameHelper sees it)
+        pgh.translate(self.W//2, self.H//2)
+
+        pygame.display.set_caption("Maurer Rose aka mathematical roses")
+
+    def event_handler(self) -> None:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                pygame.quit()
+                sys.exit()
+
+    def draw(self) -> None:
+        self.WIN.fill(pgh.BLACK)
+        pgh.beginShape(self.WIN)
+        for i in range(360):
+            k = radians(i * self.d)
+            r = self.max_rad * sin(self.n*k) + self.breath()
+            pgh.vertex(r * cos(k), r * sin(k))
+        pgh.endShape(fill=False, color=pgh.WHITE, closed=True, width=1)
+        pygame.display.update()
+
+    def run(self) -> None:
+        while self.running:
+            self.clock.tick(self.FPS)
+            self.event_handler()
+            self.draw()
+
+
+def run():
+    game = Game()
+    game.run()
+
+
+if __name__ == '__main__':
+    run()
