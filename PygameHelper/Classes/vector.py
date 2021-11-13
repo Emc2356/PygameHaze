@@ -26,16 +26,16 @@ a Vector like pygame.math.Vector2 but with some extra functionality (i think so)
 """
 
 
-from typing import List, Tuple, Union, Optional, Iterable, overload as TpOverload, Sequence
+from typing import List, Tuple, Union, Optional, Iterable, Iterator, overload as TpOverload, Sequence
 
 import pygame
 import random
 import math
 
 
-_MISSING = object()
-NumTyp = Union[int, float]
+Number = Union[int, float]
 NumTup = (int, float)
+Vectors = Union["Vector", pygame.math.Vector2]
 
 
 class Vector:
@@ -51,19 +51,19 @@ class Vector:
 
     Methods:
     -----------
-    add(x: Optional[Union[float, pygame.math.Vector2, Vector, Tuple[float, float], List[float]]], y: Optional[float]=_MISSING):
+    add(x: Optional[Union[float, pygame.math.Vector2, Vector, Tuple[float, float], List[float]]], y: Optional[float]=None):
         it adds a value to the Vector
-    sub(x: Optional[Union[float, pygame.math.Vector2, Vector, Tuple[float, float], List[float]]], y: Optional[float]=_MISSING):
+    sub(x: Optional[Union[float, pygame.math.Vector2, Vector, Tuple[float, float], List[float]]], y: Optional[float]=None):
         it subtracts a value to the Vector
-    mul(x: Optional[Union[float, pygame.math.Vector2, Vector, Tuple[float, float], List[float]]], y: Optional[float]=_MISSING):
+    mul(x: Optional[Union[float, pygame.math.Vector2, Vector, Tuple[float, float], List[float]]], y: Optional[float]=None):
         it multiplies a value to the Vector
-    div(x: Optional[Union[float, pygame.math.Vector2, Vector, Tuple[float, float], List[float]]], y: Optional[float]=_MISSING):
+    div(x: Optional[Union[float, pygame.math.Vector2, Vector, Tuple[float, float], List[float]]], y: Optional[float]=None):
         it divides a value to the Vector
-    dot(x: Optional[Union[float, pygame.math.Vector2, Vector, Tuple[float, float], List[float]]], y: Optional[float]=_MISSING):
+    dot(x: Optional[Union[float, pygame.math.Vector2, Vector, Tuple[float, float], List[float]]], y: Optional[float]=None):
         it calculates the dot product of two vectors
-    cross(x: Optional[Union[float, pygame.math.Vector2, Vector, Tuple[float, float], List[float]]], y: Optional[float]=_MISSING):
+    cross(x: Optional[Union[float, pygame.math.Vector2, Vector, Tuple[float, float], List[float]]], y: Optional[float]=None):
         it returns the z value of the cross product from 2 Vectors
-    lerp(x: Optional[Union[float, pygame.math.Vector2, Vector, Tuple[float, float], List[float]]], y: Optional[float]=_MISSING):
+    lerp(x: Optional[Union[float, pygame.math.Vector2, Vector, Tuple[float, float], List[float]]], y: Optional[float]=None):
         linear interpolate between 2 Vectors
     distance(target: Union[pygame.math.Vector2, Vector, Tuple[Union[int, float], Union[int, float]], List[Union[int, float]]]):
         it calculates the Euclidean distance between two Vectors
@@ -71,6 +71,8 @@ class Vector:
         it returns a copy of the vector
     tostring():
         it turns a Vector into string form
+    topygame():
+        it returns a pygame.Vector2 with the current coordinates
     @staticmethod
     fromstring(string: str):
         it returns a Vector from a string
@@ -90,39 +92,47 @@ class Vector:
     limit(maxV: Union[int, flaot]):
         it limits the magnitude of the Vector
     rotate(angle: Union[int, float]):
-        it rotates the vector in degrees or radians
+        it rotates the vector in radians
     @property
     heading
         it calculate the angle of rotation for the vector
     @heading.setter
     heading = angle
-        it sets the heading of the Vector (in degrees)
-    from_angle(angle: Union[int, float], length: Union[int, float]=1, degrees=True):
-        it makes a Vector from a given angle in degrees or radians
+        it sets the heading of the Vector
+    from_angle(angle: Union[int, float], length: Union[int, float]=1):
+        it makes a Vector from a given angle in radians
     @staticmethod
     random(length: Union[int, float]=1):
         it creates a random vector
     @staticmethod
-    from_polar(r: Union[int, float], theta: Union[int, float], degrees=True):
+    from_polar(r: Union[int, float], theta: Union[int, float]):
         it creates a Vector from polar coordinates
-    polar(r: Union[int, float], theta: Union[int, float], degrees=True):
+    polar(r: Union[int, float], theta: Union[int, float]):
         it sets the Vectors coordinates based on polar coordinates
     """
     __slots__ = "x", "y"
 
     def __init__(
             self,
-            x: Optional[Union[NumTyp, pygame.math.Vector2, "Vector", Tuple[NumTyp, NumTyp], List[NumTyp]]]=0,
-            y: Optional[NumTyp]=0,
+            x: Optional[Union[Number, pygame.math.Vector2, "Vector", Tuple[Number, Number], List[Number]]]=0,
+            y: Optional[Number]=0,
     ) -> None:
-        if not isinstance(x, (int, float)): x, y = x
-        self.x: float = 0 if x is None else x
-        self.y: float = 0 if y is None else y
+        if not isinstance(x, (int, float)):
+            x, y = x[0], x[1]
+        self.x: float = x or 0
+        self.y: float = y or 0
+
+    def topygame(self) -> pygame.math.Vector2:
+        """
+        it returns a pygame.Vector2 with the current coordinates
+        :return: pygame.math.Vector2
+        """
+        return pygame.math.Vector2(*self)
 
     def add(
             self,
             x: Union[float, pygame.math.Vector2, "Vector", Tuple[float, float], List[float]],
-            y: Optional[float]=_MISSING,
+            y: Optional[float]=None,
     ) -> "Vector":
         """
         it adds a value to the Vector
@@ -130,9 +140,9 @@ class Vector:
         :param y: Optional[float]=0
         :return: Vector
         """
-        if y is _MISSING or y is None:
+        if y is None or y is None:
             if not isinstance(x, (int, float)):
-                x, y = x
+                x, y = x[0], x[1]
             else:
                 y = x
         self.x += x
@@ -142,7 +152,7 @@ class Vector:
     def sub(
             self,
             x: Union[float, pygame.math.Vector2, "Vector", Tuple[float, float], List[float]],
-            y: Optional[float]=_MISSING,
+            y: Optional[float]=None,
     ) -> "Vector":
         """
         it subtracts a value to the Vector
@@ -150,9 +160,9 @@ class Vector:
         :param y: Optional[float]=0
         :return: Vector
         """
-        if y is _MISSING or y is None:
+        if y is None or y is None:
             if not isinstance(x, (int, float)):
-                x, y = x
+                x, y = x[0], x[1]
             else:
                 y = x
         self.x -= x
@@ -162,7 +172,7 @@ class Vector:
     def mul(
             self,
             x: Union[float, pygame.math.Vector2, "Vector", Tuple[float, float], List[float]],
-            y: Optional[float]=_MISSING,
+            y: Optional[float]=None,
     ) -> "Vector":
         """
         it multiplies a value to the Vector
@@ -189,7 +199,7 @@ class Vector:
             else:
                 raise TypeError("PygameHelper Vector mul method needs a finite number")
         args = [x]
-        if y is not _MISSING: args.append(y)
+        if y is not None or y is not None: args.append(y)
         if all([isinstance(el, (int, float)) and math.isfinite(el) for el in args]):
             if len(args) == 1:
                 self.x *= args[0]
@@ -204,7 +214,7 @@ class Vector:
     def div(
             self,
             x: Union[float, pygame.math.Vector2, "Vector", Tuple[float, float], List[float]],
-            y: Optional[float]=_MISSING,
+            y: Optional[float]=None,
     ) -> "Vector":
         """
         it divides a value to the Vector
@@ -235,7 +245,7 @@ class Vector:
             else:
                 raise TypeError("PygameHelper Vector div method needs a finite number")
         args = [x]
-        if y is not _MISSING: args.append(y)
+        if y is not None: args.append(y)
         if all([isinstance(el, (int, float)) and math.isfinite(el) for el in args]):
             if any([el == 0 for el in args]):
                 raise ZeroDivisionError("PygameHelper Vector div method cant accept 0")
@@ -252,7 +262,7 @@ class Vector:
     def dot(
             self,
             x: Union[float, pygame.math.Vector2, "Vector", Tuple[float, float], List[float]],
-            y: Optional[Union[int, float]]=_MISSING
+            y: Optional[Union[int, float]]=None
     ) -> float:
         """
         it calculates the dot product of two vectors
@@ -260,43 +270,51 @@ class Vector:
         :param y: Optional[Union[int, float]]
         :return: float
         """
-        if y is _MISSING or y is None:
+        if y is None or y is None:
             return self.dot(x[0], x[1])
         return self.x * x + self.y + y
 
     def cross(
             self,
             x: Union[float, pygame.math.Vector2, "Vector", Tuple[float, float], List[float]],
-            y: Optional[Union[int, float]]=_MISSING
+            y: Optional[Union[int, float]]=None
     ) -> float:
         """
         it returns the z value of the cross product from 2 Vectors
+        :param x: Union[float, pygame.math.Vector2, "Vector", Tuple[float, float], List[float]]
+        :param y: Optional[Union[int, float]]=None
         :return: float
         """
-        if y is _MISSING or y is None:
-            return self.cross(x[0], x[1])
+        if y is None:
+            if isinstance(x, (int, float)):
+                self.x = x
+            elif "__getitem__" in dir(x):
+                x, y = x[0], x[1]
+            else:
+                raise TypeError("x expected types[int, float, tuple, list, Vector, pygame.Vector2] got {}".format(type(x)))
         return self.x * y - self.y * x
 
     def lerp(
             self,
             x: Union[float, pygame.math.Vector2, "Vector", Tuple[float, float], List[float]],
-            y: Optional[Union[int, float]]=_MISSING,
+            y: Optional[Union[int, float]]=None,
             percent: float=0.5
     ) -> "Vector":
         """
         linear interpolate between 2 Vectors
         :param x: Optional[Union[float, pygame.math.Vector2, Vector, Tuple[float, float], List[float]]],
-        :param y: Optional[Union[int, float]]=_MISSING,
+        :param y: Optional[Union[int, float]]=None,
         :param percent: 0 <= float >= 1
         :return: Vector
         """
-        if percent > 1 or percent < 0:
-            if percent > 1:
-                raise ValueError(f"percent in lerp method is bigger than 1")
-            if percent < 0:
-                raise ValueError(f"percent in lerp method is smaller than 0")
-        if y is _MISSING or y is None:
-            return self.lerp(x[0], x[1], percent)
+        percent = min(max(percent, 0), 1)
+        if y is None:
+            if isinstance(x, (int, float)):
+                self.x = x
+            elif "__getitem__" in dir(x):
+                x, y = x[0], x[1]
+            else:
+                raise TypeError("x expected types[int, float, tuple, list, Vector, pygame.Vector2] got {}".format(type(x)))
         self.x += (x - self.x) * percent
         self.y += (y - self.y) * percent
 
@@ -304,7 +322,7 @@ class Vector:
 
     def distance(
             self,
-            target: Union[pygame.math.Vector2, "Vector", Tuple[Union[int, float], Union[int, float]], List[Union[int, float]]]
+            target: Union[pygame.math.Vector2, "Vector", Tuple[Number, Number], List[Number]]
     ) -> float:
         """
         it calculates the Euclidean distance between two Vectors
@@ -390,15 +408,13 @@ class Vector:
             self.div(math.sqrt(mSq)).mul(maxV)
         return self
 
-    def rotate(self, angle: Union[int, float], degrees: bool=True) -> "Vector":
+    def rotate(self, angle: Union[int, float]) -> "Vector":
         """
-        it rotates the vector in degrees or radians
+        it rotates the vector in radians
         :param angle: Union[int, float]
-        :param degrees: bool=True
         :return: Vector
         """
         m = self.mag
-        if degrees: angle = math.radians(angle)
         self.x = m * math.cos(angle)
         self.y = m * math.sin(angle)
         return self
@@ -409,7 +425,7 @@ class Vector:
         it calculate the angle of rotation for the vector
         :return: float
         """
-        return math.degrees(math.atan2(self.y, self.x))
+        return math.atan2(self.y, self.x)
 
     @heading.setter
     def heading(self, angle: float) -> None:
@@ -418,107 +434,98 @@ class Vector:
         self.y = mag * math.sin(math.radians(angle))
 
     @staticmethod
-    def from_angle(angle: Union[int, float], length: Union[int, float]=1, degrees=True) -> "Vector":
+    def from_angle(angle: Union[int, float], length: Union[int, float]=1) -> "Vector":
         """
-        it makes a Vector from a given angle in degrees or radians
+        it makes a Vector from a given angle in radians
         :param angle: Union[int, float]
         :param length: Union[int, float]
-        :param degrees: True
         :return: Vector
         """
-        if degrees:
-            return Vector(length * math.cos(math.radians(angle)), length * math.sin(math.radians(angle)))
         return Vector(length * math.cos(angle), length * math.sin(angle))
 
     @staticmethod
     def random(length: Union[int, float]=1) -> "Vector":
         """
         it creates a random vector
-        :param length: Union[int, float]
+        :param length: Union[int, float]=1
         :return: Vector
         """
         return Vector.from_angle(random.random() * math.pi*2, length)
 
     @staticmethod
     def from_polar(
-            r: Union[int, float, List[NumTyp], Tuple[NumTyp], Sequence],
-            theta: Optional[NumTyp]=_MISSING,
-            degrees=True
+            r: Union[int, float, List[Number], Tuple[Number], Sequence],
+            theta: Optional[Number]=None
     ) -> "Vector":
         """
         it generates a Vector from polar coordinates
-        :param r: Union[int, float, List[NumTyp], Tuple[NumTyp], Sequence]
-        :param theta: Optional[NumTyp]=None
-        :param degrees: bool
+        :param r: Union[int, float, List[Number], Tuple[Number], Sequence]
+        :param theta: Optional[Number]=None
         :return: Vector
         """
-        if theta is _MISSING or theta is None:
+        if theta is None:
             if isinstance(r, NumTup): raise TypeError(
                 (f"theta is undefined and r isn't a Sequence of numbers |"
-                 f" 'r' expected List or Tuple or Sequence but got '{type(r)}'")
+                 f" 'r' expected List or Tuple or Sequence but got {type(r)}")
             )
             r, theta, *_ = r
-        if degrees:
-            return Vector(r * math.cos(math.radians(theta)), r * math.sin(math.radians(theta)))
         return Vector(r * math.cos(theta), r * math.sin(theta))
 
-    def polar(self, r: Union[int, float], theta: Union[int, float], degrees=True) -> "Vector":
+    def polar(self, r: Union[int, float], theta: Union[int, float]) -> "Vector":
         """
         it sets the Vectors coordinates based on polar coordinates
         :param r: Union[int, float]
         :param theta: Union[int, float]
-        :param degrees: bool
         :return: Vector
         """
-        if degrees:
-            theta = math.radians(theta)
         self.x = r * math.cos(theta)
         self.y = r * math.sin(theta)
         return self
 
-    def as_polar(self, degrees=True) -> Tuple[float, float]:
+    def as_polar(self) -> Tuple[float, float]:
         """
         it returns a tuple with the polar coordinate representation of this Vector
-        :param degrees: bool=True
         :return: Tuple[int, int]
         """
         h = self.mag
-        return h, math.degrees(math.asin(self.y/h)) if degrees else math.asin(self.y/h)
+        return h, math.asin(self.y/h)
 
     def update(
             self,
-            x: Union[float, pygame.math.Vector2, "Vector", Tuple[float, float], List[float]],
-            y: Optional[float]=_MISSING,
+            x: Union[Number, Vectors, Tuple[Number, Number], List[Number], Iterable[Number]],
+            y: Optional[Number]=None,
     ) -> "Vector":
-        if y is _MISSING or y is None:
-            if not isinstance(x, (int, float)):
-                self.update(x[0], x[1])
-            else:
+        if y is None:
+            if isinstance(x, (int, float)):
                 self.x = x
-        else:
-            if isinstance(y, (int, float)):
-                if isinstance(x, (int, float)):
-                    self.x = x
-                    self.y = y
-                else:
-                    raise TypeError(f"x was expected to be an int or a float but got '{type(x)}'")
+            elif "__getitem__" in dir(x):
+                x, y = x[0], x[1]
             else:
-                raise TypeError(f"y was expected to be an int or a float but got '{type(x)}'")
+                raise TypeError("x expected types[int, float, tuple, list, Vector, pygame.Vector2] got {}".format(type(x)))
+        self.x = x or 0
+        self.y = (y or 0) if y is not None else self.y
         return self
 
     @TpOverload
-    def __getitem__(self, index: int) -> int: ...
+    def __getitem__(self, index: int) -> Number: ...
 
     @TpOverload
-    def __getitem__(self, index: slice) -> List[int]: ...
+    def __getitem__(self, index: slice) -> List[Number]: ...
 
-    def __getitem__(self, index: Union[int, slice]) -> Union[float, List[float]]:
-        return [self.x, self.y][index]
+    def __getitem__(self, index: Union[int, slice]) -> Union[Number, List[Number]]:
+        if index not in {0, 1}:
+            if isinstance(index, int):
+                raise ValueError("index={} is not a valid index".format(index))
+            else:
+                raise TypeError("{} object cannot be interpreted as an integer".format(
+                    str(type(index)).split("<class ")[1].replace(">", ""))
+                )
+        return self.x if index == 0 else self.y
 
     def __len__(self) -> int:
         return 2
 
-    def __iter__(self) -> Iterable:
+    def __iter__(self) -> Iterator:
         return iter([self.x, self.y])
 
     def __eq__(self, other: "Vector") -> bool:
