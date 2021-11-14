@@ -219,7 +219,7 @@ class Draw:
             fill: Optional[Union[int, bool]]=None,
             color: ColorType=(255, 255, 255),
             width: int=1,
-            outline: Optional[int]=None,
+            outline: Optional[int]=0,
             outline_color: ColorType=BLACK
     ) -> pygame.Rect:
         """
@@ -228,7 +228,7 @@ class Draw:
         :param fill: Optional[Union[int, bool]]=None
         :param color: ColorType=(255, 255, 255)
         :param width: int=1
-        :param outline: Optional[int]=None
+        :param outline: Optional[int]=0
         :param outline_color: Optional[ColorType]
         :return: pygame.Rect
         """
@@ -237,16 +237,17 @@ class Draw:
         if fill:
             xx = sorted([v[0] for v in _SO.vertexes_list[~0]])
             yy = sorted([v[1] for v in _SO.vertexes_list[~0]])
-            w = int(xx[~0])
-            h = int(xx[~0])
-            min_x = int(yy[0])
-            min_y = int(yy[0])
-            print(min_x, w, min_y, h)
+            min_x = xx[0]
+            max_x = xx[~0]
+            min_y = yy[0]
+            max_y = yy[~0]
+            w = int(max_x - min_x)
+            h = int(max_y - min_y)
             surf = pygame.surface.Surface((w, h))
-            if color[0] >= 255: surf.fill((244, color[1], color[2])); surf.set_colorkey((244, color[1], color[2]))
-            else: surf.fill((color[0]+1, color[1], color[2])); surf.set_colorkey((color[0]+1, color[1], color[2]))
-            polygon(surf, color, _SO.vertexes_list[~0])
-            r = _SO.surfaces[~0].blit(surf, (min_x + _SO.loc_00.x, min_y + _SO.loc_00.y))
+            if color[0] >= 255: surf.fill((0, color[1], color[2])); surf.set_colorkey((0, color[1], color[2]))
+            else: surf.fill((255, color[1], color[2])); surf.set_colorkey((255, color[1], color[2]))
+            pygame.draw.polygon(surf, color, [(p[0] + abs(min_x), p[1] + abs(min_y)) for p in _SO.vertexes_list[~0]])
+            r = _SO.surfaces[~0].blit(surf, (_SO.loc_00.x, _SO.loc_00.y))
         else:
             r = lines(_SO.surfaces[~0], color, closed, _SO.vertexes_list[~0], width)
         if outline: lines(_SO.surfaces[~0], outline_color, closed, _SO.vertexes_list[~0], outline)

@@ -21,7 +21,7 @@ class Game:
 
         self.max_rad: int = 250
         self.breath = lambda: pgh.remap(sin(time.time()), 0, 1, -10, 10)
-        # self.breath = lambda: 0  # uncomment this if you dont want the brething in the rose
+        # self.breath = lambda: 0  # uncomment this if you don't want the breathing in the rose
 
         # transfer the 0, 0 of the screen to the center (at least how PygameHelper sees it)
         pgh.translate(self.W//2, self.H//2)
