@@ -20,7 +20,7 @@ class Game:
         self.d: int = 71
 
         self.max_rad: int = 250
-        self.breath = lambda: pgh.remap(sin(time.time()), 0, 1, -10, 10)
+        self.breath = lambda: pgh.remap(sin(time.time()), -1, 1, -20, 20)
         # self.breath = lambda: 0  # uncomment this if you don't want the breathing in the rose
 
         # transfer the 0, 0 of the screen to the center (at least how PygameHelper sees it)
@@ -37,9 +37,10 @@ class Game:
     def draw(self) -> None:
         self.WIN.fill(pgh.BLACK)
         pgh.beginShape(self.WIN)
+        breath = self.breath()
         for i in range(360):
             k = radians(i * self.d)
-            r = self.max_rad * sin(self.n*k) + self.breath()
+            r = self.max_rad * sin(self.n*k) + breath
             pgh.vertex(r * cos(k), r * sin(k))
         pgh.endShape(fill=False, color=pgh.WHITE, closed=True, width=1)
         pygame.display.update()
