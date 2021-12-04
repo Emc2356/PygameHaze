@@ -26,7 +26,6 @@ some drawing functions
 """
 
 from typing import List, Union, Tuple, Sequence, Optional
-from PygameHelper.Classes.vector import Vector
 from PygameHelper.utils.formulas import *
 from PygameHelper.exceptions import *
 from PygameHelper.constants import *
@@ -62,8 +61,8 @@ def lerp(start: Number, stop: Number, amount: Number) -> float:
 class _SO:  # shared object
     vertexes_list: List[List[Tuple[int, int]]] = []
     surfaces: List[Optional[pygame.surface.Surface]] = []
-    loc_00: Vector = Vector()
-    list_prev_00: List[Vector] = []
+    loc_00: pygame.math.Vector2 = pygame.math.Vector2()
+    list_prev_00: List[pygame.math.Vector2] = []
 
 
 class Curves:
@@ -158,7 +157,7 @@ class Draw:
 
     @staticmethod
     def translate(
-        x: Union[Number, pygame.math.Vector2, Vector, Tuple[Number, Number], List[Number]],
+        x: Union[Number, pygame.math.Vector2, Tuple[Number, Number], List[Number]],
         y: Optional[Number]=_MISSING
     ) -> None:
         """
@@ -183,7 +182,7 @@ class Draw:
         """
         if not len(_SO.list_prev_00):
             raise NoLocationFound("tried to 'pop' without having 'pushed' any values")
-        _SO.loc_00 = _SO.list_prev_00.pop().copy()
+        _SO.loc_00 = pygame.math.Vector2(_SO.list_prev_00.pop())
 
     @staticmethod
     def beginShape(surface: pygame.surface.Surface) -> None:
@@ -197,7 +196,7 @@ class Draw:
 
     @staticmethod
     def vertex(
-        x: Union[Number, pygame.math.Vector2, Vector, Tuple[Number, Number], List[Number]],
+        x: Union[Number, pygame.math.Vector2, Tuple[Number, Number], List[Number]],
         y: Optional[Number]=_MISSING
     ) -> None:
         """

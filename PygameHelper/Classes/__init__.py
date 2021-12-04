@@ -13,7 +13,6 @@ from PygameHelper.Classes.cloth import Cloth
 from PygameHelper.Classes.cloth import Point
 from PygameHelper.Classes.cloth import Connection
 from PygameHelper.Classes.quadtree import QuadTree
-from PygameHelper.Classes.vector import Vector
 
 # managers
 from PygameHelper.Classes.managers import ButtonManager
@@ -34,4 +33,3 @@ from PygameHelper.Classes import particle
 from PygameHelper.Classes import text
 from PygameHelper.Classes import cloth
 from PygameHelper.Classes import quadtree
-from PygameHelper.Classes import vector
