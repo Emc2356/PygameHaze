@@ -20,16 +20,3 @@ from PygameHelper.Classes.managers import TextManager
 from PygameHelper.Classes.managers import ParticleManager
 from PygameHelper.Classes.managers import AnimationManager
 from PygameHelper.Classes.managers import InputFieldManager
-
-# instances
-from PygameHelper.Classes.noise import noise
-
-# files
-from PygameHelper.Classes import animation
-from PygameHelper.Classes import button
-from PygameHelper.Classes import input_field
-from PygameHelper.Classes import managers
-from PygameHelper.Classes import particle
-from PygameHelper.Classes import text
-from PygameHelper.Classes import cloth
-from PygameHelper.Classes import quadtree

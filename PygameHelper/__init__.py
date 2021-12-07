@@ -26,23 +26,8 @@ from PygameHelper.Classes import ParticleManager
 from PygameHelper.Classes import AnimationManager
 from PygameHelper.Classes import InputFieldManager
 
-# instances
-from PygameHelper.Classes import noise
 
-# classes files
-from PygameHelper.Classes import animation
-from PygameHelper.Classes import button
-from PygameHelper.Classes import input_field
-from PygameHelper.Classes import managers
-from PygameHelper.Classes import particle
-from PygameHelper.Classes import text
-from PygameHelper.Classes import font
-from PygameHelper.Classes import spritesheet
-from PygameHelper.Classes import cloth
-from PygameHelper.Classes import quadtree
-
-# general imports that can be used by the user with general use
-# in their projects
+# constants and functions that are useful with PygameHelper
 from PygameHelper.exceptions import PygameHelperException as error
 from PygameHelper.constants import *
 from PygameHelper.utils import *

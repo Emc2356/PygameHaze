@@ -1,2 +1,4 @@
+colorama
 pygame
 numpy
+numba
