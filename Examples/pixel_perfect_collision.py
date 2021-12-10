@@ -14,7 +14,7 @@ FPS = 120
 pygame.display.set_caption("Pixel perfect collision")
 
 
-obstacle = pgh.load_image("assets/obstacle.png")
+obstacle = pgh.load_alpha_image("assets/obstacle.png")
 obstacle_mask = pygame.mask.from_surface(obstacle)
 obstacle_rect = obstacle.get_rect()
 ox = W//2 - obstacle_rect.center[0]
