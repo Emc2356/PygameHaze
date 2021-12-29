@@ -25,13 +25,16 @@
 perlin noise
 """
 
-from typing import Optional, Dict
+import PygameHelper.utils._numba_utils as nbu
+from typing import Optional
 import numpy as np
-import numba as nb
 import functools
 import random
 import math
 
+import os
+
+CORES = os.cpu_count()
 
 _PERLIN_YWRAPB: int = 4
 _PERLIN_YWRAP: int = 1 << _PERLIN_YWRAPB
@@ -43,49 +46,7 @@ _perlin_amp_falloff: float = 0.5  # 50% reduction/octave
 _perlin: Optional[np.ndarray] = None  # lazy load it
 
 
-class float64(float): pass
-class float32(float): pass
-class int64(int): pass
-class int32(int): pass
-
-
-TYPES: Dict[type, str] = {
-    float64: "float64",
-    float32: "float32",
-    float: "float64",
-    int64: "int64",
-    int32: "int32",
-    int: "int64"
-}
-
-
-def construct_sig(func) -> Optional[str]:
-    # constructing a numba signature out of the typehints of the function
-    if hasattr(func, "__annotations__") and func.__annotations__:
-        args, ret = [], []
-        for name, anno in func.__annotations__.items():
-            if name != "return": args.append((name, anno))
-            else: ret.append(anno)
-        return f"""{TYPES.get(ret[0], ret[0])}({", ".join([TYPES.get(anno, anno) for name, anno in args])})"""
-    return None
-
-
-def njit(sig=None, **kwargs):
-    if sig is None:
-        sig = construct_sig(kwargs.get("func", None))
-
-    if sig is not None:
-        if "func" in kwargs:
-            func = kwargs.pop("func")
-            return nb.njit(sig, fastmath=kwargs.get("fastmath", True), nogil=kwargs.get("nogil", True), **kwargs)(func)
-        return nb.njit(sig, fastmath=kwargs.get("fastmath", True), nogil=kwargs.get("nogil", True), **kwargs)
-    if "func" in kwargs:
-        func = kwargs.pop("func")
-        return nb.njit(fastmath=kwargs.get("fastmath", True), nogil=kwargs.get("nogil", True), **kwargs)(func)
-    return nb.njit(fastmath=kwargs.get("fastmath", True), nogil=kwargs.get("nogil", True), **kwargs)
-
-
-def set_seed(seed: int) -> None:
+def _set_seed(cls, seed: int) -> None:
     """
     it sets the seed for the random values of perlin noise
     :param seed: the seed that will be used
@@ -97,9 +58,13 @@ def set_seed(seed: int) -> None:
     r.seed(seed)
     for i in range(len(_perlin)):
         _perlin[i] = r.random()
+    cls.__call__.recompile()
+    cls.noise3D.recompile()
+    cls.noise2D.recompile()
+    cls.noise1D.recompile()
 
 
-def _noise_detail(octaves: int=-1, falloff: float=-1) -> None:
+def _noise_detail(cls, octaves: int = -1, falloff: float = -1) -> None:
     """
     its sets the number of octaves that are going to be used and the falloff factor for each octave
     :param octaves: the numbers of octaves that will be used
@@ -113,14 +78,19 @@ def _noise_detail(octaves: int=-1, falloff: float=-1) -> None:
         _octaves = int(octaves)
     if falloff > 0:
         _perlin_amp_falloff = falloff
+    if nbu.USE_NUMBA:
+        cls.__call__.recompile()
+        cls.noise3D.recompile()
+        cls.noise2D.recompile()
+        cls.noise1D.recompile()
 
 
-@njit("float64(float64)")
+@nbu.njit
 def _scaled_cosine(i: float) -> float:
     return 0.5 * (1.0 - math.cos(i * math.pi))
 
 
-def noise3DPurePython(x: float, y: float=0, z: float=0) -> float:
+def noise3D(x: float, y: float = 0, z: float = 0) -> float:
     """
     it calculates the 3D perlin noise value based on the random values and the values passed
     :param x: the x value
@@ -184,7 +154,7 @@ def noise3DPurePython(x: float, y: float=0, z: float=0) -> float:
     return value
 
 
-def noise2DPurePython(x: float, y: float=0) -> float:
+def noise2D(x: float, y: float = 0) -> float:
     """
     it calculates the 2D perlin noise value based on the random values and the values passed
     :param x: the x value
@@ -230,9 +200,9 @@ def noise2DPurePython(x: float, y: float=0) -> float:
     return value
 
 
-def noise1DPurePython(x: float) -> float:
+def noise1D(x: float) -> float:
     """
-    it calculates the 2D perlin noise value based on the random values and the values passed
+    it calculates the 1D perlin noise value based on the random values and the values passed
     :param x: the x value
     :type x: float
     :return: float
@@ -259,21 +229,76 @@ def noise1DPurePython(x: float) -> float:
     return value
 
 
+# this is a python function as we have to decide in which func to send it as the input array can be 1D or 2D
+def fromArray(cls, arr: np.ndarray, dim: int = 3, out: Optional[np.ndarray] = None) -> np.ndarray:
+    """
+    it calculates the perlin noise values based on the information from arr
+    :param arr: the data for perlin noise calculations
+    :param dim: the dimensions of the perlin noise calculations
+    :param out: a array that the output values will go, if it isn't provided a new array will be created
+    :type arr: np.ndarray
+    :type dim: int
+    :type out: np.ndarray
+    :return: np.ndarray
+    """
+    if dim not in {1, 2, 3}:
+        raise ValueError(f"unsupported dimension '{dim}', expected 1, 2 or 3")
+    func = getattr(cls, f"noise{dim}D")
+    if out is None:
+        out = np.ndarray(arr.shape[0])
+    if len(arr.shape) == 1:
+        cls._fromArr1D(arr, out, func)
+    else:
+        cls._fromArrayFuncs[dim](arr, out, func)
+
+    return out
+
+
+def fromArray2D3D(arr: np.ndarray, out: np.ndarray, func) -> None:
+    size = arr.shape[0]
+    for start in nbu.prange(CORES):
+        for i in range(start, size, CORES):
+            out[i] = func(arr[i][0], arr[i][1], arr[i][2])
+
+
+def fromArray2D2D(arr: np.ndarray, out: np.ndarray, func) -> None:
+    size = arr.shape[0]
+    for start in nbu.prange(CORES):
+        for i in range(start, size, CORES):
+            out[i] = func(arr[i][0], arr[i][1])
+
+
+def fromArray2D1D(arr: np.ndarray, out: np.ndarray, func) -> None:
+    size = arr.shape[0]
+    for start in nbu.prange(CORES):
+        for i in range(start, size, CORES):
+            out[i] = func(arr[i][0])
+
+
+def fromArray1D(arr: np.ndarray, out: np.ndarray, func) -> None:
+    size = arr.shape[0]
+    for start in nbu.prange(CORES):
+        for i in range(start, size, CORES):
+            out[i] = func(arr[i])
+
+
 def _not_init(*args, **kwargs) -> None:
-    from colorama import (
-        Fore,
-        Style
-    )
+    import PygameHelper.utils._colorama as cl
+    Fore = cl.colorama.Fore
+    Style = cl.colorama.Style
     print(f"""{Fore.RED}perlin noise module not initialized{Style.RESET_ALL}""")
 
 
 class PerlinNoise:
-    __call__ = staticmethod(functools.wraps(noise3DPurePython)(_not_init))  # this is how you decorate a function without the @
-    noise3D  = staticmethod(functools.wraps(noise3DPurePython)(_not_init))
-    noise2D  = staticmethod(functools.wraps(noise2DPurePython)(_not_init))
-    noise1D  = staticmethod(functools.wraps(noise1DPurePython)(_not_init))
-    detail   = staticmethod(functools.wraps(_noise_detail)(_not_init))
-    set_seed = staticmethod(functools.wraps(set_seed)(_not_init))
+    __call__ = staticmethod(functools.wraps(noise3D)(_not_init))  # this is how you decorate a function without the @
+    noise3D = staticmethod(functools.wraps(noise3D)(_not_init))
+    noise2D = staticmethod(functools.wraps(noise2D)(_not_init))
+    noise1D = staticmethod(functools.wraps(noise1D)(_not_init))
+    detail = staticmethod(functools.wraps(_noise_detail)(_not_init))
+    set_seed = staticmethod(functools.wraps(_set_seed)(_not_init))
+
+    _fromArrayFuncs: dict = {}
+    from_array = staticmethod(functools.wraps(fromArray)(_not_init))
 
     @classmethod
     def init(cls) -> int:
@@ -286,19 +311,28 @@ class PerlinNoise:
 
             _perlin = np.random.random((_PERLIN_SIZE + 1,))
 
-            cls.__call__ = staticmethod(njit(func=noise3DPurePython))
-            cls.noise3D  = staticmethod(njit(func=noise3DPurePython))
-            cls.noise2D  = staticmethod(njit(func=noise2DPurePython))
-            cls.noise1D  = staticmethod(njit(func=noise1DPurePython))
-            cls.detail   = staticmethod(_noise_detail)
-            cls.set_seed = staticmethod(set_seed)
+            cls.__call__ = staticmethod(nbu.njit(func=noise3D))
+            cls.noise3D = staticmethod(nbu.njit(func=noise3D))
+            cls.noise2D = staticmethod(nbu.njit(func=noise2D))
+            cls.noise1D = staticmethod(nbu.njit(func=noise1D))
+            cls.detail = classmethod(_noise_detail)
+            cls.set_seed = classmethod(_set_seed)
+
+            cls._fromArrayFuncs = {
+                1: nbu.njit(nosig=True, func=fromArray2D1D, nogil=False, parallel=True),
+                2: nbu.njit(nosig=True, func=fromArray2D2D, nogil=False, parallel=True),
+                3: nbu.njit(nosig=True, func=fromArray2D3D, nogil=False, parallel=True)
+            }
+
+            cls.from_array = classmethod(fromArray)
+
             return 0
         except Exception as e:
-            from colorama import (
-                Fore,
-                Style
-            )
-            print(f"""{Fore.RED}unable to load perlin noise due to {str(type(e)).split("'")[~1]} -> {str(type(e)).split("'")[~1]}: {e}{Style.RESET_ALL}""")
+            import PygameHelper.utils._colorama as cl
+            Fore = cl.colorama.Fore
+            Style = cl.colorama.Style
+            print(
+                f"""{Fore.RED}unable to load perlin noise due to {str(type(e)).split("'")[~1]} -> {e}{Style.RESET_ALL}""")
             return 1
 
     @classmethod
@@ -310,19 +344,22 @@ class PerlinNoise:
         try:
             global _perlin
 
-            cls.__call__ = staticmethod(functools.wraps(noise3DPurePython)(_not_init))
-            cls.noise3D  = staticmethod(functools.wraps(noise3DPurePython)(_not_init))
-            cls.noise2D  = staticmethod(functools.wraps(noise2DPurePython)(_not_init))
-            cls.noise1D  = staticmethod(functools.wraps(noise1DPurePython)(_not_init))
-            cls.detail   = staticmethod(functools.wraps(_noise_detail)(_not_init))
-            cls.set_seed = staticmethod(functools.wraps(set_seed)(_not_init))
+            cls.__call__ = staticmethod(functools.wraps(noise3D)(_not_init))
+            cls.noise3D = staticmethod(functools.wraps(noise3D)(_not_init))
+            cls.noise2D = staticmethod(functools.wraps(noise2D)(_not_init))
+            cls.noise1D = staticmethod(functools.wraps(noise1D)(_not_init))
+            cls.detail = staticmethod(functools.wraps(_noise_detail)(_not_init))
+            cls.set_seed = staticmethod(functools.wraps(_set_seed)(_not_init))
             _perlin = None
+
+            cls._fromArrayFuncs: dict = {}
+            cls.from_array = staticmethod(functools.wraps(fromArray)(_not_init))
+
             return 0
         except Exception as e:
-            from colorama import (
-                Fore,
-                Style
-            )
+            import PygameHelper.utils._colorama as cl
+            Fore = cl.colorama.Fore
+            Style = cl.colorama.Style
             print(f"""{Fore.RED}unable to unload perlin noise due to {str(type(e)).split("'")[~1]} -> {str(type(e)).split("'")[~1]}: {e}{Style.RESET_ALL}""")
             return 1
 

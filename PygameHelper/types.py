@@ -4,6 +4,7 @@ this are some types taken from inside the pygame library about some common types
 
 from typing import Union, List, Tuple, Iterable
 import pygame
+import os
 
 
 Number = Union[int, float]
@@ -18,7 +19,7 @@ RectType = Union[
     Iterable[pygame.math.Vector2],
     List[Number]
 ]
+PathType = Union[str, bytes, os.PathLike[str], os.PathLike[bytes]]
+types = [Number, CoordsType, RectType, ColorType, PathType]
 
-types = [Number, CoordsType, RectType, ColorType]
-
-__all__ = ["Number", "CoordsType", "ColorType", "RectType", "types"]
+__all__ = ["Number", "CoordsType", "ColorType", "RectType", "types", "PathType"]

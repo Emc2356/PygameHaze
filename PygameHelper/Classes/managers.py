@@ -32,7 +32,6 @@ import pygame
 
 from PygameHelper.constants import *
 from PygameHelper.Classes import Button
-from PygameHelper.Classes import SimpleText, MultiLineText
 from PygameHelper.Classes import InputField, InputFieldNumbers, InputFieldLetters
 from PygameHelper.Classes import Particle
 from PygameHelper.Classes import Animation
@@ -196,78 +195,6 @@ class ButtonManager(_BaseManager):
         return item
 
     def __reversed__(self) -> List[Button]:
-        reversed(self.__items)
-        return self.__items
-
-
-class TextManager(_BaseManager):
-    """
-    Creates a storage for the texts
-
-    Parameters:
-    -----------
-    WIN: pygame.surface.Surface
-        the screen that texts are going to be drawn in
-
-    Methods:
-    -----------
-    draw():
-        it draws the texts on the screen
-    update():
-        it updates the texts
-    get_texts():
-        it returns a list with the stored texts
-    add_simple_text(x, y, text, color, **kwargs):
-        it adds a new one-line text
-    add_multi_line_text(x, y, text, color, **kwargs):
-        it adds a new multi-line text
-    """
-    def __init__(self, WIN: pygame.surface.Surface):
-        super().__init__(WIN)
-        self.__items: List[SimpleText or MultiLineText] = []
-
-    def draw(self) -> None:
-        [text.draw() for text in self.__items]
-
-    def update(self) -> None:
-        [text.update() for text in self.__items]
-
-    def get_texts(self) -> List[SimpleText or MultiLineText]:
-        return self.__items
-
-    def add_simple_text(self,
-                        x: int,
-                        y: int,
-                        text: str,
-                        color: Tuple[int, int, int]=BLACK,
-                        **kwargs) -> None:
-        self.__items.append(SimpleText(self.WIN, x, y, text, color, **kwargs))
-
-    def add_multi_line_text(self,
-                            x: int,
-                            y: int,
-                            text: str,
-                            color: Tuple[int, int, int]=BLACK,
-                            **kwargs) -> None:
-        self.__items.append(MultiLineText(self.WIN, x, y, text, color, **kwargs))
-
-    def __getitem__(self, item) -> SimpleText or MultiLineText:
-        return self.__items[item]
-
-    def __iter__(self) -> Iterable[SimpleText or MultiLineText]:
-        return iter(self.__items)
-
-    def __next__(self) -> SimpleText or MultiLineText:
-        try:
-            item = self.__items[self.__i]
-            self.__i += 1
-        except IndexError:
-            self.__i = 0
-            item = self.__next__()
-
-        return item
-
-    def __reversed__(self) -> List[SimpleText or MultiLineText]:
         reversed(self.__items)
         return self.__items
 
@@ -495,7 +422,6 @@ class AnimationManager(_BaseManager):
 
 __all__ = [
     "ButtonManager",
-    "TextManager",
     "InputFieldManager",
     "ParticleManager",
     "AnimationManager"

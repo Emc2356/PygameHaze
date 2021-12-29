@@ -22,6 +22,6 @@ while True:
     pgh.draw.circle(WIN, pgh.GREEN, (350, 350), 3)
     pgh.draw.circle(WIN, pgh.RED, (500, 250), 3)
 
-    pgh.draw.bezier(WIN, (0, 250), pygame.mouse.get_pos(), (350, 350), (500, 250), 0.03, pgh.WHITE, 3)
-    # pgh.quadratic_bezier(WIN, (0, 250), pygame.mouse.get_pos(), (500, 250), 0.03, pgh.WHITE, 3)
+    pgh.draw.bezier(WIN, (0, 250), pygame.mouse.get_pos(), (350, 350), (500, 250), 10000, pgh.WHITE, 3)
+    pgh.draw.quadratic_bezier(WIN, (0, 250), pygame.mouse.get_pos(), (500, 250), 10000, pgh.RED, 3)
     pygame.display.update()

@@ -1,4 +1,2 @@
-colorama
-pygame
-numpy
-numba
+pygame==2.1.0
+numpy==1.20.3

@@ -24,7 +24,7 @@ class Game:
         # self.breath = lambda: 0  # uncomment this if you don't want the breathing in the rose
 
         # transfer the 0, 0 of the screen to the center (at least how PygameHelper sees it)
-        pgh.translate(self.W//2, self.H//2)
+        pgh.draw.translate(self.W//2, self.H//2)
 
         pygame.display.set_caption("Maurer Rose aka mathematical roses")
 
@@ -36,13 +36,13 @@ class Game:
 
     def draw(self) -> None:
         self.WIN.fill(pgh.BLACK)
-        pgh.beginShape(self.WIN)
+        pgh.draw.beginShape(self.WIN)
         breath = self.breath()
         for i in range(360):
             k = radians(i * self.d)
             r = self.max_rad * sin(self.n*k) + breath
-            pgh.vertex(r * cos(k), r * sin(k))
-        pgh.endShape(fill=False, color=pgh.WHITE, closed=True, width=1)
+            pgh.draw.vertex(r * cos(k), r * sin(k))
+        pgh.draw.endShape(fill=False, color=pgh.WHITE, closed=True, width=1)
         pygame.display.update()
 
     def run(self) -> None:

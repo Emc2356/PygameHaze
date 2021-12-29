@@ -9,9 +9,7 @@
 ##### at this point it has the following classes:
 | Class name |
 |:----------:|
-|[Button](./Documentation/Button.md) |
-|[SimpleText](./Documentation/SimpleText.md) |
-| [MultiLineText](./Documentation/MultiLineText.md) |
+| [Button](./Documentation/Button.md) |
 | [InputField](./Documentation/InputField.md) |
 | [InputFieldNumbers](./Documentation/InputFieldNumbers.md) |
 | [InputFieldLetters](./Documentation/InputFieldLetters.md) |
@@ -20,76 +18,62 @@
 | [SpriteSheet](./Documentation/SpriteSheet.md) |
 | [Font](./Documentation/Font.md) |
 
-##### also, PygameHelper, offers functions:
-| Function name | description | cached |
-|:-------------:|:-----------:|:------:|
-| `load_image` | it loads an image from a given path and it performs .convert() | True |
-| `load_alpha_image` | it loads an image from a given path and it performs .convert_alpha() | True |
-| `resize_smooth_image` | wrapper for pygame.transform.smoothscale | False |
-| `resize_image` | wrapper for pygame.transform.scale | False |
-| `resize_image_ratio` | - | False |
-| `resizex` | it resizes a image in both axis by the same amount | False |
-| `left_click` | it checks for the left-click event  | False |
-| `middle_click` | it checks for the middle-click event  | False |
-| `right_click` | it checks for the right-click event  | False |
-| `get_font` | it returns a font | True |
-| `wrap_multi_lines` |  | True |
-| `blit_multiple_lines` | it blits in a surface a list of strings | False |
-| `pixel_perfect_collision` | it is a wrapper for pygame.mask.overlap and it handles the offset | False |
-| `get_distance` | it calculates the distance between two points | True |
-| `flatten` | it takes a iterable object and it flattens the object | False |
-| `get_cloth` | it returns the cloth data from a file (basically a json reader) | False |
-| `clamp` | it clamps a value between two values | False |
-| `remap` | it Re-maps a number from one range to another | False |
-| `lerp` |  Calculates a number between two numbers at a specific increment | False |
-| `get_neighbors` | it returns the directly adjacent cells (it makes the assumption that it has rows of the same length) | False |
-| `get_neighbors_index` | it returns the directly adjacent cells index (it makes the assumption that it has rows of the same length) | False |
-| `pathfinding` | if finds the most efficient path from 1 point to another | False |
-| `combine_rects` | it creates the smallest possible rect that contains all of the rects | False |
+##### also, PygameHelper offers some functions:
+| Function name | description | cached | Numba jitted |
+|:-------------:|:-----------:|:------:|:------------:|
+| `load_image` | it loads an image from a given path and it performs .convert() | True | False |
+| `load_alpha_image` | it loads an image from a given path and it performs .convert_alpha() | True | False |
+| `resize_smooth_image` | wrapper for pygame.transform.smoothscale | False | False |
+| `resize_image` | wrapper for pygame.transform.scale | False | False |
+| `resize_image_ratio` | - | False | False |
+| `resizex` | it resizes a image in both axis by the same amount | False | False |
+| `left_click` | it checks for the left-click event  | False | False |
+| `middle_click` | it checks for the middle-click event  | False | False |
+| `right_click` | it checks for the right-click event  | False | False |
+| `get_font` | it returns a font | True | False |
+| `wrap_multi_lines` |  | True | False |
+| `blit_multiple_lines` | it blits in a surface a list of strings | False | False |
+| `pixel_perfect_collision` | it is a wrapper for pygame.mask.overlap and it handles the offset | False | False |
+| `flatten` | it takes a iterable object and it flattens the object | False | False |
+| `get_cloth` | it returns the cloth data from a file (basically a json reader) | False | False |
+| `get_neighbors` | it returns the directly adjacent cells (it makes the assumption that it has rows of the same length) | False | False |
+| `get_neighbors_index` | it returns the directly adjacent cells index (it makes the assumption that it has rows of the same length) | False | False |
+| `pathfinding` | if finds the most efficient path from 1 point to another | False | False |
+| `combine_rects` | it creates the smallest possible rect that contains all of the rects | False | False |
+| `save_frame` | it saves the pixels from a pygame surface into a specified file, if unspecified it defaults to the pygame window | False | False |
+| `lerp` | Calculates a number between two numbers at a specific increment |  False | True |
+| `clamp` | it clamps a value between mini and maxi | False | True |
+| `remap` | it Re-maps a number from one range to another (nothing to do with regex it is just the name) | False | True |
+| `get_distance` | it returns the distance between two points | False | True |
+| `get_distance_squared` | it returns the distance squared between two points | False | True |
 
 ##### some drawing utils  
 ##### they are wrapping `pygame.draw` but with some extra functionality
 | Function name | description |
 |:-------------:|:-----------:|
-| `quadratic_bezier` | Quadratic bezier curve (1 static, 1 control and 1 static point) |
-| `bezier` | it creates a bezier curve based on 4 points (1 static, 2 control points an 1 static) aka a cubic bezier |
-| `push` | it saves the current draw location |
-| `translate` | it moves the current draw location |
-| `pop` | it goes to the previous draw location |
-| `beginShape` | it begins tracing the vertices |
-| `vertex` | it adds a new vertex |
-| `endShape` | it stops tracing the vertices and draw the shape |
-| `rect` | a wrapper for `pygame.draw.rect` but it takes advantage of the position from translate |
-| `polygon` | a wrapper for `pygame.draw.polygon` but it takes advantage of the position from translate |
-| `circle` | a wrapper for `pygame.draw.circle` but it takes advantage of the position from translate |
-| `ellipse` | a wrapper for `pygame.draw.ellipse` but it takes advantage of the position from translate |
-| `arc` | a wrapper for `pygame.draw.arc` but it takes advantage of the position from translate |
-| `line` | a wrapper for `pygame.draw.line` but it takes advantage of the position from translate |
-| `lines` | a wrapper for `pygame.draw.lines` but it takes advantage of the position from translate |
-| `aaline` | a wrapper for `pygame.draw.aaline` but it takes advantage of the position from translate |
-| `aalines` | a wrapper for `pygame.draw.aalines` but it takes advantage of the position from translate |
-
-##### TODO list (at this point this is a joke lmao)
-~~~
-1. add a menu class
-   * add a menu class for building menus
-   * it will accept managers
-2. add a dropdown class
-   * dropdowns will have an animation when clicked
-   * it will change color when the mouse is over an option
-   * won't have support for multi-line text
-   * the options will be instances of the button class
-3. add sliders
-~~~
+| `draw.push` | it saves the current draw location |
+| `draw.translate` | it moves the current draw location |
+| `draw.pop` | it goes to the previous draw location |
+| `draw.quadratic_bezier` | Quadratic bezier curve (1 static, 1 control and 1 static point) |
+| `draw.bezier` | it creates a bezier curve based on 4 points (1 static, 2 control points an 1 static) aka a cubic bezier |
+| `draw.beginShape` | it begins tracing the vertices |
+| `draw.vertex` | it adds a new vertex |
+| `draw.endShape` | it stops tracing the vertices and draw the shape |
+| `draw.rect` | a wrapper for `pygame.draw.rect` but it takes advantage of the position from translate |
+| `draw.polygon` | a wrapper for `pygame.draw.polygon` but it takes advantage of the position from translate |
+| `draw.circle` | a wrapper for `pygame.draw.circle` but it takes advantage of the position from translate |
+| `draw.ellipse` | a wrapper for `pygame.draw.ellipse` but it takes advantage of the position from translate |
+| `draw.arc` | a wrapper for `pygame.draw.arc` but it takes advantage of the position from translate |
+| `draw.line` | a wrapper for `pygame.draw.line` but it takes advantage of the position from translate |
+| `draw.lines` | a wrapper for `pygame.draw.lines` but it takes advantage of the position from translate |
+| `draw.aaline` | a wrapper for `pygame.draw.aaline` but it takes advantage of the position from translate |
+| `draw.aalines` | a wrapper for `pygame.draw.aalines` but it takes advantage of the position from translate |
 
 # Documentation
 ##### Documentation for the classes can be found in [./Documentation](./Documentation)
 
 # Examples
 ##### Examples of the classes and functions can be found in [./Examples](./Examples)
-
-# NOTES
-> in commit 72 I accidentally pushed everything in 1 batch, and they have wrong titles  
 
 # contributions:
 ---

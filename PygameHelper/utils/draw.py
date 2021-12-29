@@ -26,14 +26,58 @@ some drawing functions
 """
 
 from typing import List, Union, Tuple, Sequence, Optional
+import PygameHelper.utils._numba_utils as nbu
 from PygameHelper.utils.formulas import *
 from PygameHelper.exceptions import *
 from PygameHelper.constants import *
 from PygameHelper.types import *
-from functools import lru_cache
 
+import pygame.gfxdraw
+import numpy as np
 import pygame
-from math import sin, cos, sqrt
+
+import os
+
+CORES = os.cpu_count()
+
+
+@nbu.njit(parallel=True)
+def _bezier_points(
+        pt1: nbu.Array(float, 1),
+        pt2: nbu.Array(float, 1),
+        pt3: nbu.Array(float, 1),
+        pt4: nbu.Array(float, 1),
+        quality: int
+) -> nbu.Array(float, 2):
+    out = np.zeros((quality, 2))
+    for start in nbu.prange(CORES):
+        for i in range(start, quality + 1, CORES):
+            t = i / quality
+            t3 = t ** 3
+            t2 = t ** 2
+            out[i] = pt1 * (-t3 + 3 * t2 - 3 * t + 1) +\
+                     pt2 * (3 * t3 - 6 * t2 + 3 * t) +\
+                     pt3 * (-3 * t3 + 3 * t2) +\
+                     pt4 * t3
+    return out
+
+
+@nbu.njit(parallel=True)
+def _quadratic_bezier_points(
+        pt1: nbu.Array(float, 1),
+        pt2: nbu.Array(float, 1),
+        pt3: nbu.Array(float, 1),
+        quality: int
+) -> nbu.Array(float, 2):
+    out = np.zeros((quality, 2))
+    for start in nbu.prange(CORES):
+        for i in range(start, quality + 1, CORES):
+            t = i / quality
+            out[i] = (
+                lerp(lerp(pt1[0], pt2[0], t), lerp(pt2[0], pt3[0], t), t),
+                lerp(lerp(pt1[1], pt2[1], t), lerp(pt2[1], pt3[1], t), t)
+            )
+    return out
 
 
 # some of this functions are in classes for better organisation
@@ -42,23 +86,7 @@ from math import sin, cos, sqrt
 _MISSING = object()
 
 
-def lerp(start: Number, stop: Number, amount: Number) -> float:
-    """
-    Calculates a number between two numbers at a specific increment
-    :param start: Number
-    :param stop: Number
-    :param amount: Number
-    :return: float
-    """
-    if amount > 1 or amount < 0:
-        if amount > 1:
-            raise ValueError(f"amount in lerp function is bigger than 1")
-        if amount < 0:
-            raise ValueError(f"amount in lerp function is smaller than 0")
-    return amount * (stop - start) + start
-
-
-class _SO:  # shared object
+class _SO:  # shared object for convenience
     vertexes_list: List[List[Tuple[int, int]]] = []
     surfaces: List[Optional[pygame.surface.Surface]] = []
     loc_00: pygame.math.Vector2 = pygame.math.Vector2()
@@ -66,13 +94,6 @@ class _SO:  # shared object
 
 
 class Curves:
-    @staticmethod
-    def _quadratic(p1: CoordsType, p2: CoordsType, p3: CoordsType, t: Number) -> pygame.math.Vector2:
-        return pygame.math.Vector2(
-            lerp(lerp(p1[0], p2[0], t), lerp(p2[0], p3[0], t), t),
-            lerp(lerp(p1[1], p2[1], t), lerp(p2[1], p3[1], t), t)
-        )
-
     @classmethod
     def quadratic_bezier(
             cls,
@@ -80,27 +101,33 @@ class Curves:
             p1: CoordsType,
             p2: CoordsType,
             p3: CoordsType,
-            delta: Number=0.03,
+            quality: int=1000,
             color: ColorType=WHITE,
-            width: Number=1
+            width: int=1
     ) -> pygame.Rect:
         """
-        Quadratic bezier curve (1 static, 1 control and 1 static point)
+        it creates a bezier curve based on 3 points (1 static, 1 control points an 1 static) aka a quadratic bezier
         :param surface: pygame.surface.Surface
-        :param p1: CoordsType
-        :param p2: CoordsType
-        :param p3: CoordsType
-        :param delta: Union[int, float]
-        :param color: ColorType
-        :param width: Number
+        :param p1: the first point
+        :param p2: the second point
+        :param p3: the third point
+        :param quality: the amount of points that will be used
+        :param color: the color that it will be drawn as
+        :param width: the width of teh curve
+        :type surface: pygame.surface.Surface
+        :type p1: CoordsType
+        :type p2: CoordsType
+        :type p3: CoordsType
+        :type quality: Union[int, float]
+        :type color: ColorType
+        :type width: int
         :return: pygame.Rect
         """
-        mul_am = int(1 / delta)
-        return lines(
+        return Draw.lines(
             surface,
             color,
             False,
-            [cls._quadratic(p1, p2, p3, t / mul_am) for t in range(0, mul_am + 1, 1)],
+            _quadratic_bezier_points(np.array(p1), np.array(p2), np.array(p3), quality),
             width
         )
 
@@ -112,35 +139,38 @@ class Curves:
             p2: CoordsType,
             p3: CoordsType,
             p4: CoordsType,
-            delta: Number=0.03,
+            quality: int=100,
             color: ColorType=WHITE,
-            width: Number=1
+            width: int=1
     ) -> pygame.Rect:
         """
         it creates a bezier curve based on 4 points (1 static, 2 control points an 1 static) aka a cubic bezier
         :param surface: pygame.surface.Surface
-        :param p1: CoordsType
-        :param p2: CoordsType
-        :param p3: CoordsType
-        :param p4: CoordsType
-        :param delta: Union[int, float]
-        :param color: ColorType
-        :param width: Number
+        :param p1: the first point
+        :param p2: the second point
+        :param p3: the third point
+        :param p4: the fourth point
+        :param quality: the amount of points that will be used
+        :param color: the color that it will be drawn as
+        :param width: the width of teh curve
+        :type surface: pygame.surface.Surface
+        :type p1: CoordsType
+        :type p2: CoordsType
+        :type p3: CoordsType
+        :type p4: CoordsType
+        :type quality: Union[int, float]
+        :type color: ColorType
+        :type width: int
         :return: pygame.Rect
         """
-        if delta >= 1 or delta <= 0:
-            if delta >= 1:
-                raise ValueError(f"delta in bezier function is bigger or equal than 1")
-            if delta <= 0:
-                raise ValueError(f"delta in bezier function is smaller or equal than 0")
-        mul_am = int(1 / delta)
-        beginShape(surface)
-        for t in range(0, mul_am + 1, 1):
-            t /= mul_am
-            v1 = cls._quadratic(p1, p2, p3, t)
-            v2 = cls._quadratic(p2, p3, p4, t)
-            vertex(lerp(v1.x, v2.x, t), lerp(v1.y, v2.y, t))
-        return endShape(color=color, width=width)
+        # _bezier_points(np.array(p1), np.array(p2), np.array(p3), np.array(p4), quality)
+        return Draw.lines(
+            surface,
+            color,
+            False,
+            _bezier_points(np.array(p1), np.array(p2), np.array(p3), np.array(p4), quality),
+            width
+        )
 
 
 class Draw:
@@ -153,7 +183,7 @@ class Draw:
         it saves the current 0, 0 location for drawing
         :return: None
         """
-        _SO.list_prev_00.append(_SO.loc_00.copy())
+        _SO.list_prev_00.append(pygame.math.Vector2(_SO.loc_00))
 
     @staticmethod
     def translate(
@@ -248,8 +278,8 @@ class Draw:
             pygame.draw.polygon(surf, color, [(p[0] + abs(min_x), p[1] + abs(min_y)) for p in _SO.vertexes_list[~0]])
             r = _SO.surfaces[~0].blit(surf, (_SO.loc_00.x, _SO.loc_00.y))
         else:
-            r = lines(_SO.surfaces[~0], color, closed, _SO.vertexes_list[~0], width)
-        if outline: lines(_SO.surfaces[~0], outline_color, closed, _SO.vertexes_list[~0], outline)
+            r = Draw.lines(_SO.surfaces[~0], color, closed, _SO.vertexes_list[~0], width)
+        if outline: Draw.lines(_SO.surfaces[~0], outline_color, closed, _SO.vertexes_list[~0], outline)
         _SO.vertexes_list.pop()
         _SO.surfaces.pop()
         return r
@@ -514,34 +544,9 @@ class Draw:
         )
 
 
-bezier = Curves.bezier
-quadratic_bezier = Curves.quadratic_bezier
-
-beginShape = Draw.beginShape
-vertex = Draw.vertex
-endShape = Draw.endShape
-
-push = Draw.push
-translate = Draw.translate
-pop = Draw.pop
-
-rect = Draw.rect
-polygon = Draw.polygon
-circle = Draw.circle
-ellipse = Draw.ellipse
-arc = Draw.arc
-line = Draw.line
-lines = Draw.lines
-aaline = Draw.aaline
-aalines = Draw.aalines
-
 draw = Draw  # i like having classes capitalized but the draw to keep it similar to pygame
 
 
 __all__ = [
-    "draw",
-    "bezier", "quadratic_bezier",
-    "beginShape", "vertex", "endShape",
-    "push", "translate", "pop",
-    "rect", "polygon", "circle", "ellipse", "arc", "line", "lines", "aaline", "aalines"
+    "draw", "Draw"
 ]

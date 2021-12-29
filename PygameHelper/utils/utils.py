@@ -26,12 +26,11 @@ some useful functions for pygame
 and general use
 """
 
-from typing import List, Tuple, Iterable, Generator, Union, Dict, Sequence, Set, TypeVar, Any, overload as TpOverload
+from typing import List, Tuple, Iterable, Generator, Union, Dict, Sequence, TypeVar, Any
 from functools import lru_cache
 
 import pygame
 import json
-import math
 
 from PygameHelper.constants import *
 from PygameHelper.exceptions import *
@@ -39,65 +38,6 @@ from PygameHelper.types import *
 
 Number = Union[int, float]
 NeighborOutputType = TypeVar("NeighborOutputType")
-
-
-@lru_cache()
-def load_image(path: str) -> pygame.surface.Surface:
-    """
-    it loads an image from a given path and it performs a .convert
-    :param path: str
-    :return: pygame.surface.Surface
-    """
-    return pygame.image.load(path).convert()
-
-
-@lru_cache()
-def load_alpha_image(path: str) -> pygame.surface.Surface:
-    """
-    it loads an image from a given path and it performs a .convert_alpha
-    :param path: str
-    :return: pygame.surface.Surface
-    """
-    return pygame.image.load(path).convert_alpha()
-
-
-def resize_smooth_image(
-        image: pygame.surface.Surface, new_size: Union[List[int], Tuple[int, int]]
-) -> pygame.surface.Surface:
-    """
-    wrapper for pygame.transform.smoothscale
-    :param image: pygame.surface.Surface
-    :param new_size: Union[List[int], Tuple[int, int, int]]
-    :return:
-    """
-    return pygame.transform.smoothscale(image, new_size)
-
-
-def resize_image(image: pygame.surface.Surface, new_size: Union[List[int], Tuple[int, int]]) -> pygame.surface.Surface:
-    """
-    wrapper for pygame.transform.scale
-    :param image: pygame.surface.Surface
-    :param new_size: Union[List[int], Tuple[int, int, int]]
-    :return: pygame.surface.Surface
-    """
-    return pygame.transform.scale(image, new_size)
-
-
-def resize_image_ratio(image: pygame.surface.Surface, new_size: Tuple[int, int]) -> pygame.surface.Surface:
-    ratio = new_size[0] / image.get_width()
-    return pygame.transform.scale(image,
-                                  (math.floor(image.get_width() * ratio), math.floor(image.get_height() * ratio)))
-
-
-def resizex(image: pygame.surface.Surface, amount: Number) -> pygame.surface.Surface:
-    """
-    it resizes a image in both axis by the same amount
-    :param image: pygame.surface.Surface
-    :param amount: Union[int, float]
-    :return: pygame.surface.Surface
-    """
-    return pygame.transform.scale(image,
-                                  (math.floor(image.get_width() * amount), math.floor(image.get_height() * amount)))
 
 
 def left_click(event: pygame.event.Event) -> bool:
@@ -222,30 +162,6 @@ def blit_multiple_lines(
             WIN.blit(rendered_text_surface, (x, y + (i * height)))
 
 
-def pixel_perfect_collision(
-        image_1: pygame.surface.Surface, image_1_pos: Tuple[int, int],
-        image_2: pygame.surface.Surface, image_2_pos: Tuple[int, int]
-) -> bool:
-    """
-    it is a wrapper for pygame.mask.overlap and it handles the offset
-    this function is recommended to be used with rectangle collision as pixel perfect collision is really heavy
-    :param image_1: pygame.surface.Surface
-    :param image_1_pos: Tuple[int, int]
-    :param image_2: pygame.surface.Surface
-    :param image_2_pos: Tuple[int, int]
-    :return: bool
-    """
-    offset = [image_1_pos[0] - image_2_pos[0],
-              image_1_pos[1] - image_2_pos[1]]
-    mask_1 = pygame.mask.from_surface(image_1)
-    mask_2 = pygame.mask.from_surface(image_2)
-
-    result = mask_2.overlap(mask_1, offset)
-    if result:
-        return True
-    return False
-
-
 def flatten(iterable: Iterable) -> Generator:
     """
     it takes a iterable object and it flattens the object
@@ -272,38 +188,62 @@ def get_cloth(path: str) -> Dict[str, list]:
 
 
 def get_neighbors(
-        grid: List[List[NeighborOutputType]], target: Union[Tuple[int, int], List[int], Sequence[int]]
-) -> Generator:
+        grid: List[List[NeighborOutputType]],
+        target: Union[Tuple[int, int], List[int], Sequence[int]], diagonal: bool=False
+) -> Generator[NeighborOutputType, None, None]:
     """
-    it returns the directly adjacent cells (it makes the assumption that it has rows of the same length)
-    :param grid: List[List[Any]]
+    it returns the neighbors of a cell
+    :param grid: the grid that the neighbors will be taken out of
     :param target: Union[Tuple[int, int], List[int, int], Sequence[int]]
+    :param diagonal: whether it will check for diagonal neighbors (default=False)
+    :type grid: List[List[Any]]
+    :type target: Union[Tuple[int, int], List[int, int], Sequence[int]]
+    :type diagonal: bool
     :return: List[Any]
     """
-    columns = len(grid) - 1
-    rows = len(grid[0]) - 1
-    oi, oj = target
+    columns = len(grid)
+    rows = len(grid[0])
+    oi, oj, *_ = target
 
-    for i, j in [(oi - 1, oj), (oi, oj - 1), (oi, oj + 1), (oi + 1, oj)]:
-        if not (i == oi and j == oj) and 0 <= i <= columns and 0 <= j <= rows:
+    indexes = [(oi - 1, oj), (oi, oj - 1), (oi, oj + 1), (oi + 1, oj)]
+    if diagonal:
+        indexes += [
+            (oi - 1, oj - 1),
+            (oi - 1, oj + 1),
+            (oi + 1, oj + 1),
+            (oi + 1, oj - 1)
+        ]
+
+    for i, j in indexes:
+        if not (i == oi and j == oj) and 0 <= i < columns and 0 <= j < rows:
             yield grid[i][j]
 
 
 def get_neighbors_index(
         grid: List[List[Any]],
-        target: Union[Tuple[int, int], List[int], Sequence[int]]
+        target: Union[Tuple[int, int], List[int], Sequence[int]], diagonal: bool=False
 ) -> Generator:
     """
     it returns the directly adjacent cells index (it makes the assumption that it has rows of the same length)
     :param grid: List[List[Any]]
     :param target: Union[Tuple[int, int], List[int, int], Sequence[int]]
+    :param diagonal:
     :return: List[Any]
     """
     columns = len(grid) - 1
     rows = len(grid[0]) - 1
     oi, oj = target
 
-    for i, j in [(oi - 1, oj), (oi, oj - 1), (oi, oj + 1), (oi + 1, oj)]:
+    indexes = [(oi - 1, oj), (oi, oj - 1), (oi, oj + 1), (oi + 1, oj)]
+    if diagonal:
+        indexes += [
+            (oi - 1, oj - 1),
+            (oi - 1, oj + 1),
+            (oi + 1, oj + 1),
+            (oi + 1, oj - 1)
+        ]
+
+    for i, j in indexes:
         if not (i == oi and j == oj) and 0 <= i <= columns and 0 <= j <= rows:
             yield i, j
 
@@ -314,25 +254,18 @@ def combine_rects(rects: List[RectType]) -> pygame.Rect:
     :param rects: List[RectType]
     :return: RectType
     """
-    x = sorted((pygame.Rect(r).x for r in rects))
-    y = sorted((pygame.Rect(r).y for r in rects))
+    x = sorted(pygame.Rect(r).x for r in rects)
+    y = sorted(pygame.Rect(r).y for r in rects)
     return pygame.Rect(x[0], y[0], x[~0] - x[0], y[~0] - y[0])
 
 
 __all__ = [
-    "load_image",
-    "load_alpha_image",
-    "resize_smooth_image",
-    "resize_image",
-    "resize_image_ratio",
-    "resizex",
     "left_click",
     "middle_click",
     "right_click",
     "get_font",
     "wrap_multi_lines",
     "blit_multiple_lines",
-    "pixel_perfect_collision",
     "flatten",
     "get_cloth",
     "get_neighbors",

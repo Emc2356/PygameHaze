@@ -25,7 +25,7 @@
 pathfinding from 1 point to another
 """
 
-from typing import List, Tuple, Generator, Union, Dict, Sequence, Set, TypeVar, overload as TpOverload
+from typing import List, Tuple, Generator, Union, Dict, Sequence, Set
 
 import queue
 
@@ -41,10 +41,6 @@ class _ASPos:  # it is used for A* pathfinding
         self.j: int = (idxs[1])
         self.v: Number = v
         self.tp: Tuple[int, int] = (self.i, self.j)
-
-    @property
-    def pos(self) -> Tuple[int, int]:
-        return self.i, self.j
 
     def neighbors(self, grid: List[List["_ASPos"]]) -> Generator:
         columns = len(grid)
