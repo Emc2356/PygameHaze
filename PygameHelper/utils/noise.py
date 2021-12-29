@@ -58,10 +58,11 @@ def _set_seed(cls, seed: int) -> None:
     r.seed(seed)
     for i in range(len(_perlin)):
         _perlin[i] = r.random()
-    cls.__call__.recompile()
-    cls.noise3D.recompile()
-    cls.noise2D.recompile()
-    cls.noise1D.recompile()
+    if nbu.USE_NUMBA:
+        cls.__call__.recompile()
+        cls.noise3D.recompile()
+        cls.noise2D.recompile()
+        cls.noise1D.recompile()
 
 
 def _noise_detail(cls, octaves: int = -1, falloff: float = -1) -> None:
