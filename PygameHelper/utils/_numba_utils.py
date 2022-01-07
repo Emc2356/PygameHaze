@@ -42,9 +42,8 @@ try:
     # check if the user has numpy installed in the current env
     import numpy as np
 except ImportError:
-    import PygameHelper.utils._colorama as cl
-    colorama = cl.colorama
-    print(f"{colorama.Fore.RED}unable to import numpy, maybe it isn't installed?{colorama.Style.RESET_ALL}")
+    import sys
+    print(f"unable to import numpy, maybe it isn't installed?", file=sys.stderr)
     raise
 
 

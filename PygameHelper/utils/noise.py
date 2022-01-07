@@ -32,6 +32,7 @@ import functools
 import random
 import math
 
+import sys
 import os
 
 CORES = os.cpu_count()
@@ -284,10 +285,7 @@ def fromArray1D(arr: np.ndarray, out: np.ndarray, func) -> None:
 
 
 def _not_init(*args, **kwargs) -> None:
-    import PygameHelper.utils._colorama as cl
-    Fore = cl.colorama.Fore
-    Style = cl.colorama.Style
-    print(f"""{Fore.RED}perlin noise module not initialized{Style.RESET_ALL}""")
+    print(f"""perlin noise module not initialized""", file=sys.stderr)
 
 
 class PerlinNoise:
@@ -329,11 +327,8 @@ class PerlinNoise:
 
             return 0
         except Exception as e:
-            import PygameHelper.utils._colorama as cl
-            Fore = cl.colorama.Fore
-            Style = cl.colorama.Style
             print(
-                f"""{Fore.RED}unable to load perlin noise due to {str(type(e)).split("'")[~1]} -> {e}{Style.RESET_ALL}""")
+                f"""unable to load perlin noise due to {str(type(e)).split("'")[~1]} -> {e}""", file=sys.stderr)
             return 1
 
     @classmethod
@@ -358,10 +353,7 @@ class PerlinNoise:
 
             return 0
         except Exception as e:
-            import PygameHelper.utils._colorama as cl
-            Fore = cl.colorama.Fore
-            Style = cl.colorama.Style
-            print(f"""{Fore.RED}unable to unload perlin noise due to {str(type(e)).split("'")[~1]} -> {str(type(e)).split("'")[~1]}: {e}{Style.RESET_ALL}""")
+            print(f"""unable to unload perlin noise due to {str(type(e)).split("'")[~1]} -> {str(type(e)).split("'")[~1]}: {e}""", sys.stderr)
             return 1
 
 
