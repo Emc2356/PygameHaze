@@ -179,3 +179,16 @@ if USE_NUMBA:
     prange = nb.prange  # alias so we dont have to import numba again
 else:
     prange = range
+
+
+if USE_NUMBA:
+    typed = nb.typed
+else:
+    class typed:
+        class Dict:
+            def empty(*args, **kwargs):
+                return {}
+
+        class List:
+            def empty(*args, **kwargs):
+                return []

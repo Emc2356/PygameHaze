@@ -63,8 +63,7 @@ class FlowField:
         # formula for the angle (θ): noise_value * pi * 2 * 4
         pgh.noise.from_array(self.index_data, 3, out=self.perlin_values)
 
-        np.multiply(self.perlin_values, pgh.TWO_PI, out=self.perlin_values)
-        np.multiply(self.perlin_values, 4, out=self.perlin_values)
+        np.multiply(self.perlin_values, pgh.PI * 2 * 4, out=self.perlin_values)
 
         # we dont need to multiply by r (radius) because we already know that it is 1
         np.cos(self.perlin_values, out=self.perlin_vectors[:, 0])

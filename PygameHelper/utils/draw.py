@@ -25,7 +25,7 @@
 some drawing functions
 """
 
-from typing import List, Union, Tuple, Sequence, Optional
+from typing import List, Union, Tuple, Sequence, Optional, Dict
 import PygameHelper.utils._numba_utils as nbu
 from PygameHelper.utils.formulas import *
 from PygameHelper.exceptions import *
@@ -39,17 +39,18 @@ import pygame
 import os
 
 CORES = os.cpu_count()
+_ARRAY_MEMORY: Dict[int, np.ndarray] = {}
 
 
 @nbu.njit(parallel=True)
-def _bezier_points(
+def _cubic_bezier_points(
         pt1: nbu.Array(float, 1),
         pt2: nbu.Array(float, 1),
         pt3: nbu.Array(float, 1),
         pt4: nbu.Array(float, 1),
-        quality: int
-) -> nbu.Array(float, 2):
-    out = np.zeros((quality, 2))
+        quality: int,
+        out: nbu.Array(float, 2)
+) -> None:
     for start in nbu.prange(CORES):
         for i in range(start, quality + 1, CORES):
             t = i / quality
@@ -59,7 +60,6 @@ def _bezier_points(
                      pt2 * (3 * t3 - 6 * t2 + 3 * t) +\
                      pt3 * (-3 * t3 + 3 * t2) +\
                      pt4 * t3
-    return out
 
 
 @nbu.njit(parallel=True)
@@ -67,9 +67,9 @@ def _quadratic_bezier_points(
         pt1: nbu.Array(float, 1),
         pt2: nbu.Array(float, 1),
         pt3: nbu.Array(float, 1),
-        quality: int
-) -> nbu.Array(float, 2):
-    out = np.zeros((quality, 2))
+        quality: int,
+        out: nbu.Array(float, 2)
+) -> None:
     for start in nbu.prange(CORES):
         for i in range(start, quality + 1, CORES):
             t = i / quality
@@ -77,7 +77,6 @@ def _quadratic_bezier_points(
                 lerp(lerp(pt1[0], pt2[0], t), lerp(pt2[0], pt3[0], t), t),
                 lerp(lerp(pt1[1], pt2[1], t), lerp(pt2[1], pt3[1], t), t)
             )
-    return out
 
 
 # some of this functions are in classes for better organisation
@@ -123,11 +122,16 @@ class Curves:
         :type width: int
         :return: pygame.Rect
         """
+        quality = int(quality)
+        if quality not in _ARRAY_MEMORY:
+            _ARRAY_MEMORY[quality] = np.zeros((quality, 2))
+        points = _ARRAY_MEMORY[quality]
+        _quadratic_bezier_points(np.array(p1), np.array(p2), np.array(p3), quality, points)
         return Draw.lines(
             surface,
             color,
             False,
-            _quadratic_bezier_points(np.array(p1), np.array(p2), np.array(p3), quality),
+            points,
             width
         )
 
@@ -163,12 +167,16 @@ class Curves:
         :type width: int
         :return: pygame.Rect
         """
-        # _bezier_points(np.array(p1), np.array(p2), np.array(p3), np.array(p4), quality)
+        quality = int(quality)
+        if quality not in _ARRAY_MEMORY:
+            _ARRAY_MEMORY[quality] = np.zeros((quality, 2))
+        points = _ARRAY_MEMORY[quality]
+        _cubic_bezier_points(np.array(p1), np.array(p2), np.array(p3), np.array(p4), quality, points)
         return Draw.lines(
             surface,
             color,
             False,
-            _bezier_points(np.array(p1), np.array(p2), np.array(p3), np.array(p4), quality),
+            points,
             width
         )
 
@@ -545,6 +553,17 @@ class Draw:
 
 
 draw = Draw  # i like having classes capitalized but the draw to keep it similar to pygame
+
+
+def build_draw_numba():
+    _quadratic_bezier_points(
+        np.array([0, 0]), np.array([1, 1]), np.array([2, 0]),
+        10, np.ndarray((10, 2))
+    )
+    _cubic_bezier_points(
+        np.array([0, 1]), np.array([1, 2]), np.array([2, -1]), np.array([3, 1]),
+        10, np.ndarray((10, 2))
+    )
 
 
 __all__ = [
