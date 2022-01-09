@@ -1,5 +1,5 @@
 import pygame
-import PygameHazel as pgh
+import PygameHaze as pgh
 
 
 pygame.init()

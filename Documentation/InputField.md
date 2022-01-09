@@ -30,9 +30,9 @@
 # Example code
 
 ```python
-from PygameHazel.constants import *
+from PygameHaze.constants import *
 import pygame
-from PygameHazel import InputField
+from PygameHaze import InputField
 
 
 pygame.init()
@@ -67,7 +67,7 @@ while True:
 #### Example:
 
 ```python
-from PygameHazel import *
+from PygameHaze import *
 from typing import Tuple
 import pygame
 

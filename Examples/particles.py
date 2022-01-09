@@ -1,7 +1,7 @@
 import pygame
 import random
 import time
-import PygameHazel as pgh
+import PygameHaze as pgh
 
 
 pygame.init()

@@ -1,4 +1,4 @@
-import PygameHazel as pgh
+import PygameHaze as pgh
 import pygame
 import time
 

@@ -18,7 +18,7 @@
 
 ```python
 # the imports
-from PygameHazel import *
+from PygameHaze import *
 import pygame
 
 

@@ -1,6 +1,6 @@
 from tkinter.filedialog import asksaveasfile
 from typing import Dict, Union, TextIO
-import PygameHazel as pgh
+import PygameHaze as pgh
 import pygame
 import json
 import json

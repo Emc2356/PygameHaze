@@ -30,7 +30,7 @@ from typing import Tuple, List, Union, Dict
 import math
 import pygame
 
-from PygameHazel.exceptions import *
+from PygameHaze.exceptions import *
 
 
 class Cloth:

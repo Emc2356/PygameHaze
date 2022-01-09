@@ -44,8 +44,8 @@
 ```python
 # the imports
 import pygame
-from PygameHazel import Button
-from PygameHazel.constants import *
+from PygameHaze import Button
+from PygameHaze.constants import *
 
 
 pygame.init()

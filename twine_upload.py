@@ -4,14 +4,17 @@ import sys
 import os
 
 
+TEST_PYPI = True
+
+
 def build():
-    if not os.path.exists("dist"):
-        print("no dist file was found so we are attempting to build from setup.py")
+    if os.path.exists("dist"):
+        print("[LOG] no dist file was found so we are attempting to build from setup.py")
         # delete files that might exist
         for cmd in [
             "del dist\ *.* / s / q",
             "del build\ *.* / s / q",
-            "del PygameHazel.egg - info\ *.* / s / q"
+            "del PygameHaze.egg - info\ *.* / s / q"
         ]:
             try: subprocess.call(cmd)
             except FileNotFoundError: pass
@@ -31,7 +34,11 @@ def upload():
         sys.exit(1)
 
     print("[LOG] uploading the package...")
-    subprocess.call(f"{sys.executable} -m twine upload dist/* -u {USERNAME} -p {PASSWORD}")
+    if TEST_PYPI:
+        subprocess.call(f"{sys.executable} -m twine upload --repository testpypi dist/* -u {USERNAME} -p {PASSWORD}")
+    else:
+        pass
+        # subprocess.call(f"{sys.executable} -m twine upload dist/* -u {USERNAME} -p {PASSWORD}")
 
 
 if __name__ == '__main__':

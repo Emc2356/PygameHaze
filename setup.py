@@ -1,5 +1,9 @@
+# command to install PygameHaze from test.pypi and pypi at the same time:
+# windows: py -pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ PygameHaze
+# Unix/macOS: python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ PygameHaze
+
 from setuptools import setup, find_packages
-import PygameHazel as pgh
+import PygameHaze as pgh
 import codecs
 import os
 
@@ -8,7 +12,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-PACKAGE_NAME = "PygameHazel"
+PACKAGE_NAME = "PygameHaze"
 VERSION = pgh.__version__
 DESCRIPTION = "helpful tools/widgets for pygame"
 
@@ -25,7 +29,7 @@ def setup_package():
         "description": DESCRIPTION,
         "long_description": long_description,
         "long_description_content_type": "text/markdown",
-        "url": "https://github.com/Emc2356/PygameHazel",
+        "url": "https://github.com/Emc2356/PygameHaze",
         "packages": find_packages(),
         "python_requires": ">=3.7",
         "license": "MIT",

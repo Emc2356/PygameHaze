@@ -32,8 +32,8 @@
 import pygame
 import time
 import random
-from PygameHazel.constants import RED, GREY
-from PygameHazel import ParticleManager
+from PygameHaze.constants import RED, GREY
+from PygameHaze import ParticleManager
 
 
 pygame.init()

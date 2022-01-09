@@ -30,9 +30,9 @@
 # Example code
 
 ```python
-from PygameHazel.constants import *
+from PygameHaze.constants import *
 import pygame
-from PygameHazel import InputFieldNumbers
+from PygameHaze import InputFieldNumbers
 
 
 pygame.init()

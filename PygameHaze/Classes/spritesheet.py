@@ -26,7 +26,7 @@ a class for handling spritesheets
 """
 
 
-from PygameHazel.types import RectType, ColorType
+from PygameHaze.types import RectType, ColorType
 from typing import Tuple, List, Optional
 from functools import cached_property
 

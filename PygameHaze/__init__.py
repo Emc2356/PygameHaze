@@ -1,34 +1,34 @@
 __author__ = "emc2356"
 __version__ = "0.3.6"
-__name__ = "PygameHazel"
+__name__ = "PygameHaze"
 
 
 # import the base classes
-from PygameHazel.Classes import Button
-from PygameHazel.Classes import InputField
-from PygameHazel.Classes import InputFieldNumbers
-from PygameHazel.Classes import InputFieldLetters
-from PygameHazel.Classes import Particle
-from PygameHazel.Classes import Animation
-from PygameHazel.Classes import SpriteSheet
-from PygameHazel.Classes import Font
-from PygameHazel.Classes import Cloth
-from PygameHazel.Classes import Point
-from PygameHazel.Classes import Connection
-from PygameHazel.Classes import QuadTree
+from PygameHaze.Classes import Button
+from PygameHaze.Classes import InputField
+from PygameHaze.Classes import InputFieldNumbers
+from PygameHaze.Classes import InputFieldLetters
+from PygameHaze.Classes import Particle
+from PygameHaze.Classes import Animation
+from PygameHaze.Classes import SpriteSheet
+from PygameHaze.Classes import Font
+from PygameHaze.Classes import Cloth
+from PygameHaze.Classes import Point
+from PygameHaze.Classes import Connection
+from PygameHaze.Classes import QuadTree
 
 # the managers for some classes
-from PygameHazel.Classes import ButtonManager
-from PygameHazel.Classes import ParticleManager
-from PygameHazel.Classes import AnimationManager
-from PygameHazel.Classes import InputFieldManager
+from PygameHaze.Classes import ButtonManager
+from PygameHaze.Classes import ParticleManager
+from PygameHaze.Classes import AnimationManager
+from PygameHaze.Classes import InputFieldManager
 
 
-# constants and functions that are useful with PygameHazel
-from PygameHazel.exceptions import PygameHazelException as error
-from PygameHazel.constants import *
-from PygameHazel.utils import *
-from PygameHazel.types import *
+# constants and functions that are useful with PygameHaze
+from PygameHaze.exceptions import PygameHazeException as error
+from PygameHaze.constants import *
+from PygameHaze.utils import *
+from PygameHaze.types import *
 
 import sys
 
@@ -70,7 +70,7 @@ def init(debug: bool=False) -> int:
         if debug:
             print("[DEBUG] building the formulas")
 
-        from PygameHazel.utils.formulas import build_numba_formulas
+        from PygameHaze.utils.formulas import build_numba_formulas
         build_numba_formulas()
 
         if debug:
@@ -86,7 +86,7 @@ def init(debug: bool=False) -> int:
         if debug:
             print("[DEBUG] building the draw functions")
 
-        from PygameHazel.utils.draw import build_draw_numba
+        from PygameHaze.utils.draw import build_draw_numba
         build_draw_numba()
 
         if debug:
@@ -101,6 +101,6 @@ def init(debug: bool=False) -> int:
     return failed
 
 
-print(f"PygameHazel {__version__}")
+print(f"PygameHaze {__version__}")
 
 del sys

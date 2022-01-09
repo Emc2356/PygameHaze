@@ -1,5 +1,5 @@
-from PygameHazel import Animation
-from PygameHazel import load_image, resize_image_ratio,  WHITE
+from PygameHaze import Animation
+from PygameHaze import load_image, resize_image_ratio,  WHITE
 import pygame
 
 

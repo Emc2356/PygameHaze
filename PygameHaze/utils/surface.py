@@ -27,7 +27,7 @@ utilities for pygame surfaces
 
 from typing import Optional, Union, List, Tuple
 
-from PygameHazel.types import PathType
+from PygameHaze.types import PathType
 from collections import defaultdict
 from functools import lru_cache
 import pygame

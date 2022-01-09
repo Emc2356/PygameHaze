@@ -30,9 +30,9 @@ from typing import Tuple, List, Union
 
 import pygame
 
-from PygameHazel.utils import *
-from PygameHazel.constants import *
-from PygameHazel.exceptions import *
+from PygameHaze.utils import *
+from PygameHaze.constants import *
+from PygameHaze.exceptions import *
 
 
 class Button:
