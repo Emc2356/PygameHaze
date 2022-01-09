@@ -12,6 +12,9 @@ PACKAGE_NAME = "PygameHelper"
 VERSION = pgh.__version__
 DESCRIPTION = "helpful tools/widgets for pygame"
 
+with codecs.open(os.path.join(here, "requirements.txt"), encoding="utf-8") as fh:
+    requirements = fh.read().split()
+
 
 def setup_package():
     metadata = {
@@ -25,7 +28,7 @@ def setup_package():
         "packages": find_packages(),
         "python_requires": ">=3.7",
         "license": "MIT",
-        "install_requires": ["pygame", "numpy"]
+        "install_requires": requirements
     }
 
     setup(**metadata)

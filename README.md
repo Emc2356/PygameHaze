@@ -75,7 +75,7 @@
 # Examples
 ##### Examples of the classes and functions can be found in [./Examples](./Examples)
 
-# contributions:
+contributions:
 ---
 > Pull requests are welcome!  
 > Feel free to create a fork of this repository and use the code for any purpose. Credit is appreciated but not needed.
