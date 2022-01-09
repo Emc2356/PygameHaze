@@ -1,7 +1,7 @@
 # ButtonManger
 
 #### [creator](https://github.com/Emc2356)
-#### [source code](https://github.com/Emc2356/PygameHelper)
+#### [source code](https://github.com/Emc2356/PygameHazel)
 
 #### this is a class made for managing buttons easier with the [pygame](https://www.pygame.org)
 

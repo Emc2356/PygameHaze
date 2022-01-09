@@ -1,6 +1,6 @@
 import os
 import pygame
-import PygameHelper as pgh
+import PygameHazel as pgh
 
 WIDTH, HEIGHT = 700, 700
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))

@@ -30,11 +30,11 @@ from typing import Tuple, List, Iterable
 
 import pygame
 
-from PygameHelper.constants import *
-from PygameHelper.Classes import Button
-from PygameHelper.Classes import InputField, InputFieldNumbers, InputFieldLetters
-from PygameHelper.Classes import Particle
-from PygameHelper.Classes import Animation
+from PygameHazel.constants import *
+from PygameHazel.Classes import Button
+from PygameHazel.Classes import InputField, InputFieldNumbers, InputFieldLetters
+from PygameHazel.Classes import Particle
+from PygameHazel.Classes import Animation
 
 
 class _BaseManager:

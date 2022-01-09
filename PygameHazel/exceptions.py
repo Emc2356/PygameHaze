@@ -22,11 +22,11 @@
 
 
 """
-exceptions for PygameHelper
+exceptions for PygameHazel
 """
 
 
-class PygameHelperException(Exception):
+class PygameHazelException(Exception):
     """
     the base exception for the rest of the exception
     that are used for this package
@@ -44,7 +44,7 @@ class PygameHelperException(Exception):
         return repr(self.message)
 
 
-class TextOfOutBounds(PygameHelperException):
+class TextOfOutBounds(PygameHazelException):
     """
     the exception that is raised when the
     text that is passed is out of the given
@@ -53,7 +53,7 @@ class TextOfOutBounds(PygameHelperException):
     pass
 
 
-class InvalidAnchor(PygameHelperException):
+class InvalidAnchor(PygameHazelException):
     """
     the exception that is raised when the
     user provides a invalid anchor for a widget.
@@ -61,7 +61,7 @@ class InvalidAnchor(PygameHelperException):
     pass
 
 
-class MissingRequiredArgument(PygameHelperException):
+class MissingRequiredArgument(PygameHazelException):
     """
     this exception is raised when a method is
     missing a required argument.
@@ -69,7 +69,7 @@ class MissingRequiredArgument(PygameHelperException):
     pass
 
 
-class WordTooLong(PygameHelperException):
+class WordTooLong(PygameHazelException):
     """
     this is the exception that is going to be raised
     when the word to be splitted to multi-line text
@@ -78,7 +78,7 @@ class WordTooLong(PygameHelperException):
     pass
 
 
-class NoLockedPoints(PygameHelperException):
+class NoLockedPoints(PygameHazelException):
     """
     this is the exception that is going to be raised
     when a cloth has no points that are locked so
@@ -87,7 +87,7 @@ class NoLockedPoints(PygameHelperException):
     pass
 
 
-class NoConnection(PygameHelperException):
+class NoConnection(PygameHazelException):
     """
     this exception is going to be raised
     when a point in a cloth has no connection
@@ -95,15 +95,15 @@ class NoConnection(PygameHelperException):
     """
 
 
-class Notimplemented(PygameHelperException):
+class Notimplemented(PygameHazelException):
     """
     this exception exists cause the creator of
-    PygameHelper is too board to implement
+    PygameHazel is too board to implement
     a full thing then update it
     """
 
 
-class ShapeError(PygameHelperException):
+class ShapeError(PygameHazelException):
     """
     this exception is raised when an
     error from the user or from the inner code
@@ -111,15 +111,15 @@ class ShapeError(PygameHelperException):
     """
 
 
-class NoLocationFound(PygameHelperException):
+class NoLocationFound(PygameHazelException):
     """
     this exception is raised when the user tries
-    to pop a location with PygameHelper.utils.draw.Draw.pop
+    to pop a location with PygameHazel.utils.draw.Draw.pop
     and ne hasn't pushed any yet
     """
 
 
-class UnrecognisedCharacter(PygameHelperException):
+class UnrecognisedCharacter(PygameHazelException):
     """
     this exception is raised when in the Font.render
     was passed a character that is not recognised

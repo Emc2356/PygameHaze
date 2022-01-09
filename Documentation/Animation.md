@@ -1,7 +1,7 @@
 # Animation
 
 #### [creator](https://github.com/Emc2356)
-#### [source code](https://github.com/Emc2356/PygameHelper)
+#### [source code](https://github.com/Emc2356/PygameHazel)
 
 #### this is a class made for creating animations with the [pygame](https://www.pygame.org)
 > these are the mandatory arguments
@@ -15,9 +15,10 @@
 | `anchor` | were the x, y is going to be placed | topleft |
 
 # Example code
+
 ```python
-from PygameHelper import Animation
-from PygameHelper import load_image, resize_image_ratio,  WHITE
+from PygameHazel import Animation
+from PygameHazel import load_image, resize_image_ratio,  WHITE
 import pygame
 
 

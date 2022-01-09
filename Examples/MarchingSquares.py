@@ -1,4 +1,4 @@
-import PygameHelper as pgh
+import PygameHazel as pgh
 from math import ceil
 import numpy as np
 import pygame

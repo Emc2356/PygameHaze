@@ -1,7 +1,7 @@
 # Button
 
 #### [creator](https://github.com/Emc2356)
-#### [source code](https://github.com/Emc2356/PygameHelper)
+#### [source code](https://github.com/Emc2356/PygameHazel)
 
 #### this is a class made for creating button with the [pygame](https://www.pygame.org)
 > these are the mandatory arguments
@@ -40,11 +40,12 @@
 | `font_size` | the size of the font that is going to be used | 60 |
 
 # Example code
+
 ```python
 # the imports
 import pygame
-from PygameHelper import Button
-from PygameHelper.constants import *
+from PygameHazel import Button
+from PygameHazel.constants import *
 
 
 pygame.init()

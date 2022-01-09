@@ -1,7 +1,7 @@
 # Particle
 
 #### [creator](https://github.com/Emc2356)
-#### [source code](https://github.com/Emc2356/PygameHelper)
+#### [source code](https://github.com/Emc2356/PygameHazel)
 
 #### this is a class made for creating Particles with the [pygame](https://www.pygame.org)
 > these are the mandatory arguments
@@ -27,12 +27,13 @@
 | `randomize_vel` | it randomizes the velocities of the of the particle | limit_x[the smallest vel allowed, the biggest vel allowed], limit_y[the smallest vel allowed, the biggest vel allowed], dt |
 
 # Example code
+
 ```python
 import pygame
 import time
 import random
-from PygameHelper.constants import RED, GREY
-from PygameHelper import ParticleManager
+from PygameHazel.constants import RED, GREY
+from PygameHazel import ParticleManager
 
 
 pygame.init()

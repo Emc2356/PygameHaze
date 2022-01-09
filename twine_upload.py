@@ -11,7 +11,7 @@ def build():
         for cmd in [
             "del dist\ *.* / s / q",
             "del build\ *.* / s / q",
-            "del PygameHelper.egg - info\ *.* / s / q"
+            "del PygameHazel.egg - info\ *.* / s / q"
         ]:
             try: subprocess.call(cmd)
             except FileNotFoundError: pass

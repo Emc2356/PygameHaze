@@ -29,13 +29,13 @@ throw a given image
 
 from typing import Tuple, List, Dict, Union
 from functools import cached_property, lru_cache
-from PygameHelper.types import *
+from PygameHazel.types import *
 
 import pygame
 
-from PygameHelper.Classes import SpriteSheet
-from PygameHelper.utils import *
-from PygameHelper.exceptions import *
+from PygameHazel.Classes import SpriteSheet
+from PygameHazel.utils import *
+from PygameHazel.exceptions import *
 
 
 class Font:

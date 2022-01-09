@@ -32,9 +32,9 @@ from functools import lru_cache
 import pygame
 import json
 
-from PygameHelper.constants import *
-from PygameHelper.exceptions import *
-from PygameHelper.types import *
+from PygameHazel.constants import *
+from PygameHazel.exceptions import *
+from PygameHazel.types import *
 
 Number = Union[int, float]
 NeighborOutputType = TypeVar("NeighborOutputType")

@@ -15,9 +15,10 @@
 | `spacing` | how much spacing per letter | 1 |
 
 # Example code
+
 ```python
 # the imports
-from PygameHelper import *
+from PygameHazel import *
 import pygame
 
 

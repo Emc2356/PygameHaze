@@ -25,7 +25,7 @@
 perlin noise
 """
 
-import PygameHelper.utils._numba_utils as nbu
+import PygameHazel.utils._numba_utils as nbu
 from typing import Optional
 import numpy as np
 import functools

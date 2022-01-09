@@ -1,5 +1,5 @@
 from typing import List, Tuple
-import PygameHelper as pgh
+import PygameHazel as pgh
 import pygame.gfxdraw
 import numpy as np  # numpy to get a better performance with the noise.from_array as it excepts ndarray
 import pygame

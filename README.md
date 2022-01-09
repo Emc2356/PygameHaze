@@ -1,6 +1,6 @@
 # PygameHelper
 
-###### [source code](https://github.com/Emc2356/Pygame-Widgets)
+###### [source code](https://github.com/Emc2356/PygameHazel)
 ###### [creator](https://github.com/Emc2356)
 ###### [PyGame](https://pygame.org/) 
 

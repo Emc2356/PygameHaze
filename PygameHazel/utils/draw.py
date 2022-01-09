@@ -26,11 +26,11 @@ some drawing functions
 """
 
 from typing import List, Union, Tuple, Sequence, Optional, Dict
-import PygameHelper.utils._numba_utils as nbu
-from PygameHelper.utils.formulas import *
-from PygameHelper.exceptions import *
-from PygameHelper.constants import *
-from PygameHelper.types import *
+import PygameHazel.utils._numba_utils as nbu
+from PygameHazel.utils.formulas import *
+from PygameHazel.exceptions import *
+from PygameHazel.constants import *
+from PygameHazel.types import *
 
 import pygame.gfxdraw
 import numpy as np
@@ -270,7 +270,7 @@ class Draw:
         :return: pygame.Rect
         """
         if not len(_SO.surfaces):
-            raise ShapeError("shape was never started. start a shape with PygameHelper.beginShape")
+            raise ShapeError("shape was never started. start a shape with PygameHazel.beginShape")
         if fill:
             xx = sorted([v[0] for v in _SO.vertexes_list[~0]])
             yy = sorted([v[1] for v in _SO.vertexes_list[~0]])

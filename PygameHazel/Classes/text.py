@@ -30,9 +30,9 @@ from typing import Tuple, List
 
 import pygame
 
-from PygameHelper.constants import *
-from PygameHelper.exceptions import *
-from PygameHelper.utils import *
+from PygameHazel.constants import *
+from PygameHazel.exceptions import *
+from PygameHazel.utils import *
 
 
 class SimpleText:

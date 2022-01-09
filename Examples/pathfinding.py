@@ -1,4 +1,4 @@
-import PygameHelper as pgh
+import PygameHazel as pgh
 import pygame
 import time
 

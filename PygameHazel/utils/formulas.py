@@ -25,7 +25,7 @@
 some useful mathematical formulas
 """
 
-import PygameHelper.utils._numba_utils as nbu
+import PygameHazel.utils._numba_utils as nbu
 
 import math
 

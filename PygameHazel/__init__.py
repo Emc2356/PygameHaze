@@ -1,34 +1,34 @@
 __author__ = "emc2356"
 __version__ = "0.3.6"
-__name__ = "PygameHelper"
+__name__ = "PygameHazel"
 
 
 # import the base classes
-from PygameHelper.Classes import Button
-from PygameHelper.Classes import InputField
-from PygameHelper.Classes import InputFieldNumbers
-from PygameHelper.Classes import InputFieldLetters
-from PygameHelper.Classes import Particle
-from PygameHelper.Classes import Animation
-from PygameHelper.Classes import SpriteSheet
-from PygameHelper.Classes import Font
-from PygameHelper.Classes import Cloth
-from PygameHelper.Classes import Point
-from PygameHelper.Classes import Connection
-from PygameHelper.Classes import QuadTree
+from PygameHazel.Classes import Button
+from PygameHazel.Classes import InputField
+from PygameHazel.Classes import InputFieldNumbers
+from PygameHazel.Classes import InputFieldLetters
+from PygameHazel.Classes import Particle
+from PygameHazel.Classes import Animation
+from PygameHazel.Classes import SpriteSheet
+from PygameHazel.Classes import Font
+from PygameHazel.Classes import Cloth
+from PygameHazel.Classes import Point
+from PygameHazel.Classes import Connection
+from PygameHazel.Classes import QuadTree
 
 # the managers for some classes
-from PygameHelper.Classes import ButtonManager
-from PygameHelper.Classes import ParticleManager
-from PygameHelper.Classes import AnimationManager
-from PygameHelper.Classes import InputFieldManager
+from PygameHazel.Classes import ButtonManager
+from PygameHazel.Classes import ParticleManager
+from PygameHazel.Classes import AnimationManager
+from PygameHazel.Classes import InputFieldManager
 
 
-# constants and functions that are useful with PygameHelper
-from PygameHelper.exceptions import PygameHelperException as error
-from PygameHelper.constants import *
-from PygameHelper.utils import *
-from PygameHelper.types import *
+# constants and functions that are useful with PygameHazel
+from PygameHazel.exceptions import PygameHazelException as error
+from PygameHazel.constants import *
+from PygameHazel.utils import *
+from PygameHazel.types import *
 
 import sys
 
@@ -70,7 +70,7 @@ def init(debug: bool=False) -> int:
         if debug:
             print("[DEBUG] building the formulas")
 
-        from PygameHelper.utils.formulas import build_numba_formulas
+        from PygameHazel.utils.formulas import build_numba_formulas
         build_numba_formulas()
 
         if debug:
@@ -86,7 +86,7 @@ def init(debug: bool=False) -> int:
         if debug:
             print("[DEBUG] building the draw functions")
 
-        from PygameHelper.utils.draw import build_draw_numba
+        from PygameHazel.utils.draw import build_draw_numba
         build_draw_numba()
 
         if debug:
@@ -101,6 +101,6 @@ def init(debug: bool=False) -> int:
     return failed
 
 
-print(f"PygameHelper {__version__}")
+print(f"PygameHazel {__version__}")
 
 del sys

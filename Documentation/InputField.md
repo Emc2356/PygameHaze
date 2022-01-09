@@ -1,7 +1,7 @@
 # inputField
 
 #### [creator](https://github.com/Emc2356)
-#### [source code](https://github.com/Emc2356/PygameHelper)
+#### [source code](https://github.com/Emc2356/PygameHazel)
 
 #### this is a class made for creating simple inputFields with the [pygame](https://www.pygame.org)
 > these are the mandatory arguments
@@ -28,10 +28,11 @@
 | `font_size` | the size of the font that is going to be used | 60 |
 
 # Example code
+
 ```python
-from PygameHelper.constants import *
+from PygameHazel.constants import *
 import pygame
-from PygameHelper import InputField
+from PygameHazel import InputField
 
 
 pygame.init()
@@ -64,8 +65,9 @@ while True:
 ##### to create custom input fields make a class and inherit from InputField and override `event_handler(event)`
 ##### and to write in the inputField call the .write(char) method
 #### Example:
+
 ```python
-from PygameHelper import *
+from PygameHazel import *
 from typing import Tuple
 import pygame
 

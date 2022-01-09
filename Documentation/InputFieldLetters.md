@@ -1,7 +1,7 @@
 # inputFieldLetters
 
 #### [creator](https://github.com/Emc2356)
-#### [source code](https://github.com/Emc2356/PygameHelper)
+#### [source code](https://github.com/Emc2356/PygameHazel)
 
 #### this is a class made for creating simple InputFields that accept letters and numbers with the [pygame](https://www.pygame.org)
 > these are the mandatory arguments
@@ -28,10 +28,11 @@
 | `font_size` | the size of the font that is going to be used | 60 |
 
 # Example code
+
 ```python
-from PygameHelper.constants import *
+from PygameHazel.constants import *
 import pygame
-from PygameHelper import InputFieldLetters
+from PygameHazel import InputFieldLetters
 
 
 pygame.init()

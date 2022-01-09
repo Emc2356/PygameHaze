@@ -1,7 +1,7 @@
 # perlin noise
 
 #### [creator](https://github.com/Emc2356)
-#### [source code](https://github.com/Emc2356/PygameHelper)
+#### [source code](https://github.com/Emc2356/PygameHazel)
 
 #### this is a function to get a part from perlin noise [pygame](https://www.pygame.org)
 #### the perlin noise module takes advantage of numba jit function, if numba isn't found then it won't use the jit function, and it will default to a normal python function

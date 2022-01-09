@@ -1,7 +1,7 @@
 # Cloth
 
 #### [creator](https://github.com/Emc2356)
-#### [source code](https://github.com/Emc2356/PygameHelper)
+#### [source code](https://github.com/Emc2356/PygameHazel)
 
 #### this is a class made for creating cloths/ropes with the [pygame](https://www.pygame.org)
 > these are the mandatory arguments
@@ -23,10 +23,11 @@
 | `draw` | it draws the cloth | color, filled=False, width=2 |
 
 # Example code
+
 ```python
 import os
 import pygame
-import PygameHelper as pgh
+import PygameHazel as pgh
 
 WIDTH, HEIGHT = 700, 700
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
