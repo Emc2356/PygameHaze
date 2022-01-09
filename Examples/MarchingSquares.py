@@ -76,48 +76,34 @@ class Game:
                 )
                 if state == 1:
                     pygame.draw.line(self.WIN, (255, 255, 255), c, d, 1)
-                    continue
-                if state == 2:
+                elif state == 2:
                     pygame.draw.line(self.WIN, (255, 255, 255), b, c, 1)
-                    continue
-                if state == 3:
+                elif state == 3:
                     pygame.draw.line(self.WIN, (255, 255, 255), b, d, 1)
-                    continue
-                if state == 4:
+                elif state == 4:
                     pygame.draw.line(self.WIN, (255, 255, 255), a, b, 1)
-                    continue
-                if state == 5:
+                elif state == 5:
                     pygame.draw.line(self.WIN, (255, 255, 255), a, d, 1)
                     pygame.draw.line(self.WIN, (255, 255, 255), b, c, 1)
-                    continue
-                if state == 6:
+                elif state == 6:
                     pygame.draw.line(self.WIN, (255, 255, 255), a, c, 1)
-                    continue
-                if state == 7:
+                elif state == 7:
                     pygame.draw.line(self.WIN, (255, 255, 255), a, d, 1)
-                    continue
-                if state == 8:
+                elif state == 8:
                     pygame.draw.line(self.WIN, (255, 255, 255), a, d, 1)
-                    continue
-                if state == 9:
+                elif state == 9:
                     pygame.draw.line(self.WIN, (255, 255, 255), a, c, 1)
-                    continue
-                if state == 10:
+                elif state == 10:
                     pygame.draw.line(self.WIN, (255, 255, 255), a, b, 1)
                     pygame.draw.line(self.WIN, (255, 255, 255), c, d, 1)
-                    continue
-                if state == 11:
+                elif state == 11:
                     pygame.draw.line(self.WIN, (255, 255, 255), a, b, 1)
-                    continue
-                if state == 12:
+                elif state == 12:
                     pygame.draw.line(self.WIN, (255, 255, 255), b, d, 1)
-                    continue
-                if state == 13:
+                elif state == 13:
                     pygame.draw.line(self.WIN, (255, 255, 255), b, c, 1)
-                    continue
-                if state == 14:
+                elif state == 14:
                     pygame.draw.line(self.WIN, (255, 255, 255), c, d, 1)
-                    continue
 
         pygame.display.update()
 
