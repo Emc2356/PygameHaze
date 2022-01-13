@@ -15,5 +15,3 @@ from PygameHaze.Classes.quadtree import QuadTree
 # managers
 from PygameHaze.Classes.managers import ButtonManager
 from PygameHaze.Classes.managers import ParticleManager
-from PygameHaze.Classes.managers import AnimationManager
-from PygameHaze.Classes.managers import InputFieldManager

@@ -95,14 +95,6 @@ class NoConnection(PygameHazeException):
     """
 
 
-class Notimplemented(PygameHazeException):
-    """
-    this exception exists cause the creator of
-    PygameHaze is too board to implement
-    a full thing then update it
-    """
-
-
 class ShapeError(PygameHazeException):
     """
     this exception is raised when an
@@ -133,7 +125,6 @@ __all__ = [
     "WordTooLong",
     "NoLockedPoints",
     "NoConnection",
-    "Notimplemented",
     "ShapeError",
     "NoLocationFound",
     "UnrecognisedCharacter"

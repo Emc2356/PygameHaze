@@ -20,8 +20,6 @@ from PygameHaze.Classes import QuadTree
 # the managers for some classes
 from PygameHaze.Classes import ButtonManager
 from PygameHaze.Classes import ParticleManager
-from PygameHaze.Classes import AnimationManager
-from PygameHaze.Classes import InputFieldManager
 
 
 # constants and functions that are useful with PygameHaze

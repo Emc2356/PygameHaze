@@ -195,13 +195,13 @@ class Draw:
 
     @staticmethod
     def translate(
-        x: Union[Number, pygame.math.Vector2, Tuple[Number, Number], List[Number]],
-        y: Optional[Number]=_MISSING
+        x: Union[float, pygame.math.Vector2, Tuple[float, float], List[float]],
+        y: Optional[float]=_MISSING
     ) -> None:
         """
         it sets the 0, 0 position for drawing
-        :param x: Optional[Union[Number, pygame.math.Vector2, Vector, Tuple[Number, Number], List[Number]]]
-        :param y: Optional[Number]
+        :param x: Optional[Union[float, pygame.math.Vector2, Vector, Tuple[float, float], List[float]]]
+        :param y: Optional[float]
         :return:
         """
         if y is _MISSING or y is None:
@@ -234,13 +234,13 @@ class Draw:
 
     @staticmethod
     def vertex(
-        x: Union[Number, pygame.math.Vector2, Tuple[Number, Number], List[Number]],
-        y: Optional[Number]=_MISSING
+        x: Union[float, pygame.math.Vector2, Tuple[float, float], List[float]],
+        y: Optional[float]=_MISSING
     ) -> None:
         """
         specify the vertex coordinates for the shapes
-        :param x: Optional[Union[Number, pygame.math.Vector2, Vector, Tuple[Number, Number], List[Number]]]
-        :param y: Optional[Number]
+        :param x: Optional[Union[float, pygame.math.Vector2, Vector, Tuple[float, float], List[float]]]
+        :param y: Optional[float]
         :return:
         """
         if y is _MISSING or y is None:

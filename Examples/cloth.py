@@ -8,7 +8,7 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 FPS = 60
 
-cloth = pgh.Cloth(WIN, pgh.get_cloth(os.path.join("..", "tools", "cloths", "cloth.cloth")))
+cloth = pgh.Cloth(WIN, pgh.read_json(os.path.join("..", "tools", "cloths", "cloth.cloth")))
 rects = [
     pygame.Rect(100, 100, 100, 50),
     pygame.Rect(400, 100, 50, 100),
@@ -24,7 +24,7 @@ while True:
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             pygame.quit()
             quit(-1)
-        if event.type == pygame.MOUSEMOTION: cloth.move_all(event.pos)
+        if event.type == pygame.MOUSEMOTION: cloth.move_locked(event.pos)
 
     cloth.update()
     cloth.collide(rects)

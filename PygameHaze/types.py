@@ -2,24 +2,26 @@
 this are some types taken from inside the pygame library about some common types or commonly needed types
 """
 
-from typing import Union, List, Tuple, Iterable
+from typing import Union, List, Tuple, Iterable, Iterator, Generator, Any
+from pathlib import Path
 import pygame
 import os
 
-
-Number = Union[int, float]
-CoordsType = Union[Tuple[Number, Number], List[Number]]
-ColorType = Union[pygame.Color, str, Tuple[Number, Number, Number], List[Number], int, Tuple[Number, Number, Number, Number]]
+CoordsType = Union[
+    Tuple[float, float], List[float],
+    pygame.math.Vector2, Iterable[float], Iterator[float], Generator[float, Any, Any]
+]
+ColorType = Union[pygame.Color, str, Tuple[float, float, float], List[float], int, Tuple[float, float, float, float]]
 RectType = Union[
     pygame.Rect,
-    Tuple[Number, Number, Number, Number],
-    Tuple[Tuple[Number, Number], Tuple[Number, Number]],
+    Tuple[float, float, float, float],
+    Tuple[Tuple[float, float], Tuple[float, float]],
     List[pygame.math.Vector2],
     Tuple[pygame.math.Vector2, pygame.math.Vector2],
     Iterable[pygame.math.Vector2],
-    List[Number]
+    List[float]
 ]
-PathType = Union[str, bytes, os.PathLike[str], os.PathLike[bytes]]
-types = [Number, CoordsType, RectType, ColorType, PathType]
+PathType = Union[str, bytes, os.PathLike[str], os.PathLike[bytes], Path]
+types = [CoordsType, RectType, ColorType, PathType]
 
-__all__ = ["Number", "CoordsType", "ColorType", "RectType", "types", "PathType"]
+__all__ = ["CoordsType", "ColorType", "RectType", "types", "PathType"]

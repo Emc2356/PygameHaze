@@ -4,7 +4,7 @@ import sys
 import os
 
 
-TEST_PYPI = True
+TEST_PYPI = False
 
 
 def build():
@@ -37,8 +37,7 @@ def upload():
     if TEST_PYPI:
         subprocess.call(f"{sys.executable} -m twine upload --repository testpypi dist/* -u {USERNAME} -p {PASSWORD}")
     else:
-        pass
-        # subprocess.call(f"{sys.executable} -m twine upload dist/* -u {USERNAME} -p {PASSWORD}")
+        subprocess.call(f"{sys.executable} -m twine upload dist/* -u {USERNAME} -p {PASSWORD}")
 
 
 if __name__ == '__main__':

@@ -30,7 +30,7 @@ from typing import Tuple, List, Union, Dict
 import math
 import pygame
 
-from PygameHaze.exceptions import *
+from PygameHaze.exceptions import NoLockedPoints
 
 
 class Cloth:
@@ -86,7 +86,7 @@ class Cloth:
                 con.update(dt)
 
     def collide(self, rects: List[pygame.Rect]) -> None:
-        raise Notimplemented("collide method for cloth object is not implemented yet.")
+        raise NotImplemented("collide method for cloth object is not implemented yet.")
         rects = [pygame.Rect(r) for r in rects]
         for point in self.points:
             for rect in rects:

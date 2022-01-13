@@ -26,17 +26,15 @@ some useful functions for pygame
 and general use
 """
 
-from typing import List, Tuple, Iterable, Generator, Union, Dict, Sequence, TypeVar, Any
+from typing import List, Tuple, Iterable, Generator, Union, Iterator, Sequence, TypeVar, Any, Optional
 from functools import lru_cache
 
 import pygame
 import json
 
 from PygameHaze.constants import *
-from PygameHaze.exceptions import *
 from PygameHaze.types import *
 
-Number = Union[int, float]
 NeighborOutputType = TypeVar("NeighborOutputType")
 
 
@@ -46,10 +44,7 @@ def left_click(event: pygame.event.Event) -> bool:
     :param event: pygame.event.Event
     :return: bool
     """
-    if event.type == pygame.MOUSEBUTTONDOWN:
-        if event.button == 1:
-            return True
-    return False
+    return event.type == pygame.MOUSEBUTTONDOWN and event.button == 1
 
 
 def middle_click(event: pygame.event.Event) -> bool:
@@ -58,10 +53,7 @@ def middle_click(event: pygame.event.Event) -> bool:
     :param event: pygame.event.Event
     :return: bool
     """
-    if event.type == pygame.MOUSEBUTTONDOWN:
-        if event.button == 2:
-            return True
-    return False
+    return event.type == pygame.MOUSEBUTTONDOWN and event.button == 2
 
 
 def right_click(event: pygame.event.Event) -> bool:
@@ -70,30 +62,22 @@ def right_click(event: pygame.event.Event) -> bool:
     :param event: pygame.event.Event
     :return: bool
     """
-    if event.type == pygame.MOUSEBUTTONDOWN:
-        if event.button == 3:
-            return True
-    return False
+    return event.type == pygame.MOUSEBUTTONDOWN and event.button == 3
 
 
 @lru_cache()
-def get_font(size, type_of_font="comicsans") -> pygame.font.Font:
+def get_font(size: int, type_of_font: Optional[str]=None) -> pygame.font.Font:
     """
-    it returns a font
-    :param size: int
-    :param type_of_font: str
+    it returns a font object with the given sie and type of font
+    :param size: the size of the font
+    :param type_of_font: the type of the font, it can be a path or a sys font
+    :type size: int
+    :type type_of_font: str
     :return: pygame.font.Font
     """
-    if type_of_font.endswith(".tff"):
-        font = pygame.font.Font(
-            type_of_font, size
-        )
-        return font
-
-    font = pygame.font.SysFont(
-        type_of_font, size
-    )
-    return font
+    if type_of_font is None or type_of_font.endswith(".ttf"):
+        return pygame.font.Font(type_of_font, size)
+    return pygame.font.SysFont(type_of_font, size)
 
 
 @lru_cache()
@@ -110,63 +94,71 @@ def wrap_multi_lines(
     :return: List[str]
     """
     finished_lines = [""]
+    render = font.render
 
     for word in text.split(" "):
-        w = font.render(word, antialias, BLACK).get_width()
+        w = render(word, antialias, BLACK).get_width()
         # check if one word is too long to fit in one line
         if w > max_width:
-            raise WordTooLong(
-                f"""the word: "{word}" is too long to fit in a width of: {max_width}, out of bounds by: {w - max_width}pxls""")
+            raise ValueError(f"word '{word}' is too long to fit in the given width by {w - max_width}pxls")
 
-        if font.render(finished_lines[-1] + word, antialias, BLACK).get_width() > max_width:
-            finished_lines.append(f"""{word}""")
+        if render(f"{finished_lines[~0]} {word}", antialias, BLACK).get_width() > max_width or "\n" in word:
+            finished_lines.append(f"{word}")
         else:
-            finished_lines[-1] += f""" {word}"""
+            finished_lines[~0] += f" {word}"
     finished_lines[0] = finished_lines[0][1:]
     if max_height > 0:
         h = 0
         for line in finished_lines:
-            h += font.render(line, antialias, BLACK).get_height()
+            h += render(line, antialias, BLACK).get_height()
 
         if h > max_height:
-            raise TextOfOutBounds(
-                f"""the lines: {finished_lines} are too long in the y axis by: {h - max_height}pxls""")
+            raise ValueError(f"height limit exceeded {max_height} by {h - max_height}pxls")
 
     return finished_lines
 
 
-def blit_multiple_lines(
-        x: int, y: int, lines: List[str], WIN: pygame.surface.Surface, font: pygame.font.Font,
-        centered_x=False, centered_x_pos: int=None, color: Tuple[int, int, int]=(0, 0, 0)
-) -> None:
+def blit_list(
+        surface: pygame.surface.Surface, pos: CoordsType, lines: List[str], font: pygame.font.Font,
+        center_x_pos: int=None, color: ColorType=BLACK, doreturn: bool=True
+) -> Optional[pygame.Rect]:
     """
     it blits in a surface a list of strings
-    :param x: int
-    :param y: int
-    :param lines: list[str]
-    :param WIN: pygame.surface.Surface
-    :param font: pygame.font.Font
-    :param centered_x: if the text is going to be x-centered
-    :param centered_x_pos: the rect that is going to be used if centered_x is True
-    :param color: Tuple[int, int, int]
-    :return: None
+    :param surface: the target surface
+    :param pos: the x, y position for the drawing
+    :param lines: a list of strings that will be drawn
+    :param font: the font object that will be used for the rendering
+    :param center_x_pos: if this is passed then the text will be centered in the x axis
+    :param color: the color of the font
+    :param doreturn: whether the function is going to return the rect
+    :type surface: pygame.surface.Surface
+    :type pos: Sequence[int]
+    :type lines: List[str]
+    :type font: pygame.font.Font
+    :type center_x_pos: Optional[int]
+    :type color: ColorType
+    :type doreturn: bool
+    :return: Optional[pygame.rect.Rect]
     """
-    if centered_x and not centered_x_pos:
-        raise MissingRequiredArgument("Missing 'centered_x_pos'")
+    if center_x_pos and not center_x_pos:
+        raise ValueError("Missing 'centered_x_pos'")
+    x, y, *_ = pos
     height = font.get_height()
-    for i, text in enumerate(lines):
-        rendered_text_surface = font.render(text, True, color)
-        if centered_x:
-            WIN.blit(rendered_text_surface, (centered_x_pos - rendered_text_surface.get_width() / 2, y + (i * height)))
-        else:
-            WIN.blit(rendered_text_surface, (x, y + (i * height)))
+    blit_seq = [
+        (rendered_text_surface, (center_x_pos - rendered_text_surface.get_width() / 2, y + (i * height)))
+        for i, rendered_text_surface in enumerate(map(lambda text: font.render(text, True, color), lines))
+    ] if center_x_pos else [
+        (rendered_text_surface, (x, y + (i * height)))
+        for i, rendered_text_surface in enumerate(map(lambda text: font.render(text, True, color), lines))
+        ]
+    return surface.blits(blit_seq, doreturn)
 
 
-def flatten(iterable: Iterable) -> Generator:
+def flatten(iterable: Union[Sequence, Iterable, Iterator, Generator, map]) -> Generator:
     """
     it takes a iterable object and it flattens the object
-    :param iterable: Iterable
-    :return: any
+    :param iterable: Iterable Sequence
+    :return: Generator
     """
     for item in iterable:
         if isinstance(item, list) or isinstance(item, tuple):
@@ -176,15 +168,14 @@ def flatten(iterable: Iterable) -> Generator:
             yield item
 
 
-def get_cloth(path: str) -> Dict[str, list]:
+def read_json(path: PathType) -> dict:
     """
     it returns the cloth data from a file
     :param path: str
     :return: Dict
     """
     with open(path, "r") as f:
-        data = json.loads(f.read())
-    return data
+        return json.loads(f.read())
 
 
 def get_neighbors(
@@ -205,14 +196,8 @@ def get_neighbors(
     rows = len(grid[0])
     oi, oj, *_ = target
 
-    indexes = [(oi - 1, oj), (oi, oj - 1), (oi, oj + 1), (oi + 1, oj)]
-    if diagonal:
-        indexes += [
-            (oi - 1, oj - 1),
-            (oi - 1, oj + 1),
-            (oi + 1, oj + 1),
-            (oi + 1, oj - 1)
-        ]
+    indexes = [(oi - 1, oj), (oi, oj - 1), (oi, oj + 1), (oi + 1, oj)] +\
+              [(oi - 1, oj - 1), (oi - 1, oj + 1), (oi + 1, oj + 1), (oi + 1, oj - 1)] * bool(diagonal)
 
     for i, j in indexes:
         if not (i == oi and j == oj) and 0 <= i < columns and 0 <= j < rows:
@@ -234,14 +219,8 @@ def get_neighbors_index(
     rows = len(grid[0]) - 1
     oi, oj = target
 
-    indexes = [(oi - 1, oj), (oi, oj - 1), (oi, oj + 1), (oi + 1, oj)]
-    if diagonal:
-        indexes += [
-            (oi - 1, oj - 1),
-            (oi - 1, oj + 1),
-            (oi + 1, oj + 1),
-            (oi + 1, oj - 1)
-        ]
+    indexes = [(oi - 1, oj), (oi, oj - 1), (oi, oj + 1), (oi + 1, oj)] +\
+              [(oi - 1, oj - 1), (oi - 1, oj + 1), (oi + 1, oj + 1), (oi + 1, oj - 1)] * bool(diagonal)
 
     for i, j in indexes:
         if not (i == oi and j == oj) and 0 <= i <= columns and 0 <= j <= rows:
@@ -265,9 +244,9 @@ __all__ = [
     "right_click",
     "get_font",
     "wrap_multi_lines",
-    "blit_multiple_lines",
+    "blit_list",
     "flatten",
-    "get_cloth",
+    "read_json",
     "get_neighbors",
     "get_neighbors_index",
     "combine_rects"

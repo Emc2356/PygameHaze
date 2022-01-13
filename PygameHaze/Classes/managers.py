@@ -30,6 +30,7 @@ from typing import Tuple, List, Iterable
 
 import pygame
 
+from PygameHaze.types import *
 from PygameHaze.constants import *
 from PygameHaze.Classes import Button
 from PygameHaze.Classes import InputField, InputFieldNumbers, InputFieldLetters
@@ -167,16 +168,23 @@ class ButtonManager(_BaseManager):
         return self.__items
 
     def add_button(self,
-                   x: int,
-                   y: int,
-                   w: int,
-                   h: int,
-                   inactive_color: Tuple[int, int, int],
-                   hover_inactive_color: Tuple[int, int, int],
-                   active_color: Tuple[int, int, int],
-                   hover_active_color: Tuple[int, int, int],
+                   pos: CoordsType,
+                   size: CoordsType,
+                   inactive_color: ColorType,
+                   hover_inactive_color: ColorType,
+                   active_color: ColorType,
+                   hover_active_color: ColorType,
                    **kwargs) -> None:
-        self.__items.append(Button(self.WIN, x, y, w, h, inactive_color, hover_inactive_color, active_color, hover_active_color, **kwargs))
+        self.__items.append(Button(
+            pos,
+            size,
+            inactive_color,
+            hover_inactive_color,
+            active_color,
+            hover_active_color,
+            **kwargs,
+            surface=self.WIN
+        ))
 
     def __getitem__(self, item) -> Button:
         return self.__items[item]
@@ -195,99 +203,6 @@ class ButtonManager(_BaseManager):
         return item
 
     def __reversed__(self) -> List[Button]:
-        reversed(self.__items)
-        return self.__items
-
-
-class InputFieldManager(_BaseManager):
-    """
-    Creates a storage for the input fields
-
-    Parameters:
-    -----------
-    WIN: pygame.surface.Surface
-        the screen that input fields are going to be drawn in
-
-    Methods:
-    -----------
-    draw():
-        it draws the input fields
-    update():
-        it updates the rects and the texts in the input fields
-    event_handler(pygame.event.Event):
-        it sends the event to the input fields
-    get_input_fields():
-        it returns a list with the input fields
-    add_Input_field(x, y, w, h, base_color, text_color, **kwargs):
-        it adds a new input field that can write anything
-    add_Input_field_numbers(x, y, w, h, base_color, text_color, **kwargs):
-        it adds a new input field that can accept numbers
-    add_Input_field_letters(x, y, w, h, base_color, text_color, **kwargs):
-        it adds a new input field that can accept numbers and letters
-    """
-    def __init__(self, WIN: pygame.surface.Surface):
-        super().__init__(WIN)
-        self.__items: List[InputField or InputFieldNumbers or InputFieldLetters] = []
-
-    def draw(self) -> None:
-        [text.draw() for text in self.__items]
-
-    def update(self) -> None:
-        [text.update() for text in self.__items]
-
-    def event_handler(self, event: pygame.event.Event) -> None:
-        [input_field.event_handler(event) for input_field in self.__items]
-
-    def get_input_fields(self) -> List[InputField or InputFieldNumbers or InputFieldLetters]:
-        return self.__items
-
-    def add_Input_field(self,
-                        x: int,
-                        y: int,
-                        w: int,
-                        h: int,
-                        base_color: Tuple[int, int, int]=WHITE,
-                        text_color: Tuple[int, int, int]=BLACK,
-                        **kwargs) -> None:
-        self.__items.append(InputField(self.WIN, x, y, w, h, base_color, text_color, **kwargs))
-
-    def add_Input_field_numbers(self,
-                                x: int,
-                                y: int,
-                                w: int,
-                                h: int,
-                                base_color: Tuple[int, int, int]=WHITE,
-                                text_color: Tuple[int, int, int]=BLACK,
-                                **kwargs) -> None:
-        self.__items.append(InputFieldNumbers(self.WIN, x, y, w, h, base_color, text_color, **kwargs))
-
-    def add_Input_field_letters(self,
-                                x: int,
-                                y: int,
-                                w: int,
-                                h: int,
-                                base_color: Tuple[int, int, int] = WHITE,
-                                text_color: Tuple[int, int, int] = BLACK,
-                                **kwargs) -> None:
-        self.__items.append(InputFieldLetters(self.WIN, x, y, w, h, base_color, text_color, **kwargs))
-
-    def __getitem__(self, item) -> InputField or InputFieldNumbers or InputFieldLetters:
-        return self.__items[item]
-
-    def __iter__(self) -> Iterable[InputField or InputFieldNumbers or InputFieldLetters]:
-        return iter(self.__items)
-
-    def __next__(self) -> InputField or InputFieldNumbers or InputFieldLetters:
-        try:
-            item = self.__items[self.__i]
-            self.__i += 1
-        except IndexError:
-            self.__i = 0
-            item = self.__next__()
-
-        return item
-
-    def __reversed__(self) -> List[InputField or InputFieldNumbers or InputFieldLetters]:
         reversed(self.__items)
         return self.__items
 
@@ -359,70 +274,7 @@ class ParticleManager(_BaseManager):
         return self.__items
 
 
-class AnimationManager(_BaseManager):
-    """
-    Creates a storage for the animations
-
-    Parameters:
-    -----------
-    WIN: pygame.surface.Surface
-        the screen that the animations are going to be drawn in
-
-    Methods:
-    -----------
-    draw():
-        it draws the animations on the screen
-    animate():
-        it animates the stored animations
-    get_animations():
-        it returns a list with the stored animations
-    add_animation(x, y, images, frames_per_image):
-        it creates a new animation
-    """
-    def __init__(self, WIN: pygame.surface.Surface):
-        super().__init__(WIN)
-        self.__items: List[Animation] = []
-
-    def draw(self) -> None:
-        [animation.draw() for animation in self.__items]
-
-    def animate(self) -> None:
-        [animation.animate() for animation in self.__items]
-
-    def get_animations(self) -> List[Animation]:
-        return self.__items
-
-    def add_animation(self,
-                      x: int,
-                      y: int,
-                      images: List[pygame.surface.Surface],
-                      frames_per_image: int=5) -> None:
-        self.__items.append(Animation(self.WIN, x, y, images, frames_per_image))
-
-    def __getitem__(self, item) -> Animation:
-        return self.__items[item]
-
-    def __iter__(self) -> Iterable[Animation]:
-        return iter(self.__items)
-
-    def __next__(self) -> Animation:
-        try:
-            item = self.__items[self.__i]
-            self.__i += 1
-        except IndexError:
-            self.__i = 0
-            item = self.__next__()
-
-        return item
-
-    def __reversed__(self) -> List[Animation]:
-        reversed(self.__items)
-        return self.__items
-
-
 __all__ = [
     "ButtonManager",
-    "InputFieldManager",
-    "ParticleManager",
-    "AnimationManager"
+    "ParticleManager"
 ]

@@ -35,7 +35,7 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 FPS = 60
 
-cloth = pgh.Cloth(WIN, pgh.get_cloth(os.path.join("..", "tools", "cloths", "cloth.cloth")))
+cloth = pgh.Cloth(WIN, pgh.read_json(os.path.join("..", "tools", "cloths", "cloth.cloth")))
 
 while True:
     clock.tick(FPS)

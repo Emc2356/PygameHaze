@@ -46,7 +46,7 @@ class Font:
     -----------
     type: str
         the path to the font image
-    size: Number
+    size: float
         the size multiplier for the font
     barrier: Tuple[int, int, int]
         the color of the barrier between the letters
@@ -63,12 +63,12 @@ class Font:
         it returns the max width of the characters
     get_height():
         it returns the max height of the characters
-    render(text: str, max_width: Number=inf):
+    render(text: str, max_width: float=inf):
         it returns a surface with a text blited on it
-    render_to(surface: pygame.surface.Surface, x: Number, y: Number, text: str, max_width: Number=float("inf")):
+    render_to(surface: pygame.surface.Surface, x: float, y: float, text: str, max_width: float=float("inf")):
         it renders the text directly into a given surface
     """
-    def __init__(self, type: str, size: Number=1, barrier: Tuple[int, int, int]=(0, 0, 0),
+    def __init__(self, type: str, size: float=1, barrier: Tuple[int, int, int]=(0, 0, 0),
                  colorkey_for_char: Union[Tuple[int, int, int], int]=None, spacing: int=1) -> None:
         self._type: str = type
         self._barrier: Tuple[int, int, int] = barrier
@@ -137,11 +137,11 @@ class Font:
         return sum([self._rendered_chars[char].get_width() + self._spacing for char in text.split("\n")[0]])
 
     @lru_cache
-    def render(self, text: str, max_width: Number=float("inf")) -> pygame.surface.Surface:
+    def render(self, text: str, max_width: float=float("inf")) -> pygame.surface.Surface:
         """
         it returns a surface with a text blited on it
         :param text: str
-        :param max_width: Number=infinite
+        :param max_width: float=infinite
         :return: pygame.surface.Surface
         """
         storage = []
@@ -175,15 +175,15 @@ class Font:
 
         return surface
 
-    def render_to(self, surface: pygame.surface.Surface, x: Number, y: Number,
-                  text: str, max_width: Number=float("inf")) -> pygame.Rect:
+    def render_to(self, surface: pygame.surface.Surface, x: float, y: float,
+                  text: str, max_width: float=float("inf")) -> pygame.Rect:
         """
         it renders a given text directly in a surface
         :param surface: pygame.surface.Surface
-        :param x: Number
-        :param y: Number
+        :param x: float
+        :param y: float
         :param text: str
-        :param max_width: Number=infinite
+        :param max_width: float=infinite
         :return: pygame.Rect
         """
         return surface.blit(self.render(text, max_width), (x, y))

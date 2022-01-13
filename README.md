@@ -1,25 +1,18 @@
-# PygameHelper
+# PygameHaze
 
-###### [source code](https://github.com/Emc2356/PygameHazel)
-###### [creator](https://github.com/Emc2356)
-###### [PyGame](https://pygame.org/) 
+links:
+  - [source code](https://github.com/Emc2356/PygameHaze)
+  - [creator](https://github.com/Emc2356)
+  - [PyGame](https://pygame.org/)
 
-##### this is a package created to help you with pygame functionality 
+PygameHaze is a package that is designed to help with game dev using pygame
+it offers some gui elements that are used a lot a, also it has some function that are handy with pygame
 
-##### at this point it has the following classes:
-| Class name |
-|:----------:|
-| [Button](./Documentation/Button.md) |
-| [InputField](./Documentation/InputField.md) |
-| [InputFieldNumbers](./Documentation/InputFieldNumbers.md) |
-| [InputFieldLetters](./Documentation/InputFieldLetters.md) |
-| [Particle](./Documentation/Particle.md) |
-| [Animation](./Documentation/Animation.md) |
-| [SpriteSheet](./Documentation/SpriteSheet.md) |
-| [Font](./Documentation/Font.md) |
+PygameHaze is designed to have minimal dependencies, (only pygame & numpy) but to get some extra performance there is 
+optional [numba](https://numba.pydata.org/) dependency
 
-##### also, PygameHelper offers some functions:
-| Function name | description | cached | Numba jitted |
+##### some functions:
+| Function name | description | cached | Numba jit capability |
 |:-------------:|:-----------:|:------:|:------------:|
 | `load_image` | it loads an image from a given path and it performs .convert() | True | False |
 | `load_alpha_image` | it loads an image from a given path and it performs .convert_alpha() | True | False |
@@ -32,7 +25,7 @@
 | `right_click` | it checks for the right-click event  | False | False |
 | `get_font` | it returns a font | True | False |
 | `wrap_multi_lines` |  | True | False |
-| `blit_multiple_lines` | it blits in a surface a list of strings | False | False |
+| `blit_list` | it blits in a surface a list of strings | False | False |
 | `pixel_perfect_collision` | it is a wrapper for pygame.mask.overlap and it handles the offset | False | False |
 | `flatten` | it takes a iterable object and it flattens the object | False | False |
 | `get_cloth` | it returns the cloth data from a file (basically a json reader) | False | False |
