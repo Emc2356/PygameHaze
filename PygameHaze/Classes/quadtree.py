@@ -27,6 +27,7 @@ a quad tree implementation
 
 from typing import List, Any, Tuple
 
+import itertools
 import pygame
 
 
@@ -65,7 +66,7 @@ class QuadTree:
         it returns all of the items that it has and everything from its children
         :return: List[Any]
         """
-        return [*self.storage] + [ch.get_items() for ch in self.children]
+        return self.storage + list(itertools.chain.from_iterable((ch.get_items() for ch in self.children)))
 
     def subdivide(self) -> None:
         """
@@ -78,13 +79,14 @@ class QuadTree:
         self.children.append(QuadTree(pygame.Rect(*self.space.center, *new_size), self.capacity))
         self.children.append(QuadTree(pygame.Rect(*self.space.midleft, *new_size), self.capacity))
 
-    def list_insert(self, objs: List[Any]) -> List[bool]:
+    def list_insert(self, objs: List[Any]) -> "QuadTree":
         """
         it inserts a list inside the quad tree
         :param objs: List[Any]
-        :return: List[bool]
+        :return: QuadTree (the instance)
         """
-        return [self.insert(obj) for obj in objs]
+        [self.insert(obj) for obj in objs]
+        return self
 
     def insert(self, obj: Any) -> bool:
         """
