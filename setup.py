@@ -5,8 +5,17 @@
 from setuptools import setup, find_packages
 import PygameHaze as target_package
 from pathlib import Path
+import platform
 import sys
 import os
+
+
+def consume_args(arg: str):
+    if arg in sys.argv:
+        sys.argv.remove(arg)
+        return True
+    return False
+
 
 ROOT = Path(__file__).parent
 README_FILE = [ROOT / file for file in os.listdir(ROOT) if file.startswith("README")][0]
@@ -20,19 +29,33 @@ DESCRIPTION = "helpful tools/widgets for pygame"
 
 requirements = [line.strip() for line in (ROOT / "requirements.txt").read_text().splitlines()]
 
-
-def consume_args(arg: str):
-    if arg in sys.argv:
-        sys.argv.remove(arg)
-        return True
-    return False
+full = consume_args("--full")
 
 
-if consume_args("-format"):
-    import black
+if consume_args("-format") or full or 1:
+    try:
+        import black
+    except ImportError:
+        print("you need to have black installed to format your code")
+        if platform.system() == "Windows":
+            print("pip install black")
+        else:
+            print("python3 -m pip install black")
+        sys.exit(1)
+
     import glob
+    print("formatting with black...")
 
-    for filepath in glob.iglob("PygameHaze/**/*.py", recursive=True):
+    python_folders = [
+        ROOT / "PygameHaze",
+        ROOT / "Examples",
+    ]
+
+    for filepath in (
+            file
+            for directory in python_folders
+            for file in glob.iglob(f"{directory}/**/*.py", recursive=True)
+    ):
         path = Path(os.getcwd(), filepath)
         if black.format_file_in_place(
             path, False, black.FileMode(), black.WriteBack.YES

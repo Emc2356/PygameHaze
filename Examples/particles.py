@@ -19,7 +19,7 @@ rects = [
     pygame.Rect(400, 100, 50, 100),
     pygame.Rect(125, 400, 150, 50),
     pygame.Rect(75, 300, 50, 150),
-    pygame.Rect(325, 300, 50, 150)
+    pygame.Rect(325, 300, 50, 150),
 ]
 
 clock = pygame.time.Clock()
@@ -43,10 +43,23 @@ while True:
 
     if pygame.mouse.get_pressed(3)[0]:
         for _ in range(50):
-            particles.add_particle(*pygame.mouse.get_pos(), random.uniform(-3, 3), random.uniform(-3, 3), random.uniform(0.1, 0.3), random.randrange(7, 10), (255, 255, 255), 5, 0.1)
+            particles.add_particle(
+                *pygame.mouse.get_pos(),
+                random.uniform(-3, 3),
+                random.uniform(-3, 3),
+                random.uniform(0.1, 0.3),
+                random.randrange(7, 10),
+                (255, 255, 255),
+                5,
+                0.1
+            )
 
     for event in pygame.event.get():
-        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+        if (
+            event.type == pygame.QUIT
+            or event.type == pygame.KEYDOWN
+            and event.key == pygame.K_ESCAPE
+        ):
             pygame.quit()
             quit(-1)
 

@@ -24,13 +24,15 @@ class Game:
         # self.breath = lambda: 0  # uncomment this if you don't want the breathing in the rose
 
         # transfer the 0, 0 of the screen to the center (at least how PygameHaze sees it)
-        pgh.draw.translate(self.W//2, self.H//2)
+        pgh.draw.translate(self.W // 2, self.H // 2)
 
         pygame.display.set_caption("Maurer Rose aka mathematical roses")
 
     def event_handler(self) -> None:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            if event.type == pygame.QUIT or (
+                event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
+            ):
                 pygame.quit()
                 sys.exit()
 
@@ -40,7 +42,7 @@ class Game:
         breath = self.breath()
         for i in range(360):
             k = radians(i * self.d)
-            r = self.max_rad * sin(self.n*k) + breath
+            r = self.max_rad * sin(self.n * k) + breath
             pgh.draw.vertex(r * cos(k), r * sin(k))
         pgh.draw.endShape(fill=False, color=pgh.WHITE, closed=True, width=1)
         pygame.display.update()
@@ -57,5 +59,5 @@ def run():
     game.run()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     run()

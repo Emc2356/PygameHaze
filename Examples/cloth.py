@@ -14,10 +14,13 @@ while True:
     clock.tick(FPS)
 
     for event in pygame.event.get():
-        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+        if event.type == pygame.QUIT or (
+            event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
+        ):
             pygame.quit()
             quit(-1)
-        if event.type == pygame.MOUSEMOTION: cloth.move_locked(event.pos)
+        if event.type == pygame.MOUSEMOTION:
+            cloth.move_locked(event.pos)
 
     cloth.update()
     cloth.borders(WIDTH, HEIGHT)

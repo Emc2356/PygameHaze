@@ -17,8 +17,8 @@ pygame.display.set_caption("Pixel perfect collision")
 obstacle = pgh.load_alpha_image("assets/obstacle.png")
 obstacle_mask = pygame.mask.from_surface(obstacle)
 obstacle_rect = obstacle.get_rect()
-ox = W//2 - obstacle_rect.center[0]
-oy = H//2 - obstacle_rect.center[1]
+ox = W // 2 - obstacle_rect.center[0]
+oy = H // 2 - obstacle_rect.center[1]
 
 green_blob = pgh.load_alpha_image("assets/green_blob.png")
 orange_blob = pgh.load_alpha_image("assets/orange_blob.png")
@@ -30,11 +30,15 @@ while True:
     clock.tick(FPS)
     blob_rect = green_blob.get_rect(topleft=pygame.mouse.get_pos())
     for event in pygame.event.get():
-        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+        if event.type == pygame.QUIT or (
+            event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
+        ):
             pygame.quit()
             quit(-1)
 
-    if pgh.pixel_perfect_collision(obstacle, (ox, oy), green_blob, pygame.mouse.get_pos()):
+    if pgh.pixel_perfect_collision(
+        obstacle, (ox, oy), green_blob, pygame.mouse.get_pos()
+    ):
         blob_color = orange_blob
     else:
         blob_color = green_blob

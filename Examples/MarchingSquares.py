@@ -26,17 +26,21 @@ class Game:
         self.inc = 0.03
 
         # due to the fact that re-allocating memory for arrays can be expensive we allocate it only once
-        self.perlin_values: np.ndarray = np.ndarray((self.columns * self.rows,), dtype=np.float64)
+        self.perlin_values: np.ndarray = np.ndarray(
+            (self.columns * self.rows,), dtype=np.float64
+        )
 
         # this is what we are going to pass into the perlin noise function,
         # it is setup so it is [x, y, z] were x, y are based on the index * 0.1 and the z changes overtime based on zoff_inc
-        self.index_data: np.ndarray = np.zeros((self.columns * self.rows, 3), dtype=np.float64)
+        self.index_data: np.ndarray = np.zeros(
+            (self.columns * self.rows, 3), dtype=np.float64
+        )
         # having all of the data from a nested loop into a numpy array
 
         for i in range(self.columns):
             for j in range(self.rows):
-                self.index_data[j + i*self.columns] = j * 0.05, i * 0.05, 0
-                
+                self.index_data[j + i * self.columns] = j * 0.05, i * 0.05, 0
+
         pygame.display.set_caption("Marching Squares with perlin noise")
 
     def update(self) -> None:
@@ -53,7 +57,9 @@ class Game:
 
     def event_handler(self) -> None:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            if event.type == pygame.QUIT or (
+                event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
+            ):
                 pygame.quit()
                 sys.exit()
 
@@ -69,10 +75,10 @@ class Game:
                 c = x + self.res, y + self.res * 0.5
                 d = x + self.res * 0.5, y
                 state = (
-                    ceil(self.perlin_values[j   + (i  ) * self.columns]) * 8 +
-                    ceil(self.perlin_values[j   + (i+1) * self.columns]) * 4 +
-                    ceil(self.perlin_values[j+1 + (i+1) * self.columns]) * 2 +
-                    ceil(self.perlin_values[j+1 + (i  ) * self.columns]) * 1
+                        ceil(self.perlin_values[j + i * self.columns]) * 8
+                        + ceil(self.perlin_values[j + (i + 1) * self.columns]) * 4
+                        + ceil(self.perlin_values[j + 1 + (i + 1) * self.columns]) * 2
+                        + ceil(self.perlin_values[j + 1 + i * self.columns]) * 1
                 )
                 if state == 1:
                     pygame.draw.line(self.WIN, (255, 255, 255), c, d, 1)
@@ -120,5 +126,5 @@ def run():
     game.run()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     run()
