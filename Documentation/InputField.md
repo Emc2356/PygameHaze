@@ -4,19 +4,13 @@
 #### [source code](https://github.com/Emc2356/PygameHazel)
 
 #### this is a class made for creating simple inputFields with the [pygame](https://www.pygame.org)
-> these are the mandatory arguments
 
 | Argument | Description | Default Value |
 |:----------:|:-------------:|:---------------:|
-| `WIN` | the surface that the button is going to be drawn in | - |
 | `x` | the x position of the button | - |
 | `y` | the x position of the button | - |
 | `w` | the width of the button | - |
 | `h` | the height of the button | - |
-> these are the optional arguments
-
-| Argument | Description | Default Value |
-|:----------:|:-------------:|:---------------:|
 | `inactive_color` | the color that is used for the outline when the button is not focused | (255, 0, 0) |
 | `active_color` | the color that is used for the outline when the button is focused | (0, 255, 0) |
 | `outline` | how thick will the outline be that indicates if the button is focused or not | 2 |
@@ -41,7 +35,6 @@ pygame.font.init()
 WIN = pygame.display.set_mode((500, 500))
 
 field = InputField(
-    WIN,            # WIN
     250,            # x
     250,            # y
     300,            # w
@@ -57,7 +50,7 @@ while True:
             quit(-1)
 
     WIN.fill((30, 30, 30))
-    field.draw()
+    field.draw(WIN)
     pygame.display.update()
 ```
 
@@ -80,7 +73,6 @@ WIN = pygame.display.set_mode((500, 500))
 
 class CustomInputField(InputField):
     def __init__(self,
-                 WIN: pygame.Surface,
                  x: int,
                  y: int,
                  w: int,
@@ -88,7 +80,7 @@ class CustomInputField(InputField):
                  base_color: Tuple[int, int, int]=WHITE,
                  text_color: Tuple[int, int, int]=BLACK,
                  **kwargs):
-        super().__init__(WIN, x, y, w, h, base_color, text_color, **kwargs)
+        super().__init__(x, y, w, h, base_color, text_color, **kwargs)
     
     def event_handler(self, event: pygame.event.Event) -> None:
         if left_click(event):
@@ -111,7 +103,6 @@ class CustomInputField(InputField):
     
 
 field = CustomInputField(
-    WIN,            # WIN
     250,            # x
     250,            # y
     300,            # w
@@ -127,6 +118,6 @@ while True:
             quit(-1)
 
     WIN.fill((30, 30, 30))
-    field.draw()
+    field.draw(WIN)
     pygame.display.update()
 ```

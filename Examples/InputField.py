@@ -10,7 +10,6 @@ WIN = pygame.display.set_mode((500, 500))
 pygame.display.set_caption("InputField")
 
 field = pgh.InputField(
-    WIN,                 # WIN
     250,                 # x
     250,                 # y
     300,                 # w
@@ -26,5 +25,5 @@ while True:
             quit(-1)
 
     WIN.fill((30, 30, 30))
-    field.draw()
+    field.draw(WIN)
     pygame.display.update()

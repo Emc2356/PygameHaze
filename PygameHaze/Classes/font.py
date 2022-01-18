@@ -72,7 +72,7 @@ class Font:
                  colorkey_for_char: Union[Tuple[int, int, int], int]=None, spacing: int=1) -> None:
         self._type: str = type
         self._barrier: Tuple[int, int, int] = barrier
-        self._spacing: int = spacing * size
+        self._spacing: int = int(spacing * size)
         self._spritesheet: SpriteSheet = SpriteSheet(type, colorkey_for_char)
         self._order: List[str] = [
             "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
@@ -175,15 +175,14 @@ class Font:
 
         return surface
 
-    def render_to(self, surface: pygame.surface.Surface, x: float, y: float,
+    def render_to(self, surface: pygame.surface.Surface, pos: CoordsType,
                   text: str, max_width: float=float("inf")) -> pygame.Rect:
         """
         it renders a given text directly in a surface
         :param surface: pygame.surface.Surface
-        :param x: float
-        :param y: float
+        :param pos: AnyCoordsType
         :param text: str
         :param max_width: float=infinite
         :return: pygame.Rect
         """
-        return surface.blit(self.render(text, max_width), (x, y))
+        return surface.blit(self.render(text, max_width), pos)

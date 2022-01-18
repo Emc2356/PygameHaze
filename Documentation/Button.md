@@ -9,7 +9,6 @@
 |:--------:|:-----------:|:-------------:|
 | `pos` | the x, y position of the button passed in as as sequence of numbers | - |
 | `size` | the size of the button passed in as a sequence of numbers | - |
-| `surface` | the surface that the button is going to be drawn in | the main window | 
 | `inactive_color` | the color of the button when the button is inactive | - |
 | `hover_inactive_color` | the color of the button when the button is inactive and the mouse is over it | - |
 | `active_color` | the color of the button when the button is active | - |
@@ -59,7 +58,6 @@ button = pgh.Button(
         on_click=lambda name, age=20: print(f"hello my name is {name} and i am {age}"),  # what is going to be called when the button is clicked
         on_click_args=("George", ),                                                      # the positional argument that it can accept
         on_click_kwargs={"age": 20},                                                     # the key-word argument that the function can accept
-        # surface=my_custom_surface  # no reason to add this as the button automatically locates the main surface
 )
 
 
@@ -71,11 +69,6 @@ while True:
         button.event_handler(event)
 
     WIN.fill((30, 30, 30))
-    button.draw()
+    button.draw(WIN)
     pygame.display.update()
 ```
-
-contributions:
----
-> Pull requests are welcome!
-> Feel free to create a fork of this repository and use the code for any noncommercial purposes.

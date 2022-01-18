@@ -1,5 +1,4 @@
-from PygameHaze import Animation
-from PygameHaze import load_image, resize_image_ratio,  WHITE
+import PygameHaze as pgh
 import pygame
 
 
@@ -11,8 +10,8 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 pygame.display.set_caption("animation")
 
-images = [resize_image_ratio(load_image(f"assets/clock/clock_{i+1}.png"), (64, 64)) for i in range(8)]
-animation = Animation(WIN, WIDTH//2 - 64//2, HEIGHT//2 - 64//2, images, 5)
+images = [pgh.resize_image(pgh.load_image(f"assets/clock/clock_{i+1}.png"), (64, 64)) for i in range(8)]
+animation = pgh.Animation(WIDTH//2 - 64//2, HEIGHT//2 - 64//2, images, 5)
 
 clock = pygame.time.Clock()
 FPS = 60
@@ -25,7 +24,7 @@ while True:
             pygame.quit()
             quit(-1)
 
-    WIN.fill(WHITE)
+    WIN.fill(pgh.WHITE)
     animation.animate()
-    animation.draw()
+    animation.draw(WIN)
     pygame.display.update()

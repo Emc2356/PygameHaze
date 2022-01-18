@@ -39,8 +39,6 @@ class Particle:
 
     Parameters:
     -----------
-    WIN: pygame.surface.Surface
-        the screen that the button is going to be drawn in
     x: int
         the x position of the particle
     y: int
@@ -78,7 +76,7 @@ class Particle:
         self.gravity: float = gravity
         self.rect: pygame.Rect = pygame.Rect(x, y, size*2, size*2)
 
-    def draw(self, surface) -> None:
+    def draw(self, surface: pygame.surface.Surface) -> None:
         pygame.draw.circle(surface, self.color, self.rect.topleft, self.size)
 
     def update(self, dt: float=1, rects: List[pygame.Rect]=[]) -> None:

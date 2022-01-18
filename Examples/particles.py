@@ -12,7 +12,7 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 pygame.display.set_caption("Particle example")
 
-particles = pgh.ParticleManager(WIN)
+particles = pgh.ParticleManager()
 
 rects = [
     pygame.Rect(100, 100, 100, 50),
@@ -53,5 +53,5 @@ while True:
     WIN.fill(pgh.GREY)
     for rect in rects:
         pygame.draw.rect(WIN, pgh.RED, rect)
-    particles.draw()
+    particles.draw(WIN)
     pygame.display.update()

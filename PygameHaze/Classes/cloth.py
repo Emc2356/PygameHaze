@@ -31,6 +31,7 @@ import math
 import pygame
 
 from PygameHaze.exceptions import NoLockedPoints
+from PygameHaze.types import *
 
 
 class Cloth:
@@ -39,8 +40,6 @@ class Cloth:
 
     Parameters:
     -----------
-    WIN: pygame.surface.Surface
-        the screen that the cloth is going to be rendered in
     x: int
         the x position of the cloth
     y: int
@@ -60,13 +59,11 @@ class Cloth:
         it moves the locked points by a given offset
     offset_all(pos):
         it moves all of the points by a given offset
-    draw(color, filled=False, width=2):
+    draw(pygame.surface.Surface, color, filled=False, width=2):
         it draws the cloth
     """
-    def __init__(self, WIN: pygame.surface.Surface, data: Dict[str, list]):
+    def __init__(self, data: Dict[str, list]):
         self._data: dict = data.copy()
-        self.WIN: pygame.surface.Surface = WIN
-        self.W, self.H = self.WIN.get_size()
 
         self.points: List[Point] = Point.load_list(data["points"])
         if not any([p.locked for p in self.points]):
@@ -112,24 +109,26 @@ class Cloth:
                 break
         del rects
 
-    def borders(self) -> None:
+    def borders(self, W: int, H: int) -> None:
         """
         it keeps the points inside the window that is passed when the class is initialized
+        :param W: the width of the area
+        :param H: the height of the area
         :return: None
         """
         for point in self.points:
             dx = point.pos.x - point.prev_pos.x
             dy = point.pos.y - point.prev_pos.y
-            if point.pos.x > self.W:
-                point.pos.x = self.W
+            if point.pos.x > W:
+                point.pos.x = W
                 point.prev_pos.x = point.pos.x + dx
 
             elif point.pos.x < 0:
                 point.pos.x = 0
                 point.prev_pos.x = point.pos.x + dx
 
-            if point.pos.y > self.H:
-                point.pos.y = self.H
+            if point.pos.y > H:
+                point.pos.y = H
                 point.prev_pos.y = point.pos.y + dy
 
             elif point.pos.y < 0:
@@ -186,13 +185,16 @@ class Cloth:
             point.pos += offset
             point.prev_pos += offset
 
-    def draw(self, color: Tuple[int, int, int] or Tuple[int, int, int, int], filled: bool=False, width: int=2):
+    def draw(
+            self, surface: pygame.surface.Surface,
+            color: ColorType, filled: bool=False, width: int=2
+    ):
         for con in self.connections:
-            pygame.draw.line(self.WIN, color, con.pointA.pos, con.pointB.pos, width)
+            pygame.draw.line(surface, color, con.pointA.pos, con.pointB.pos, width)
 
     @staticmethod
-    def load(WIN: pygame.surface.Surface, data: List[Dict[str, list]]) -> "Cloth":
-        return Cloth(WIN, *data)
+    def load(data: List[Dict[str, list]]) -> "Cloth":
+        return Cloth(*data)
 
     @staticmethod
     def save(cloth: "Cloth") -> List[Dict[str, list]]:

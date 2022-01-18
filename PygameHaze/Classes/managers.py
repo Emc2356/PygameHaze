@@ -46,8 +46,7 @@ class _BaseManager:
     __next__
     __reversed__
     """
-    def __init__(self, WIN: pygame.surface.Surface):
-        self.WIN = WIN
+    def __init__(self):
         self.__items: List[any] = []
         self.__i = 0
 
@@ -127,98 +126,15 @@ class _BaseManager:
 
     def __bool__(self) -> bool:
         return len(self) > 0
-    
-
-class ButtonManager(_BaseManager):
-    """
-    Creates a storage for the buttons
-
-    Parameters:
-    -----------
-    WIN: pygame.surface.Surface
-        the screen that buttons are going to be drawn in
-
-    Methods:
-    -----------
-    draw():
-        it draws the buttons on the screen
-    update():
-        it updates the rects and the texts
-    event_handler(pygame.event.Event):
-        it sends the event to all of the stored buttons
-    get_buttons():
-        it returns a list of the buttons
-    add_button(x, y, w, h, inactive_color, hover_inactive_color, active_color, hover_active_color, **kwargs):
-        it adds a new button
-    """
-    def __init__(self, WIN: pygame.surface.Surface):
-        super().__init__(WIN)
-        self.__items: List[Button] = []
-
-    def draw(self) -> None:
-        [button.draw() for button in self.__items]
-
-    def update(self) -> None:
-        [button.update() for button in self.__items]
-
-    def event_handler(self, event: pygame.event.Event) -> None:
-        [button.event_handler(event) for button in self.__items]
-
-    def get_buttons(self) -> List[Button]:
-        return self.__items
-
-    def add_button(self,
-                   pos: CoordsType,
-                   size: CoordsType,
-                   inactive_color: ColorType,
-                   hover_inactive_color: ColorType,
-                   active_color: ColorType,
-                   hover_active_color: ColorType,
-                   **kwargs) -> None:
-        self.__items.append(Button(
-            pos,
-            size,
-            inactive_color,
-            hover_inactive_color,
-            active_color,
-            hover_active_color,
-            **kwargs,
-            surface=self.WIN
-        ))
-
-    def __getitem__(self, item) -> Button:
-        return self.__items[item]
-
-    def __iter__(self) -> Iterable[Button]:
-        return iter(self.__items)
-
-    def __next__(self) -> Button:
-        try:
-            item = self.__items[self.__i]
-            self.__i += 1
-        except IndexError:
-            self.__i = 0
-            item = self.__next__()
-
-        return item
-
-    def __reversed__(self) -> List[Button]:
-        reversed(self.__items)
-        return self.__items
 
 
 class ParticleManager(_BaseManager):
     """
     Creates a storage for the particles with more functions
 
-    Parameters:
-    -----------
-    WIN: pygame.surface.Surface
-        the screen that particles are going to be drawn in
-
     Methods:
     -----------
-    draw():
+    draw(pygame.surface.Surface):
         it draws the particles on the screen
     update(dt: float=1, rects=[]):
         it shrinks, apply gravity, move and collide with rects
@@ -227,12 +143,11 @@ class ParticleManager(_BaseManager):
     add_particle(x, y, vel_x, vel_y, shrink_amount, size, color, collision_tolerance, gravity):
         it adds a new particle
     """
-    def __init__(self, WIN: pygame.surface.Surface):
-        super().__init__(WIN)
+    def __init__(self):
         self.__items: List[Particle] = []
 
-    def draw(self) -> None:
-        [particle.draw(self.WIN) for particle in self.__items]
+    def draw(self, surface: pygame.surface.Surface) -> None:
+        [particle.draw(surface) for particle in self.__items]
 
     def update(self, dt: float=1, rects: list[pygame.Rect]=[]) -> None:
         [particle.update(dt, rects) for particle in self.__items]
@@ -275,6 +190,5 @@ class ParticleManager(_BaseManager):
 
 
 __all__ = [
-    "ButtonManager",
     "ParticleManager"
 ]

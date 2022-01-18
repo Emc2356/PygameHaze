@@ -4,7 +4,6 @@
 #### [source code](https://github.com/Emc2356/PygameHazel)
 
 #### this is a class made for creating simple InputFields that accept only numbers with the [pygame](https://www.pygame.org)
-> these are the mandatory arguments
 
 | Argument | Description | Default Value |
 |:----------:|:-------------:|:---------------:|
@@ -13,10 +12,6 @@
 | `y` | the x position of the button | - |
 | `w` | the width of the button | - |
 | `h` | the height of the button | - |
-> these are the optional arguments
-
-| Argument | Description | Default Value |
-|:----------:|:-------------:|:---------------:|
 | `inactive_color` | the color that is used for the outline when the button is not focused | (255, 0, 0) |
 | `active_color` | the color that is used for the outline when the button is focused | (0, 255, 0) |
 | `outline` | how thick will the outline be that indicates if the button is focused or not | 2 |
@@ -41,7 +36,6 @@ pygame.font.init()
 WIN = pygame.display.set_mode((500, 500))
 
 field = InputFieldNumbers(
-    WIN,            # WIN
     250,            # x
     250,            # y
     300,            # w
@@ -57,7 +51,7 @@ while True:
             quit(-1)
 
     WIN.fill((30, 30, 30))
-    field.draw()
+    field.draw(WIN)
     pygame.display.update()
 
 ```

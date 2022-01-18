@@ -25,7 +25,8 @@
 a quad tree implementation
 """
 
-from typing import List, Any, Tuple
+from typing import List, Any
+from PygameHaze.types import *
 
 import itertools
 import pygame
@@ -124,7 +125,7 @@ class QuadTree:
                 found.extend(ch.query(rectangle))
         return found
 
-    def draw(self, WIN: pygame.surface.Surface, color: Tuple[int, int, int]=(255, 255, 255)) -> None:
+    def draw(self, WIN: pygame.surface.Surface, color: ColorType=(255, 255, 255)) -> None:
         """
         it draws the quad tree (wireframe)
         :param WIN: pygame.surface.Surface

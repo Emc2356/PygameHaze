@@ -3,17 +3,14 @@
 #### [creator](https://github.com/Emc2356)
 #### [source code](https://github.com/Emc2356/PygameHazel)
 
-#### this is a QuadTree data structure with the [pygame](https://www.pygame.org)
-> these are the mandatory arguments
+#### this is a QuadTree data structure with [pygame](https://www.pygame.org)
 
 | Argument | Description | Type |
 |:--------:|:-----------:|:----:|
 | `space` | the location of the QuadTree | pygame.Rect |
 | `capacity` | how many objects can it handle | int |
 
-> methods
-
-| name | description | arguments |
+| method | description | arguments |
 |:-----:|:----------:|:---------:|
 | `get_items` | it returns all of the objects of the QuadTree | - |
 | `list_insert` | it inserts a list of objects in the QuadTree | objs: List[Any] |

@@ -8,7 +8,6 @@
 
 | Argument | Description | Default Value |
 |:----------:|:-------------:|:---------------:|
-| `WIN` | the screen that the particle is going to be drawn in | - |
 | `x` | the x position of the particle | - |
 | `y` | the y position of the particle | - |
 | `vel_x` | the velocity of the particle in the x-axis | - |
@@ -22,7 +21,7 @@
 #### methods 
 | Name | Description | Arguments |
 |:----:|:-----------:|:---------:|
-| `draw` | it draws the particle | - |
+| `draw` | it draws the particle | pygame.surface.Surface |
 | `update` | it shrinks, apply gravity, moves and collide with rects | dt: float=1, rects: List[pygame.Rect]=[] |
 | `randomize_vel` | it randomizes the velocities of the of the particle | limit_x[the smallest vel allowed, the biggest vel allowed], limit_y[the smallest vel allowed, the biggest vel allowed], dt |
 
@@ -30,10 +29,9 @@
 
 ```python
 import pygame
-import time
 import random
-from PygameHaze.constants import RED, GREY
-from PygameHaze import ParticleManager
+import time
+import PygameHaze as pgh
 
 
 pygame.init()
@@ -44,7 +42,7 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 pygame.display.set_caption("Particle example")
 
-particles = ParticleManager(WIN)
+particles = pgh.ParticleManager()
 
 rects = [
     pygame.Rect(100, 100, 100, 50),
@@ -71,14 +69,10 @@ while True:
     dt *= FPS
     last_time = time.time()
 
-    particles.shrink(dt)  # it shrinks the particles
-    particles.delete_particles()  # it deletes particles that have a size smaller than 0
-    particles.collide_rects(rects, dt)  # call this method to do collisions with rects
-    particles.move(dt)  # call this method to move the particles
-    particles.activate_gravity(dt)  # call this method so the particles slowly go down the dt is optional
+    particles.update(dt, rects)
 
     if pygame.mouse.get_pressed(3)[0]:
-        for _ in range(5):        # unpack the mouse location
+        for _ in range(50):
             particles.add_particle(*pygame.mouse.get_pos(), random.uniform(-3, 3), random.uniform(-3, 3), random.uniform(0.1, 0.3), random.randrange(7, 10), (255, 255, 255), 5, 0.1)
 
     for event in pygame.event.get():
@@ -86,9 +80,10 @@ while True:
             pygame.quit()
             quit(-1)
 
-    WIN.fill(GREY)
+    WIN.fill(pgh.GREY)
     for rect in rects:
-        pygame.draw.rect(WIN, RED, rect)
-    particles.draw()
+        pygame.draw.rect(WIN, pgh.RED, rect)
+    particles.draw(WIN)
     pygame.display.update()
+
 ```

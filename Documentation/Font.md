@@ -1,10 +1,9 @@
-# Button
+# Font
 
 #### [creator](https://github.com/Emc2356)
 #### [source code](https://github.com/Emc2356/Pygame-Widgets)
 
-#### this is a class made for creating button with the [pygame](https://www.pygame.org)
-> these are the mandatory arguments
+#### a class made to help you with custom pixelated fonts in [pygame](https://www.pygame.org)
 
 | Argument | Description | Default Value |
 |:--------:|:-----------:|:-------------:|
@@ -17,7 +16,6 @@
 # Example code
 
 ```python
-# the imports
 from PygameHaze import *
 import pygame
 
@@ -52,7 +50,6 @@ while True:
 ```
 
 # Custom Fonts
-~~~
 to create a custom font image you need to create a image with
 the following order of the letters:
 A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
@@ -65,10 +62,4 @@ put barriers only after a letter not before
 PS. your image shouldnt be transparent as it is going to mess up the order as
 it is going to find more pixels with the same color
 
-for refrence go to Examples/assets/pixel_font.png
-~~~
-
-# contributions:
----
-> Pull requests are welcome!
-> Feel free to create a fork of this repository and use the code for any noncommercial purposes.
+for refrence you can go [here](../Examples/assets/pixel_font.png)

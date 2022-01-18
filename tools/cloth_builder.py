@@ -1,10 +1,8 @@
 from tkinter.filedialog import asksaveasfile
-from typing import Dict, Union, TextIO
+from typing import Dict, Union
 import PygameHaze as pgh
 import pygame
 import json
-import json
-import os
 
 
 class ClothBuilder:
@@ -32,7 +30,7 @@ class ClothBuilder:
         self.line_width: Union[int, float] = 1
 
         self.save_button: pgh.Button = pgh.Button(
-            self.WIN, self.W + self.TB_W // 2 - 180//2, 5, 180, 45, inactive_color=pgh.GREEN,
+            (self.W + self.TB_W // 2 - 180//2, 5), (180, 45), inactive_color=pgh.GREEN,
             hover_inactive_color=pgh.DK_GREEN, text="save", on_click=self.save, on_release=self.save
         )
 
@@ -41,7 +39,7 @@ class ClothBuilder:
     def draw(self) -> None:
         self.WIN.fill(pgh.BLACK)
         pygame.draw.rect(self.WIN, pgh.PURPLE, [self.W, 0, self.TB_W, self.H])
-        self.save_button.draw()
+        self.save_button.draw(self.WIN)
 
         for cn in self.data["connections"]:
             pygame.draw.line(self.WIN, pgh.WHITE, cn.pointA.pos, cn.pointB.pos, self.line_width)
@@ -119,8 +117,12 @@ class ClothBuilder:
             self.draw()
 
 
-if __name__ == '__main__':
+def run():
     pygame.init()
 
     cloth_builder = ClothBuilder()
     cloth_builder.run()
+
+
+if __name__ == '__main__':
+    run()

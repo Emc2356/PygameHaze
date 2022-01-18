@@ -93,8 +93,8 @@ class SpriteSheet:
     def clips(self, rects: RectType, colorkey: Optional[ColorType]=None) -> List[pygame.surface.Surface]:
         """
         it returns a list with images
-        :param rects: List[Tuple[int, int, int, int]]
-        :param colorkey: Tuple[int, int, int] or int
+        :param rects: List[RectLike]
+        :param colorkey: AnyColor
         :return: List[pygame.surface.Surface
         """
         return [self.clip(r, colorkey) for r in rects]

@@ -18,15 +18,14 @@ class Game:
 
     def reset_game(self):
         self.board = [[0, 0, 0] for _ in range(3)]
-        self.spots = pgh.ButtonManager(self.WIN)
+        self.spots = []
 
         for x in range(3):
             for y in range(3):
-                self.spots.add_button(
+                self.spots.append(pgh.Button(
                     (x*(self.W//3), y*(self.W//3)),
                     (self.W//3, self.H//3),
-                    pgh.WHITE, pgh.WHITE, pgh.WHITE, pgh.WHITE, font_size=200
-                )
+                    pgh.WHITE, pgh.WHITE, pgh.WHITE, pgh.WHITE, font_size=200))
 
     def draw(self):
         self.WIN.fill(pgh.WHITE)
@@ -36,7 +35,7 @@ class Game:
                 self.spots[x + y * 3].text = "o" if item == 2 else ("x" if item == 1 else "")
 
         for spot in self.spots:
-            spot.draw()
+            spot.draw(self.WIN)
 
         line_width = 10
         for i in range(3):

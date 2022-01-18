@@ -41,8 +41,6 @@ class InputField:
 
     Parameters:
     -----------
-    WIN: pygame.surface.Surface
-        the screen that the input field is going to be drawn in
     x: int
         the x position of the button
     y: int
@@ -62,7 +60,7 @@ class InputField:
     -----------
     update():
         it updates the text and the rect
-    draw():
+    draw(pygame.surface.Surface):
         it draws the input field
     get_width():
         it returns the width of the field
@@ -82,7 +80,6 @@ class InputField:
         it checks the events and this is how you write in hte field
     """
     def __init__(self,
-                 WIN: pygame.Surface,
                  x: int,
                  y: int,
                  w: int,
@@ -90,9 +87,6 @@ class InputField:
                  base_color: Tuple[int, int, int]=WHITE,
                  text_color: Tuple[int, int, int]=BLACK,
                  **kwargs):
-        # set the win
-        self.WIN: pygame.surface.Surface = WIN
-
         # cords stuff
         self.x: int = x
         self.y: int = y
@@ -139,18 +133,20 @@ class InputField:
         self.rendered_text_rect = self.rendered_text.get_rect()
         self.rendered_text_rect.center = self.base_rect.center
 
-    def draw(self) -> None:
+    def draw(self, surface: pygame.surface.Surface) -> None:
         """
         draws the bar in the window
+        :param surface: the surface that the field will be drawn
+        :type surface: pygame.surface.Surface
         :return: None
         """
-        pygame.draw.rect(self.WIN, self.active_color if self.focused else self.inactive_color, self.base_rect)
+        pygame.draw.rect(surface, self.active_color if self.focused else self.inactive_color, self.base_rect)
         pygame.draw.rect(
-            self.WIN, self.base_color, pygame.Rect(
+            surface, self.base_color, pygame.Rect(
                 self.base_rect[0] + self.outline, self.base_rect[1] + self.outline, self.base_rect[2] - self.outline*2, self.base_rect[3] - self.outline*2
             )
         )
-        self.WIN.blit(self.rendered_text, self.rendered_text_rect)
+        surface.blit(self.rendered_text, self.rendered_text_rect)
 
     def get_width(self) -> int:
         """
@@ -244,8 +240,6 @@ class InputFieldNumbers(InputField):
 
     Parameters:
     -----------
-    WIN: pygame.surface.Surface
-        the screen that the input field is going to be drawn in
     x: int
         the x position of the button
     y: int
@@ -265,7 +259,7 @@ class InputFieldNumbers(InputField):
     -----------
     update():
         it updates the text and the rect
-    draw():
+    draw(pygame.surface.Surface):
         it draws the input field
     get_width():
         it returns the width of the field
@@ -285,7 +279,6 @@ class InputFieldNumbers(InputField):
         it checks the events and this is how you write in hte field
     """
     def __init__(self,
-                 WIN: pygame.Surface,
                  x: int,
                  y: int,
                  w: int,
@@ -293,7 +286,7 @@ class InputFieldNumbers(InputField):
                  base_color: Tuple[int, int, int]=WHITE,
                  text_color: Tuple[int, int, int]=BLACK,
                  **kwargs):
-        super().__init__(WIN, x, y, w, h, base_color, text_color, **kwargs)
+        super().__init__(x, y, w, h, base_color, text_color, **kwargs)
 
     def event_handler(self, event) -> None:
         """
@@ -326,8 +319,6 @@ class InputFieldLetters(InputField):
 
     Parameters:
     -----------
-    WIN: pygame.surface.Surface
-        the screen that the input field is going to be drawn in
     x: int
         the x position of the button
     y: int
@@ -347,7 +338,7 @@ class InputFieldLetters(InputField):
     -----------
     update():
         it updates the text and the rect
-    draw():
+    draw(pygame.surface.Surface):
         it draws the input field
     get_width():
         it returns the width of the field
@@ -367,7 +358,6 @@ class InputFieldLetters(InputField):
         it checks the events and this is how you write in hte field
     """
     def __init__(self,
-                 WIN: pygame.Surface,
                  x: int,
                  y: int,
                  w: int,
@@ -375,7 +365,7 @@ class InputFieldLetters(InputField):
                  base_color: Tuple[int, int, int]=WHITE,
                  text_color: Tuple[int, int, int]=BLACK,
                  **kwargs):
-        super().__init__(WIN, x, y, w, h, base_color, text_color, **kwargs)
+        super().__init__(x, y, w, h, base_color, text_color, **kwargs)
 
     def event_handler(self, event: pygame.event.Event) -> None:
         """

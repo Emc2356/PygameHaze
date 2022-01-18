@@ -4,7 +4,6 @@
 #### [source code](https://github.com/Emc2356/PygameHazel)
 
 #### this is a class made for creating spritesheets with the [pygame](https://www.pygame.org)
-> these are the mandatory arguments
 
 | Argument | Description | Default Value |
 |:--------:|:-----------:|:-------------:|

@@ -48,7 +48,7 @@ while True:
                 path = pgh.pathfinding(grid, start, end)  # it uses A* to find the optimal path
 
     mouse_pressed = pygame.mouse.get_pressed(3)
-    mpos = pgh.Vector(pygame.mouse.get_pos())
+    mpos = pygame.math.Vector2(pygame.mouse.get_pos())
     i = int(mpos.y // h)
     j = int(mpos.x // w)
     spot = (i, j)

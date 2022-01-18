@@ -43,8 +43,6 @@ class Button:
 
     Parameters:
     -----------
-    WIN: pygame.surface.Surface
-        the screen that the button is going to be drawn in
     x: int
         the x position of the button
     y: int
@@ -68,7 +66,7 @@ class Button:
     -----------
     update():
         it updates the text and the button rect
-    draw():
+    draw(pygame.surface.Surface):
         it draws the button on the screen
     event_handler(pygame.event.Event):
         it handles the events
@@ -83,15 +81,6 @@ class Button:
             hover_active_color: ColorType=WHITESMOKE,
             **kwargs
     ):
-        if "surface" not in kwargs:
-            kwargs["surface"] = pygame.display.get_surface()
-        self.WIN: pygame.surface.Surface = kwargs["surface"]
-        if not isinstance(self.WIN, pygame.surface.Surface):
-            if "surface" in kwargs:
-                raise ValueError(f"invalid value for the surface argument, {self.WIN}")
-            else:
-                raise pygame.error(f"no surface argument was passed and no pygame display is initialized")
-
         # get the positions/dimensions of the button
         x, y, *_ = pos
         w, h, *_ = size
@@ -249,17 +238,19 @@ class Button:
         self._text = str(text)
         self.update()
 
-    def draw(self) -> None:
+    def draw(self, surface: pygame.surface.Surface) -> None:
         """
         it draws the button on the screen
+        :param surface: the surface that the button will be drawn in
+        :type surface: pygame.surface.Surface
         :return: None
         """
         if self.current_sprite is not None:
-            self.WIN.blit(self.current_sprite, self._rect)
+            surface.blit(self.current_sprite, self._rect)
         else:
-            pygame.draw.rect(self.WIN, self.color, self._rect, border_radius=self.border_radius)
+            pygame.draw.rect(surface, self.color, self._rect, border_radius=self.border_radius)
 
-        self.WIN.blits(self.rendered_text_surfaces, False)
+        surface.blits(self.rendered_text_surfaces, False)
 
     def event_handler(self, event: pygame.event.Event) -> None:
         """

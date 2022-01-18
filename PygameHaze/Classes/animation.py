@@ -26,9 +26,10 @@ a simple animation class
 """
 
 
-import pygame
-from itertools import cycle
 from typing import List
+from itertools import cycle
+
+import pygame
 
 
 class Animation:
@@ -37,8 +38,6 @@ class Animation:
 
     Parameters:
     -----------
-    WIN: pygame.surface.Surface
-        the screen that the animation is going to be drawn in
     x: int
         the x position of the animation
     y: int
@@ -50,11 +49,13 @@ class Animation:
     -----------
     animate():
         it animates the given sprites
-    draw():
+    draw(pygame.surface.Surface):
         it draws the animation
     """
-    def __init__(self, WIN: pygame.surface.Surface, x: int, y: int, images: List[pygame.surface.Surface], delay: int=5):
-        self.WIN: pygame.surface.Surface = WIN
+    def __init__(
+            self, x: int, y: int,
+            images: List[pygame.surface.Surface], delay: int=5
+    ):
         self.x: int = x
         self.y: int = y
         self.images: cycle = cycle(images)
@@ -62,19 +63,23 @@ class Animation:
         self.current_image: pygame.surface.Surface = next(self.images)
         self.time: int = 0
 
-    def animate(self) -> None:
+    def animate(self, dt: float=1) -> None:
         """
         it cycles throw the images
+        :param dt: the delta time that the time system can use
+        :type dt: float=1
         :return: None
         """
         if self.time >= self.delay:
             self.current_image = next(self.images)
             self.time = 0
-        self.time += 1
+        self.time += 1 * dt
 
-    def draw(self) -> None:
+    def draw(self, surface: pygame.surface.Surface) -> None:
         """
         it draws the animation to the screen
+        :param surface: the surface that the animation will be drawn in
+        :type surface: pygame.surface.Surface
         :return: None
         """
-        self.WIN.blit(self.current_image, (self.x, self.y))
+        surface.blit(self.current_image, (self.x, self.y))

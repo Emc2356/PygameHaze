@@ -1,6 +1,7 @@
 __author__ = "emc2356"
 __version__ = "0.3.6"
-__name__ = "PygameHaze"
+__name__ = "PygameHaze"  # useful for the ``setup.py``
+__copyright__ = "2021, Emc2356"
 
 
 # import the base classes
@@ -18,7 +19,6 @@ from PygameHaze.Classes import Connection
 from PygameHaze.Classes import QuadTree
 
 # the managers for some classes
-from PygameHaze.Classes import ButtonManager
 from PygameHaze.Classes import ParticleManager
 
 

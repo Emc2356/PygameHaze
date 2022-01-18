@@ -13,5 +13,4 @@ from PygameHaze.Classes.cloth import Connection
 from PygameHaze.Classes.quadtree import QuadTree
 
 # managers
-from PygameHaze.Classes.managers import ButtonManager
 from PygameHaze.Classes.managers import ParticleManager
