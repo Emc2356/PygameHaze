@@ -23,7 +23,7 @@ DARK_GREY: Tuple[int, int, int, int] = (30, 30, 30, 255)
 LIGHT_GREY: Tuple[int, int, int, int] = (192, 192, 192, 255)
 PINK: Tuple[int, int, int, int] = (255, 51, 153, 255)
 FLASH_GREEN: Tuple[int, int, int, int] = (153, 255, 0, 255)
-NAVY: Tuple[int, int, int, int] = (0, 0,  128, 255)
+NAVY: Tuple[int, int, int, int] = (0, 0, 128, 255)
 GOLD: Tuple[int, int, int, int] = (255, 214, 0, 255)
 WHITESMOKE: Tuple[int, int, int, int] = (245, 245, 245, 255)
 
@@ -37,9 +37,28 @@ MIDNIGHT_BLUE: Tuple[int, int, int, int] = (44, 62, 80, 255)
 
 
 COLORS: List[Tuple[int, int, int, int]] = [
-    BLACK, WHITE, BLUE, TRUE_BLUE, PURPLE, RED, GREEN, DK_GREEN, ORANGE, GREY,
-    DARK_GREY, LIGHT_GREY, PINK, FLASH_GREEN, NAVY, GOLD, TURQUOISE,
-    YELLOW, CONCRETE, PUMPKIN, NICE_BLUE, MIDNIGHT_BLUE
+    BLACK,
+    WHITE,
+    BLUE,
+    TRUE_BLUE,
+    PURPLE,
+    RED,
+    GREEN,
+    DK_GREEN,
+    ORANGE,
+    GREY,
+    DARK_GREY,
+    LIGHT_GREY,
+    PINK,
+    FLASH_GREEN,
+    NAVY,
+    GOLD,
+    TURQUOISE,
+    YELLOW,
+    CONCRETE,
+    PUMPKIN,
+    NICE_BLUE,
+    MIDNIGHT_BLUE,
 ]
 
 
@@ -63,8 +82,42 @@ QUARTER_PI: float = math.pi / 4
 
 
 __all__ = [
-    "BLACK", "WHITE", "BLUE", "TRUE_BLUE", "PURPLE", "RED", "GREEN", "DK_GREEN", "ORANGE", "GREY", "DARK_GREY",
-    "LIGHT_GREY", "PINK", "FLASH_GREEN", "NAVY", "GOLD", "WHITESMOKE", "TURQUOISE", "YELLOW", "CONCRETE",
-    "PUMPKIN", "NICE_BLUE", "MIDNIGHT_BLUE", "CENTER", "TOPLEFT", "BOTTOMLEFT", "TOPRIGHT", "BOTTOMRIGHT", "MIDTOP",
-    "MIDLEFT", "MIDBOTTOM", "MIDRIGHT", "COLORS", "PI", "TAU", "TWO_PI", "HALF_PI", "QUARTER_PI"
+    "BLACK",
+    "WHITE",
+    "BLUE",
+    "TRUE_BLUE",
+    "PURPLE",
+    "RED",
+    "GREEN",
+    "DK_GREEN",
+    "ORANGE",
+    "GREY",
+    "DARK_GREY",
+    "LIGHT_GREY",
+    "PINK",
+    "FLASH_GREEN",
+    "NAVY",
+    "GOLD",
+    "WHITESMOKE",
+    "TURQUOISE",
+    "YELLOW",
+    "CONCRETE",
+    "PUMPKIN",
+    "NICE_BLUE",
+    "MIDNIGHT_BLUE",
+    "CENTER",
+    "TOPLEFT",
+    "BOTTOMLEFT",
+    "TOPRIGHT",
+    "BOTTOMRIGHT",
+    "MIDTOP",
+    "MIDLEFT",
+    "MIDBOTTOM",
+    "MIDRIGHT",
+    "COLORS",
+    "PI",
+    "TAU",
+    "TWO_PI",
+    "HALF_PI",
+    "QUARTER_PI",
 ]

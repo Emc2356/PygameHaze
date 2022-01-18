@@ -65,8 +65,19 @@ class Particle:
     update(dt=1, rects=[]):
         it shrinks, apply gravity, move and collide with rects
     """
-    def __init__(self, x: int, y: int, vel_x: float, vel_y: float, shrink_amount: float,
-                 size: float=7, color: Tuple[int, int, int]=(255, 255, 255), collision_tolerance: float=10, gravity: float=0.1):
+
+    def __init__(
+        self,
+        x: int,
+        y: int,
+        vel_x: float,
+        vel_y: float,
+        shrink_amount: float,
+        size: float = 7,
+        color: Tuple[int, int, int] = (255, 255, 255),
+        collision_tolerance: float = 10,
+        gravity: float = 0.1,
+    ):
         self.vel_x: float = vel_x
         self.vel_y: float = vel_y
         self.shrink_amount: float = shrink_amount
@@ -74,39 +85,53 @@ class Particle:
         self.color: Tuple[int, int, int] = color
         self.collision_tolerance: float = collision_tolerance
         self.gravity: float = gravity
-        self.rect: pygame.Rect = pygame.Rect(x, y, size*2, size*2)
+        self.rect: pygame.Rect = pygame.Rect(x, y, size * 2, size * 2)
 
     def draw(self, surface: pygame.surface.Surface) -> None:
         pygame.draw.circle(surface, self.color, self.rect.topleft, self.size)
 
-    def update(self, dt: float=1, rects: List[pygame.Rect]=[]) -> None:
+    def update(self, dt: float = 1, rects: List[pygame.Rect] = []) -> None:
         self.size -= self.shrink_amount * dt
-        self.vel_y += self.gravity*dt
-        self.rect.x += self.vel_x*dt
-        self.rect.y += self.vel_y*dt
-        self.rect = pygame.Rect(self.rect.x, self.rect.y, self.size*2, self.size*2)
+        self.vel_y += self.gravity * dt
+        self.rect.x += self.vel_x * dt
+        self.rect.y += self.vel_y * dt
+        self.rect = pygame.Rect(self.rect.x, self.rect.y, self.size * 2, self.size * 2)
 
         for rect in rects:
             rect = rect.copy()
             rect.x -= self.collision_tolerance
             rect.y -= self.collision_tolerance
-            rect.w += self.collision_tolerance*2
-            rect.h += self.collision_tolerance*2
+            rect.w += self.collision_tolerance * 2
+            rect.h += self.collision_tolerance * 2
             if rect.colliderect(self.rect):
-                if abs(rect.top - self.rect.bottom) < self.collision_tolerance and self.vel_y > 0:
-                    self.vel_y *= (-0.75)*dt
-                    self.rect.y += (self.vel_y*2)*dt
-                if abs(rect.bottom - self.rect.top) < self.collision_tolerance and self.vel_y < 0:
-                    self.vel_y *= (-0.75)*dt
-                    self.rect.y += (self.vel_y*2)*dt
-                if abs(rect.right - self.rect.left) < self.collision_tolerance and self.vel_x < 0:
-                    self.vel_x *= (-0.75)*dt
-                    self.rect.x += (self.vel_x*2)*dt
-                if abs(rect.left - self.rect.right) < self.collision_tolerance and self.vel_x > 0:
-                    self.vel_x *= (-0.75)*dt
-                    self.rect.x += (self.vel_x*2)*dt
+                if (
+                    abs(rect.top - self.rect.bottom) < self.collision_tolerance
+                    and self.vel_y > 0
+                ):
+                    self.vel_y *= (-0.75) * dt
+                    self.rect.y += (self.vel_y * 2) * dt
+                if (
+                    abs(rect.bottom - self.rect.top) < self.collision_tolerance
+                    and self.vel_y < 0
+                ):
+                    self.vel_y *= (-0.75) * dt
+                    self.rect.y += (self.vel_y * 2) * dt
+                if (
+                    abs(rect.right - self.rect.left) < self.collision_tolerance
+                    and self.vel_x < 0
+                ):
+                    self.vel_x *= (-0.75) * dt
+                    self.rect.x += (self.vel_x * 2) * dt
+                if (
+                    abs(rect.left - self.rect.right) < self.collision_tolerance
+                    and self.vel_x > 0
+                ):
+                    self.vel_x *= (-0.75) * dt
+                    self.rect.x += (self.vel_x * 2) * dt
 
-    def randomize_vel(self, limit_x: Tuple[float, float], limit_y: Tuple[float, float]) -> None:
+    def randomize_vel(
+        self, limit_x: Tuple[float, float], limit_y: Tuple[float, float]
+    ) -> None:
         self.vel_x = random.uniform(*limit_x)
         self.vel_y = random.uniform(*limit_y)
 

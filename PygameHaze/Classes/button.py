@@ -71,15 +71,16 @@ class Button:
     event_handler(pygame.event.Event):
         it handles the events
     """
+
     def __init__(
-            self,
-            pos: CoordsType,
-            size: CoordsType,
-            inactive_color: ColorType=WHITE,
-            hover_inactive_color: ColorType=WHITESMOKE,
-            active_color: ColorType=WHITE,
-            hover_active_color: ColorType=WHITESMOKE,
-            **kwargs
+        self,
+        pos: CoordsType,
+        size: CoordsType,
+        inactive_color: ColorType = WHITE,
+        hover_inactive_color: ColorType = WHITESMOKE,
+        active_color: ColorType = WHITE,
+        hover_active_color: ColorType = WHITESMOKE,
+        **kwargs,
     ):
         # get the positions/dimensions of the button
         x, y, *_ = pos
@@ -98,30 +99,42 @@ class Button:
         self.hover_inactive_color: pygame.Color = pygame.Color(hover_inactive_color)
         self.active_color: pygame.Color = pygame.Color(active_color)
         self.hover_active_color: pygame.Color = pygame.Color(hover_active_color)
-        self.color: pygame.Color = self.active_color if self.pressed else self.inactive_color
+        self.color: pygame.Color = (
+            self.active_color if self.pressed else self.inactive_color
+        )
 
         # get the images if there is any
         transform_scale_image = kwargs.get("transform_scale_image", True)
 
-        inactive_sprite = kwargs.get("inactive_sprite", None)  # the sprite that is used when the button is deactivated
+        inactive_sprite = kwargs.get(
+            "inactive_sprite", None
+        )  # the sprite that is used when the button is deactivated
         if isinstance(inactive_sprite, pygame.surface.Surface):
             inactive_sprite = inactive_sprite.convert_alpha()
         elif isinstance(inactive_sprite, (str, Path)):
             inactive_sprite = load_alpha_image(inactive_sprite)
         if transform_scale_image and inactive_sprite is not None:
-            inactive_sprite = pygame.transform.scale(inactive_sprite, (self._w, self._h))
+            inactive_sprite = pygame.transform.scale(
+                inactive_sprite, (self._w, self._h)
+            )
         self.inactive_sprite = inactive_sprite
 
-        inactive_hover_sprite = kwargs.get("inactive_hover_sprite", None)  # the sprite that is used when the button is deactivated and the mouse is over it
+        inactive_hover_sprite = kwargs.get(
+            "inactive_hover_sprite", None
+        )  # the sprite that is used when the button is deactivated and the mouse is over it
         if isinstance(inactive_hover_sprite, pygame.surface.Surface):
             inactive_hover_sprite = inactive_hover_sprite.convert_alpha()
         elif isinstance(inactive_hover_sprite, (str, Path)):
             inactive_hover_sprite = load_alpha_image(inactive_hover_sprite)
         if transform_scale_image and inactive_hover_sprite is not None:
-            inactive_hover_sprite = pygame.transform.scale(inactive_hover_sprite, (self._w, self._h))
+            inactive_hover_sprite = pygame.transform.scale(
+                inactive_hover_sprite, (self._w, self._h)
+            )
         self.inactive_hover_sprite = inactive_hover_sprite
 
-        active_sprite = kwargs.get("active_sprite", None)  # the sprite that is used when the button is activated
+        active_sprite = kwargs.get(
+            "active_sprite", None
+        )  # the sprite that is used when the button is activated
         if isinstance(active_sprite, pygame.surface.Surface):
             active_sprite = active_sprite.convert_alpha()
         elif isinstance(active_sprite, (str, Path)):
@@ -130,16 +143,22 @@ class Button:
             active_sprite = pygame.transform.scale(active_sprite, (self._w, self._h))
         self.active_sprite = active_sprite
 
-        active_hover_sprite = kwargs.get("active_hover_sprite", None)  # the sprite that is used when the button is activated and the mouse is over it
+        active_hover_sprite = kwargs.get(
+            "active_hover_sprite", None
+        )  # the sprite that is used when the button is activated and the mouse is over it
         if isinstance(active_hover_sprite, pygame.surface.Surface):
             active_hover_sprite = active_hover_sprite.convert_alpha()
         elif isinstance(active_hover_sprite, (str, Path)):
             active_hover_sprite = load_alpha_image(active_hover_sprite)
         if transform_scale_image and active_hover_sprite is not None:
-            active_hover_sprite = pygame.transform.scale(active_hover_sprite, (self._w, self._h))
+            active_hover_sprite = pygame.transform.scale(
+                active_hover_sprite, (self._w, self._h)
+            )
         self.active_hover_sprite = active_hover_sprite
 
-        self.current_sprite: pygame.surface.Surface = self.inactive_sprite if not self.pressed else self.active_sprite
+        self.current_sprite: pygame.surface.Surface = (
+            self.inactive_sprite if not self.pressed else self.active_sprite
+        )
 
         # get the functions if the user has set any
         self.on_click = kwargs.get("on_click", None)
@@ -156,7 +175,9 @@ class Button:
         self.font_type = kwargs.get("font_type", "camicsans")
         self.font_size = kwargs.get("font_size", 60)
         self.font = get_font(self.font_size, self.font_type)
-        self.rendered_text_surfaces: List[Tuple[pygame.surface.Surface, List[int, int]]] = []
+        self.rendered_text_surfaces: List[
+            Tuple[pygame.surface.Surface, List[int, int]]
+        ] = []
 
         self.update()
 
@@ -173,7 +194,9 @@ class Button:
             self._rect = pygame.Rect(self._x, self._y, self._w, self._h)
             self._rect.__setattr__(self.anchor, (self._x, self._y))
         except AttributeError:
-            raise InvalidAnchor(f"""The anchor '{self.anchor}' is not a valid anchor.""")
+            raise InvalidAnchor(
+                f"""The anchor '{self.anchor}' is not a valid anchor."""
+            )
 
         self.rendered_text_surfaces = []
         font_h = self.font.get_height()
@@ -186,12 +209,16 @@ class Button:
 
             width = surf.get_width()
             if width > self._w:
-                raise TextOfOutBounds(f"the given string: '{text}' is {width - self._w}pxls out of bounds in the x-axis")
+                raise TextOfOutBounds(
+                    f"the given string: '{text}' is {width - self._w}pxls out of bounds in the x-axis"
+                )
 
         if self._text != "":
-            h = len(self._text.split("\n"))*font_h
+            h = len(self._text.split("\n")) * font_h
             if h > self._h:
-                raise TextOfOutBounds(f"the text: [{self._text}] is {h - self._h}pxls out of bounds in the y-axis")
+                raise TextOfOutBounds(
+                    f"the text: [{self._text}] is {h - self._h}pxls out of bounds in the y-axis"
+                )
 
     @property
     def x(self) -> int:
@@ -248,7 +275,9 @@ class Button:
         if self.current_sprite is not None:
             surface.blit(self.current_sprite, self._rect)
         else:
-            pygame.draw.rect(surface, self.color, self._rect, border_radius=self.border_radius)
+            pygame.draw.rect(
+                surface, self.color, self._rect, border_radius=self.border_radius
+            )
 
         surface.blits(self.rendered_text_surfaces, False)
 

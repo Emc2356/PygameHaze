@@ -27,9 +27,9 @@ utilities for pygame surfaces
 
 from typing import Optional, Union, List, Tuple
 
-from PygameHaze.types import PathType
 from collections import defaultdict
 from functools import lru_cache
+from PygameHaze.types import *
 import pygame
 import math
 import os
@@ -39,7 +39,9 @@ class _Data:
     frame_names: defaultdict = defaultdict(lambda: -1)
 
 
-def save_frame(path: PathType, target: Optional[pygame.surface.Surface]=None, *args, **kwargs) -> int:
+def save_frame(
+    path: PathType, target: Optional[pygame.surface.Surface] = None, *args, **kwargs
+) -> int:
     """
     it saves the pixels from a pygame surface into a specified file, if unspecified it defaults to the pygame window
     :param path: the name if the image (add `-####` to let this function handle the frame count)
@@ -51,7 +53,9 @@ def save_frame(path: PathType, target: Optional[pygame.surface.Surface]=None, *a
     if target is None:
         target = pygame.display.get_surface()
         if target is None:
-            raise ValueError(f"target was unspecified and there is no window initialized")
+            raise ValueError(
+                f"target was unspecified and there is no window initialized"
+            )
     try:
         if "-####" in path.split(os.sep)[~0]:
             _Data.frame_names[path] += 1
@@ -64,10 +68,8 @@ def save_frame(path: PathType, target: Optional[pygame.surface.Surface]=None, *a
         return 0
     except Exception as e:
         if kwargs.get("warning", True):
-            from colorama import (
-                Fore,
-                Style
-            )
+            from colorama import Fore, Style
+
             print(f"{Fore.RED}unable to save {target} due to  `{e}`{Style.RESET_ALL}")
         return 1
 
@@ -92,8 +94,9 @@ def load_alpha_image(path: str) -> pygame.surface.Surface:
     return pygame.image.load(path).convert_alpha()
 
 
+@lru_cache()
 def resize_smooth_image(
-        image: pygame.surface.Surface, new_size: Union[List[int], Tuple[int, int]]
+    image: pygame.surface.Surface, new_size: Union[List[int], CoordsType]
 ) -> pygame.surface.Surface:
     """
     wrapper for pygame.transform.smoothscale
@@ -104,7 +107,10 @@ def resize_smooth_image(
     return pygame.transform.smoothscale(image, new_size)
 
 
-def resize_image(image: pygame.surface.Surface, new_size: Union[List[int], Tuple[int, int]]) -> pygame.surface.Surface:
+@lru_cache()
+def resize_image(
+    image: pygame.surface.Surface, new_size: Union[List[int], CoordsType]
+) -> pygame.surface.Surface:
     """
     wrapper for pygame.transform.scale
     :param image: pygame.surface.Surface
@@ -114,6 +120,7 @@ def resize_image(image: pygame.surface.Surface, new_size: Union[List[int], Tuple
     return pygame.transform.scale(image, new_size)
 
 
+@lru_cache()
 def resizex(image: pygame.surface.Surface, amount: float) -> pygame.surface.Surface:
     """
     it resizes a image in both axis by the same amount
@@ -123,55 +130,70 @@ def resizex(image: pygame.surface.Surface, amount: float) -> pygame.surface.Surf
     """
     return pygame.transform.scale(
         image,
-        (math.floor(image.get_width() * amount), math.floor(image.get_height() * amount))
+        (
+            math.floor(image.get_width() * amount),
+            math.floor(image.get_height() * amount),
+        ),
     )
 
 
 class _pixel_perfect_collision:
     @staticmethod
     def from_surfaces(
-            image1: pygame.surface.Surface, pos1: Tuple[int, int],
-            image2: pygame.surface.Surface, pos2: Tuple[int, int]
+        image1: pygame.surface.Surface,
+        pos1: CoordsType,
+        image2: pygame.surface.Surface,
+        pos2: CoordsType,
     ) -> bool:
         """
         it is a wrapper for pygame.mask.overlap and it handles the offset
         this function is recommended to be used with rectangle collision as pixel perfect collision is really heavy
         :param image1: pygame.surface.Surface
-        :param pos1: Tuple[int, int]
+        :param pos1: CoordsType
         :param image2: pygame.surface.Surface
-        :param pos2: Tuple[int, int]
+        :param pos2: CoordsType
         :return: bool
         """
         return not not pygame.mask.from_surface(image2).overlap(
             pygame.mask.from_surface(image1),
-            tuple(pygame.math.Vector2(pos1) - pygame.math.Vector2(pos2))
+            tuple(pygame.math.Vector2(pos1) - pygame.math.Vector2(pos2)),
         )
 
     @staticmethod
     def from_masks(
-            mask1: pygame.mask.Mask, image_1_pos: Tuple[int, int],
-            mask2: pygame.mask.Mask, image_2_pos: Tuple[int, int]
+        mask1: pygame.mask.Mask,
+        image_1_pos: CoordsType,
+        mask2: pygame.mask.Mask,
+        image_2_pos: CoordsType,
     ) -> bool:
         """
         it is a wrapper for pygame.mask.overlap and it handles the offset
         this function is recommended to be used with rectangle collision as pixel perfect collision is really heavy
         :param mask1: pygame.mask.Mask
-        :param image_1_pos: Tuple[int, int]
+        :param image_1_pos: CoordsType
         :param mask2: pygame.mask.Mask
-        :param image_2_pos: Tuple[int, int]
+        :param image_2_pos: CoordsType
         :return: bool
         """
         return not not mask1.overlap(
             mask2,
-            tuple(pygame.math.Vector2(image_1_pos) - pygame.math.Vector2(image_2_pos))
+            tuple(pygame.math.Vector2(image_1_pos) - pygame.math.Vector2(image_2_pos)),
         )
 
 
-setattr(_pixel_perfect_collision, "__call__", staticmethod(_pixel_perfect_collision.from_surfaces))
+setattr(
+    _pixel_perfect_collision,
+    "__call__",
+    staticmethod(_pixel_perfect_collision.from_surfaces),
+)
 pixel_perfect_collision = _pixel_perfect_collision()
 
 __all__ = [
-    "save_frame", "load_image", "load_alpha_image",
-    "resize_smooth_image", "resize_image", "resizex",
-    "pixel_perfect_collision"
+    "save_frame",
+    "load_image",
+    "load_alpha_image",
+    "resize_smooth_image",
+    "resize_image",
+    "resizex",
+    "pixel_perfect_collision",
 ]

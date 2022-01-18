@@ -1,6 +1,4 @@
-from PygameHaze.utils.noise import (
-    noise
-)
+from PygameHaze.utils.noise import noise
 from PygameHaze.utils.pathfinding import pathfinding
 from PygameHaze.utils.formulas import *
 from PygameHaze.utils.surface import *

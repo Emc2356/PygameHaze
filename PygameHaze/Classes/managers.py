@@ -46,6 +46,7 @@ class _BaseManager:
     __next__
     __reversed__
     """
+
     def __init__(self):
         self.__items: List[any] = []
         self.__i = 0
@@ -80,13 +81,17 @@ class _BaseManager:
         if isinstance(other, type(self)):
             self.__items += other.__items
         else:
-            raise TypeError(f"the given obj is not a instance of {type(self)} and it is a instance of the class {type(other)}")
+            raise TypeError(
+                f"the given obj is not a instance of {type(self)} and it is a instance of the class {type(other)}"
+            )
 
     def __add__(self, other) -> None:
         if isinstance(other, type(self)):
             self.__items += other.__items
         else:
-            raise TypeError(f"the given obj is not a instance of {type(self)} and it is a instance of the class {type(other)}")
+            raise TypeError(
+                f"the given obj is not a instance of {type(self)} and it is a instance of the class {type(other)}"
+            )
 
     def __contains__(self, item) -> bool:
         if item in self.__items:
@@ -143,30 +148,45 @@ class ParticleManager(_BaseManager):
     add_particle(x, y, vel_x, vel_y, shrink_amount, size, color, collision_tolerance, gravity):
         it adds a new particle
     """
+
     def __init__(self):
         self.__items: List[Particle] = []
 
     def draw(self, surface: pygame.surface.Surface) -> None:
         [particle.draw(surface) for particle in self.__items]
 
-    def update(self, dt: float=1, rects: list[pygame.Rect]=[]) -> None:
+    def update(self, dt: float = 1, rects: list[pygame.Rect] = []) -> None:
         [particle.update(dt, rects) for particle in self.__items]
         self.__items = [particle for particle in self.__items if particle.size > 0]
 
     def get_particles(self) -> List[Particle]:
         return self.__items
 
-    def add_particle(self,
-                     x: int,
-                     y: int,
-                     vel_x: float,
-                     vel_y: float,
-                     shrink_amount: float,
-                     size: float = 7,
-                     color: Tuple[int, int, int] = (255, 255, 255),
-                     collision_tolerance: float = 10,
-                     gravity: float = 0.1) -> None:
-        self.__items.append(Particle(x, y, vel_x, vel_y, shrink_amount, size, color, collision_tolerance, gravity))
+    def add_particle(
+        self,
+        x: int,
+        y: int,
+        vel_x: float,
+        vel_y: float,
+        shrink_amount: float,
+        size: float = 7,
+        color: Tuple[int, int, int] = (255, 255, 255),
+        collision_tolerance: float = 10,
+        gravity: float = 0.1,
+    ) -> None:
+        self.__items.append(
+            Particle(
+                x,
+                y,
+                vel_x,
+                vel_y,
+                shrink_amount,
+                size,
+                color,
+                collision_tolerance,
+                gravity,
+            )
+        )
 
     def __getitem__(self, item) -> Particle:
         return self.__items[item]
@@ -189,6 +209,4 @@ class ParticleManager(_BaseManager):
         return self.__items
 
 
-__all__ = [
-    "ParticleManager"
-]
+__all__ = ["ParticleManager"]

@@ -31,7 +31,7 @@ from PygameHaze.types import *
 import sys
 
 
-def init(debug: bool=False) -> int:
+def init(debug: bool = False) -> int:
     """
     it initializes all of the optional modules
     :return: int
@@ -41,6 +41,7 @@ def init(debug: bool=False) -> int:
     if debug:
         try:
             import numba
+
             del numba
         except ImportError:
             debug = False
@@ -63,12 +64,14 @@ def init(debug: bool=False) -> int:
         if debug:
             print("[DEBUG] failed to build the perlin noise module")
             import traceback
+
             print(traceback.format_exc(), file=sys.stderr)
     try:
         if debug:
             print("[DEBUG] building the formulas")
 
         from PygameHaze.utils.formulas import build_numba_formulas
+
         build_numba_formulas()
 
         if debug:
@@ -77,6 +80,7 @@ def init(debug: bool=False) -> int:
         if debug:
             print("[DEBUG] failed to initialize the formula module", file=sys.stderr)
             import traceback
+
             print(traceback.format_exc(), file=sys.stderr)
         failed += 1
 
@@ -85,6 +89,7 @@ def init(debug: bool=False) -> int:
             print("[DEBUG] building the draw functions")
 
         from PygameHaze.utils.draw import build_draw_numba
+
         build_draw_numba()
 
         if debug:
@@ -93,6 +98,7 @@ def init(debug: bool=False) -> int:
         if debug:
             print("[DEBUG] failed to pre-build the draw functions", file=sys.stderr)
             import traceback
+
             print(traceback.format_exc(), file=sys.stderr)
         failed += 1
 

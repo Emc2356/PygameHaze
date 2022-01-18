@@ -62,7 +62,12 @@ def clamp(value: float, mini: float, maxi: float) -> float:
 
 @nbu.njit
 def remap(
-        n: float, start1: float, stop1: float, start2: float, stop2: float, within_bounds: bool=False
+    n: float,
+    start1: float,
+    stop1: float,
+    start2: float,
+    stop2: float,
+    within_bounds: bool = False,
 ) -> float:
     """
     it Re-maps a number from one range to another (nothing to do with regex it is just the name)
@@ -132,10 +137,4 @@ def build_numba_formulas() -> None:
     get_distance_squared(1, 8, 4, 67)
 
 
-__all__ = [
-    "lerp",
-    "clamp",
-    "remap",
-    "get_distance",
-    "get_distance_squared"
-]
+__all__ = ["lerp", "clamp", "remap", "get_distance", "get_distance_squared"]

@@ -26,7 +26,18 @@ some useful functions for pygame
 and general use
 """
 
-from typing import List, Tuple, Iterable, Generator, Union, Iterator, Sequence, TypeVar, Any, Optional
+from typing import (
+    List,
+    Tuple,
+    Iterable,
+    Generator,
+    Union,
+    Iterator,
+    Sequence,
+    TypeVar,
+    Any,
+    Optional,
+)
 from functools import lru_cache
 
 import pygame
@@ -66,7 +77,7 @@ def right_click(event: pygame.event.Event) -> bool:
 
 
 @lru_cache()
-def get_font(size: int, type_of_font: Optional[str]=None) -> pygame.font.Font:
+def get_font(size: int, type_of_font: Optional[str] = None) -> pygame.font.Font:
     """
     it returns a font object with the given sie and type of font
     :param size: the size of the font
@@ -82,7 +93,11 @@ def get_font(size: int, type_of_font: Optional[str]=None) -> pygame.font.Font:
 
 @lru_cache()
 def wrap_multi_lines(
-        text: str, font: pygame.font.Font, max_width: int, max_height: int=0, antialias: bool=True
+    text: str,
+    font: pygame.font.Font,
+    max_width: int,
+    max_height: int = 0,
+    antialias: bool = True,
 ) -> List[str]:
     """
     it returns a list of strings
@@ -100,9 +115,15 @@ def wrap_multi_lines(
         w = render(word, antialias, BLACK).get_width()
         # check if one word is too long to fit in one line
         if w > max_width:
-            raise ValueError(f"word '{word}' is too long to fit in the given width by {w - max_width}pxls")
+            raise ValueError(
+                f"word '{word}' is too long to fit in the given width by {w - max_width}pxls"
+            )
 
-        if render(f"{finished_lines[~0]} {word}", antialias, BLACK).get_width() > max_width or "\n" in word:
+        if (
+            render(f"{finished_lines[~0]} {word}", antialias, BLACK).get_width()
+            > max_width
+            or "\n" in word
+        ):
             finished_lines.append(f"{word}")
         else:
             finished_lines[~0] += f" {word}"
@@ -113,14 +134,21 @@ def wrap_multi_lines(
             h += render(line, antialias, BLACK).get_height()
 
         if h > max_height:
-            raise ValueError(f"height limit exceeded {max_height} by {h - max_height}pxls")
+            raise ValueError(
+                f"height limit exceeded {max_height} by {h - max_height}pxls"
+            )
 
     return finished_lines
 
 
 def blit_list(
-        surface: pygame.surface.Surface, pos: CoordsType, lines: List[str], font: pygame.font.Font,
-        center_x_pos: int=None, color: ColorType=BLACK, doreturn: bool=True
+    surface: pygame.surface.Surface,
+    pos: CoordsType,
+    lines: List[str],
+    font: pygame.font.Font,
+    center_x_pos: int = None,
+    color: ColorType = BLACK,
+    doreturn: bool = True,
 ) -> Optional[pygame.Rect]:
     """
     it blits in a surface a list of strings
@@ -144,13 +172,27 @@ def blit_list(
         raise ValueError("Missing 'centered_x_pos'")
     x, y, *_ = pos
     height = font.get_height()
-    blit_seq = [
-        (rendered_text_surface, (center_x_pos - rendered_text_surface.get_width() / 2, y + (i * height)))
-        for i, rendered_text_surface in enumerate(map(lambda text: font.render(text, True, color), lines))
-    ] if center_x_pos else [
-        (rendered_text_surface, (x, y + (i * height)))
-        for i, rendered_text_surface in enumerate(map(lambda text: font.render(text, True, color), lines))
+    blit_seq = (
+        [
+            (
+                rendered_text_surface,
+                (
+                    center_x_pos - rendered_text_surface.get_width() / 2,
+                    y + (i * height),
+                ),
+            )
+            for i, rendered_text_surface in enumerate(
+                map(lambda text: font.render(text, True, color), lines)
+            )
         ]
+        if center_x_pos
+        else [
+            (rendered_text_surface, (x, y + (i * height)))
+            for i, rendered_text_surface in enumerate(
+                map(lambda text: font.render(text, True, color), lines)
+            )
+        ]
+    )
     return surface.blits(blit_seq, doreturn)
 
 
@@ -179,8 +221,9 @@ def read_json(path: PathType) -> dict:
 
 
 def get_neighbors(
-        grid: List[List[NeighborOutputType]],
-        target: Union[Tuple[int, int], List[int], Sequence[int]], diagonal: bool=False
+    grid: List[List[NeighborOutputType]],
+    target: Union[Tuple[int, int], List[int], Sequence[int]],
+    diagonal: bool = False,
 ) -> Generator[NeighborOutputType, None, None]:
     """
     it returns the neighbors of a cell
@@ -196,8 +239,12 @@ def get_neighbors(
     rows = len(grid[0])
     oi, oj, *_ = target
 
-    indexes = [(oi - 1, oj), (oi, oj - 1), (oi, oj + 1), (oi + 1, oj)] +\
-              [(oi - 1, oj - 1), (oi - 1, oj + 1), (oi + 1, oj + 1), (oi + 1, oj - 1)] * bool(diagonal)
+    indexes = [(oi - 1, oj), (oi, oj - 1), (oi, oj + 1), (oi + 1, oj)] + [
+        (oi - 1, oj - 1),
+        (oi - 1, oj + 1),
+        (oi + 1, oj + 1),
+        (oi + 1, oj - 1),
+    ] * bool(diagonal)
 
     for i, j in indexes:
         if not (i == oi and j == oj) and 0 <= i < columns and 0 <= j < rows:
@@ -205,8 +252,9 @@ def get_neighbors(
 
 
 def get_neighbors_index(
-        grid: List[List[Any]],
-        target: Union[Tuple[int, int], List[int], Sequence[int]], diagonal: bool=False
+    grid: List[List[Any]],
+    target: Union[Tuple[int, int], List[int], Sequence[int]],
+    diagonal: bool = False,
 ) -> Generator:
     """
     it returns the directly adjacent cells index (it makes the assumption that it has rows of the same length)
@@ -219,8 +267,12 @@ def get_neighbors_index(
     rows = len(grid[0]) - 1
     oi, oj = target
 
-    indexes = [(oi - 1, oj), (oi, oj - 1), (oi, oj + 1), (oi + 1, oj)] +\
-              [(oi - 1, oj - 1), (oi - 1, oj + 1), (oi + 1, oj + 1), (oi + 1, oj - 1)] * bool(diagonal)
+    indexes = [(oi - 1, oj), (oi, oj - 1), (oi, oj + 1), (oi + 1, oj)] + [
+        (oi - 1, oj - 1),
+        (oi - 1, oj + 1),
+        (oi + 1, oj + 1),
+        (oi + 1, oj - 1),
+    ] * bool(diagonal)
 
     for i, j in indexes:
         if not (i == oi and j == oj) and 0 <= i <= columns and 0 <= j <= rows:
@@ -249,5 +301,5 @@ __all__ = [
     "read_json",
     "get_neighbors",
     "get_neighbors_index",
-    "combine_rects"
+    "combine_rects",
 ]

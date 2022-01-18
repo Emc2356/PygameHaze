@@ -52,9 +52,9 @@ class Animation:
     draw(pygame.surface.Surface):
         it draws the animation
     """
+
     def __init__(
-            self, x: int, y: int,
-            images: List[pygame.surface.Surface], delay: int=5
+        self, x: int, y: int, images: List[pygame.surface.Surface], delay: int = 5
     ):
         self.x: int = x
         self.y: int = y
@@ -63,7 +63,7 @@ class Animation:
         self.current_image: pygame.surface.Surface = next(self.images)
         self.time: int = 0
 
-    def animate(self, dt: float=1) -> None:
+    def animate(self, dt: float = 1) -> None:
         """
         it cycles throw the images
         :param dt: the delta time that the time system can use

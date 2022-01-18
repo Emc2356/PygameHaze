@@ -61,13 +61,16 @@ class SimpleText:
     draw():
         it draws the text
     """
-    def __init__(self,
-                 WIN: pygame.surface.Surface,
-                 x: int,
-                 y: int,
-                 text: str,
-                 color: Tuple[int, int, int]=BLACK,
-                 **kwargs):
+
+    def __init__(
+        self,
+        WIN: pygame.surface.Surface,
+        x: int,
+        y: int,
+        text: str,
+        color: Tuple[int, int, int] = BLACK,
+        **kwargs,
+    ):
         self.WIN: pygame.surface.Surface = WIN
         self.x: int = int(x)
         self.y: int = int(y)
@@ -95,7 +98,9 @@ class SimpleText:
         try:
             self.rendered_text_rect.__setattr__(self.anchor, (self.x, self.y))
         except AttributeError:
-            raise InvalidAnchor(f"""The anchor '{self.anchor}' is not a valid anchor.""")
+            raise InvalidAnchor(
+                f"""The anchor '{self.anchor}' is not a valid anchor."""
+            )
 
     def draw(self) -> None:
         """
@@ -137,13 +142,16 @@ class MultiLineText:
     draw():
         it draws the text
     """
-    def __init__(self,
-                 WIN: pygame.surface.Surface,
-                 x: int,
-                 y: int,
-                 text: str,
-                 color: Tuple[int, int, int]=BLACK,
-                 **kwargs):
+
+    def __init__(
+        self,
+        WIN: pygame.surface.Surface,
+        x: int,
+        y: int,
+        text: str,
+        color: Tuple[int, int, int] = BLACK,
+        **kwargs,
+    ):
         self.WIN: pygame.surface.Surface = WIN
         self.x: int = int(x)
         self.y: int = int(y)
@@ -158,8 +166,8 @@ class MultiLineText:
         self.update()
 
         self.kwargs: dict = kwargs
-        
-    def update(self, centered_x=False, centered_x_pos: int=None) -> None:
+
+    def update(self, centered_x=False, centered_x_pos: int = None) -> None:
         """
         it sets-up the text. this method has to be called when the text changes
         :param centered_x: if the text is going to be x-centered
@@ -167,14 +175,21 @@ class MultiLineText:
         :return: None
         """
         if centered_x and not centered_x_pos:
-            raise MissingRequiredArgument(f"""in the "update method the centered_x_pos is missing.""")
+            raise MissingRequiredArgument(
+                f"""in the "update method the centered_x_pos is missing."""
+            )
         height = self.font.get_height()
         self.rendered_texts = []
         for i, text in enumerate(self.text.split("\n")):
             rendered_text_surface = self.font.render(text, self.antialias, self.color)
 
-            if centered_x: pos = [centered_x_pos - rendered_text_surface.get_width()/2, self.y + (i * height)]
-            else: pos = [self.x, self.y + (i * height)]
+            if centered_x:
+                pos = [
+                    centered_x_pos - rendered_text_surface.get_width() / 2,
+                    self.y + (i * height),
+                ]
+            else:
+                pos = [self.x, self.y + (i * height)]
             self.rendered_texts.append([rendered_text_surface, pos])
 
     def draw(self) -> None:
@@ -192,7 +207,4 @@ class MultiLineText:
         return f"one line text at: [{self.x}, {self.y}] with text '{self.text}'"
 
 
-__all__ = [
-    "SimpleText",
-    "MultiLineText"
-]
+__all__ = ["SimpleText", "MultiLineText"]

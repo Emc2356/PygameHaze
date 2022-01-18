@@ -232,7 +232,9 @@ def noise1D(x: float) -> float:
 
 
 # this is a python function as we have to decide in which func to send it as the input array can be 1D or 2D
-def fromArray(cls, arr: np.ndarray, dim: int = 3, out: Optional[np.ndarray] = None) -> np.ndarray:
+def fromArray(
+    cls, arr: np.ndarray, dim: int = 3, out: Optional[np.ndarray] = None
+) -> np.ndarray:
     """
     it calculates the perlin noise values based on the information from arr
     :param arr: the data for perlin noise calculations
@@ -289,7 +291,9 @@ def _not_init(*args, **kwargs) -> None:
 
 
 class PerlinNoise:
-    __call__ = staticmethod(functools.wraps(noise3D)(_not_init))  # this is how you decorate a function without the @
+    __call__ = staticmethod(
+        functools.wraps(noise3D)(_not_init)
+    )  # this is how you decorate a function without the @
     noise3D = staticmethod(functools.wraps(noise3D)(_not_init))
     noise2D = staticmethod(functools.wraps(noise2D)(_not_init))
     noise1D = staticmethod(functools.wraps(noise1D)(_not_init))
@@ -320,7 +324,7 @@ class PerlinNoise:
             cls._fromArrayFuncs = {
                 1: nbu.njit(nosig=True, func=fromArray2D1D, nogil=False, parallel=True),
                 2: nbu.njit(nosig=True, func=fromArray2D2D, nogil=False, parallel=True),
-                3: nbu.njit(nosig=True, func=fromArray2D3D, nogil=False, parallel=True)
+                3: nbu.njit(nosig=True, func=fromArray2D3D, nogil=False, parallel=True),
             }
 
             cls.from_array = classmethod(fromArray)
@@ -328,7 +332,9 @@ class PerlinNoise:
             return 0
         except Exception as e:
             print(
-                f"""unable to load perlin noise due to {str(type(e)).split("'")[~1]} -> {e}""", file=sys.stderr)
+                f"""unable to load perlin noise due to {str(type(e)).split("'")[~1]} -> {e}""",
+                file=sys.stderr,
+            )
             return 1
 
     @classmethod
@@ -353,7 +359,10 @@ class PerlinNoise:
 
             return 0
         except Exception as e:
-            print(f"""unable to unload perlin noise due to {str(type(e)).split("'")[~1]} -> {str(type(e)).split("'")[~1]}: {e}""", sys.stderr)
+            print(
+                f"""unable to unload perlin noise due to {str(type(e)).split("'")[~1]} -> {str(type(e)).split("'")[~1]}: {e}""",
+                sys.stderr,
+            )
             return 1
 
 

@@ -31,6 +31,7 @@ class PygameHazeException(Exception):
     the base exception for the rest of the exception
     that are used for this package
     """
+
     def __init__(self, message: str):
         self.message = str(message)
         if not message.endswith("."):
@@ -50,7 +51,6 @@ class TextOfOutBounds(PygameHazeException):
     text that is passed is out of the given
     bounds.
     """
-    pass
 
 
 class InvalidAnchor(PygameHazeException):
@@ -58,7 +58,6 @@ class InvalidAnchor(PygameHazeException):
     the exception that is raised when the
     user provides a invalid anchor for a widget.
     """
-    pass
 
 
 class MissingRequiredArgument(PygameHazeException):
@@ -66,7 +65,6 @@ class MissingRequiredArgument(PygameHazeException):
     this exception is raised when a method is
     missing a required argument.
     """
-    pass
 
 
 class WordTooLong(PygameHazeException):
@@ -75,7 +73,6 @@ class WordTooLong(PygameHazeException):
     when the word to be splitted to multi-line text
     is too long and wont fit
     """
-    pass
 
 
 class NoLockedPoints(PygameHazeException):
@@ -84,7 +81,6 @@ class NoLockedPoints(PygameHazeException):
     when a cloth has no points that are locked so
     it will just drop until who knows how much
     """
-    pass
 
 
 class NoConnection(PygameHazeException):
@@ -127,5 +123,5 @@ __all__ = [
     "NoConnection",
     "ShapeError",
     "NoLocationFound",
-    "UnrecognisedCharacter"
+    "UnrecognisedCharacter",
 ]

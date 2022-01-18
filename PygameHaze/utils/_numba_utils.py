@@ -43,6 +43,7 @@ try:
     import numpy as np
 except ImportError:
     import sys
+
     print(f"unable to import numpy, maybe it isn't installed?", file=sys.stderr)
     raise
 
@@ -56,16 +57,44 @@ class Array:
         return f"{TYPES[self.type]}[{', '.join(':' * self.dim)}]"
 
 
-class complex128(complex): pass
-class complex64(complex): pass
-class float64(float): pass
-class float32(float): pass
-class uint64(int): pass
-class uint32(int): pass
-class int64(int): pass
-class int32(int): pass
-class void: pass  # cant inherit from NoneType
-class array(Array): pass
+class complex128(complex):
+    pass
+
+
+class complex64(complex):
+    pass
+
+
+class float64(float):
+    pass
+
+
+class float32(float):
+    pass
+
+
+class uint64(int):
+    pass
+
+
+class uint32(int):
+    pass
+
+
+class int64(int):
+    pass
+
+
+class int32(int):
+    pass
+
+
+class void:  # cant inherit from NoneType
+    pass
+
+
+class array(Array):
+    pass
 
 
 class _TYPES:
@@ -76,46 +105,44 @@ class _TYPES:
         complex128: "complex128",
         complex64: "complex64",
         complex: "complex128",
-
         # float types
         np.float64: "float64",
         np.float32: "float32",
         float64: "float64",
         float32: "float32",
         float: "float64",
-
         # unsigned ints types
         np.uint64: "uint64",
         np.uint32: "uint32",
         uint64: "uint64",
         uint32: "uint32",
-
         # int types
         np.int64: "int64",
         np.int32: "int32",
         int64: "int64",
         int32: "int32",
         int: "int64",
-
         # None type
         np.void: "void",
         void: "void",
-        None: "void"
+        None: "void",
     }
 
     # check for the optional packages
     if USE_NUMBA:
-        __TYPES.update({
-            nb.complex128: "complex128",
-            nb.complex64: "complex64",
-            nb.float64: "float64",
-            nb.float32: "float32",
-            nb.uint64: "uint64",
-            nb.uint32: "uint32",
-            nb.int64: "int64",
-            nb.int32: "int32",
-            nb.void: "void",
-        })
+        __TYPES.update(
+            {
+                nb.complex128: "complex128",
+                nb.complex64: "complex64",
+                nb.float64: "float64",
+                nb.float32: "float32",
+                nb.uint64: "uint64",
+                nb.uint32: "uint32",
+                nb.int64: "int64",
+                nb.int32: "int32",
+                nb.void: "void",
+            }
+        )
 
     @classmethod
     def __getitem__(cls, item):
@@ -133,7 +160,11 @@ TYPES = _TYPES()  # to access the dunder methods
 
 def sig_from_function(func) -> Optional[str]:
     # constructing a numba signature out of the typehints of the function
-    if hasattr(func, "__annotations__") and func.__annotations__ and "return" in func.__annotations__:
+    if (
+        hasattr(func, "__annotations__")
+        and func.__annotations__
+        and "return" in func.__annotations__
+    ):
         args = []
         ret = func.__annotations__.pop("return")
 
@@ -145,7 +176,9 @@ def sig_from_function(func) -> Optional[str]:
 
 def njit(sig=None, **kwargs):
     """automatic signature creation, can be turned off if specified, with checks to see if numba exists"""
-    if not USE_NUMBA:  # this is the only place file numba is imported so we can control it easier
+    if (
+        not USE_NUMBA
+    ):  # this is the only place file numba is imported so we can control it easier
         if "func" in kwargs:
             return kwargs["func"]
         return lambda func: func
@@ -184,6 +217,7 @@ else:
 if USE_NUMBA:
     typed = nb.typed
 else:
+
     class typed:
         class Dict:
             def empty(*args, **kwargs):

@@ -79,14 +79,17 @@ class InputField:
     event_handler(pygame.event.Event):
         it checks the events and this is how you write in hte field
     """
-    def __init__(self,
-                 x: int,
-                 y: int,
-                 w: int,
-                 h: int,
-                 base_color: Tuple[int, int, int]=WHITE,
-                 text_color: Tuple[int, int, int]=BLACK,
-                 **kwargs):
+
+    def __init__(
+        self,
+        x: int,
+        y: int,
+        w: int,
+        h: int,
+        base_color: Tuple[int, int, int] = WHITE,
+        text_color: Tuple[int, int, int] = BLACK,
+        **kwargs,
+    ):
         # cords stuff
         self.x: int = x
         self.y: int = y
@@ -96,8 +99,12 @@ class InputField:
 
         # color stuff
         self.base_color: Tuple[int, int, int] = base_color
-        self.inactive_color: Tuple[int, int, int] = kwargs.get("inactive_color", (255, 0, 0))
-        self.active_color: Tuple[int, int, int] = kwargs.get("active_color", (0, 255, 0))
+        self.inactive_color: Tuple[int, int, int] = kwargs.get(
+            "inactive_color", (255, 0, 0)
+        )
+        self.active_color: Tuple[int, int, int] = kwargs.get(
+            "active_color", (0, 255, 0)
+        )
         self.outline: int = kwargs.get("outline", 2)
 
         # font stuff
@@ -127,9 +134,13 @@ class InputField:
             self.base_rect = pygame.Rect(self.x, self.y, self.w, self.h)
             self.base_rect.__setattr__(self.anchor, (self.x, self.y))
         except AttributeError:
-            raise InvalidAnchor(f"""The anchor '{self.anchor}' is not a valid anchor.""")
+            raise InvalidAnchor(
+                f"""The anchor '{self.anchor}' is not a valid anchor."""
+            )
 
-        self.rendered_text = self.font.render(str(self.text), self.antialias, self.text_color)
+        self.rendered_text = self.font.render(
+            str(self.text), self.antialias, self.text_color
+        )
         self.rendered_text_rect = self.rendered_text.get_rect()
         self.rendered_text_rect.center = self.base_rect.center
 
@@ -140,11 +151,20 @@ class InputField:
         :type surface: pygame.surface.Surface
         :return: None
         """
-        pygame.draw.rect(surface, self.active_color if self.focused else self.inactive_color, self.base_rect)
         pygame.draw.rect(
-            surface, self.base_color, pygame.Rect(
-                self.base_rect[0] + self.outline, self.base_rect[1] + self.outline, self.base_rect[2] - self.outline*2, self.base_rect[3] - self.outline*2
-            )
+            surface,
+            self.active_color if self.focused else self.inactive_color,
+            self.base_rect,
+        )
+        pygame.draw.rect(
+            surface,
+            self.base_color,
+            pygame.Rect(
+                self.base_rect[0] + self.outline,
+                self.base_rect[1] + self.outline,
+                self.base_rect[2] - self.outline * 2,
+                self.base_rect[3] - self.outline * 2,
+            ),
         )
         surface.blit(self.rendered_text, self.rendered_text_rect)
 
@@ -278,14 +298,17 @@ class InputFieldNumbers(InputField):
     event_handler(pygame.event.Event):
         it checks the events and this is how you write in hte field
     """
-    def __init__(self,
-                 x: int,
-                 y: int,
-                 w: int,
-                 h: int,
-                 base_color: Tuple[int, int, int]=WHITE,
-                 text_color: Tuple[int, int, int]=BLACK,
-                 **kwargs):
+
+    def __init__(
+        self,
+        x: int,
+        y: int,
+        w: int,
+        h: int,
+        base_color: Tuple[int, int, int] = WHITE,
+        text_color: Tuple[int, int, int] = BLACK,
+        **kwargs,
+    ):
         super().__init__(x, y, w, h, base_color, text_color, **kwargs)
 
     def event_handler(self, event) -> None:
@@ -357,14 +380,17 @@ class InputFieldLetters(InputField):
     event_handler(pygame.event.Event):
         it checks the events and this is how you write in hte field
     """
-    def __init__(self,
-                 x: int,
-                 y: int,
-                 w: int,
-                 h: int,
-                 base_color: Tuple[int, int, int]=WHITE,
-                 text_color: Tuple[int, int, int]=BLACK,
-                 **kwargs):
+
+    def __init__(
+        self,
+        x: int,
+        y: int,
+        w: int,
+        h: int,
+        base_color: Tuple[int, int, int] = WHITE,
+        text_color: Tuple[int, int, int] = BLACK,
+        **kwargs,
+    ):
         super().__init__(x, y, w, h, base_color, text_color, **kwargs)
 
     def event_handler(self, event: pygame.event.Event) -> None:
@@ -382,9 +408,15 @@ class InputFieldLetters(InputField):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
                     self.delete_mode = True
-                elif str(event.unicode).startswith("\t") or str(event.unicode).startswith("\r"):
+                elif str(event.unicode).startswith("\t") or str(
+                    event.unicode
+                ).startswith("\r"):
                     pass
-                elif event.unicode != "" and not str(event.unicode).startswith("\t") or not str(event.unicode).startswith("\r"):
+                elif (
+                    event.unicode != ""
+                    and not str(event.unicode).startswith("\t")
+                    or not str(event.unicode).startswith("\r")
+                ):
                     self.write(event.unicode)
             elif event.type == pygame.KEYUP:
                 self.delete_mode = False

@@ -54,6 +54,7 @@ class QuadTree:
     query(rectangle: pygame.Rect):
         it returns all of the objects that can be found in a given area
     """
+
     __slots__ = "space", "capacity", "storage", "children"
 
     def __init__(self, space: pygame.Rect, capacity: int) -> None:
@@ -67,18 +68,28 @@ class QuadTree:
         it returns all of the items that it has and everything from its children
         :return: List[Any]
         """
-        return self.storage + list(itertools.chain.from_iterable((ch.get_items() for ch in self.children)))
+        return self.storage + list(
+            itertools.chain.from_iterable((ch.get_items() for ch in self.children))
+        )
 
     def subdivide(self) -> None:
         """
         it subdivides the quad tree
         :return: None
         """
-        new_size = self.space.w/2, self.space.h/2
-        self.children.append(QuadTree(pygame.Rect(*self.space.topleft, *new_size), self.capacity))
-        self.children.append(QuadTree(pygame.Rect(*self.space.midtop, *new_size), self.capacity))
-        self.children.append(QuadTree(pygame.Rect(*self.space.center, *new_size), self.capacity))
-        self.children.append(QuadTree(pygame.Rect(*self.space.midleft, *new_size), self.capacity))
+        new_size = self.space.w / 2, self.space.h / 2
+        self.children.append(
+            QuadTree(pygame.Rect(*self.space.topleft, *new_size), self.capacity)
+        )
+        self.children.append(
+            QuadTree(pygame.Rect(*self.space.midtop, *new_size), self.capacity)
+        )
+        self.children.append(
+            QuadTree(pygame.Rect(*self.space.center, *new_size), self.capacity)
+        )
+        self.children.append(
+            QuadTree(pygame.Rect(*self.space.midleft, *new_size), self.capacity)
+        )
 
     def list_insert(self, objs: List[Any]) -> "QuadTree":
         """
@@ -125,7 +136,9 @@ class QuadTree:
                 found.extend(ch.query(rectangle))
         return found
 
-    def draw(self, WIN: pygame.surface.Surface, color: ColorType=(255, 255, 255)) -> None:
+    def draw(
+        self, WIN: pygame.surface.Surface, color: ColorType = (255, 255, 255)
+    ) -> None:
         """
         it draws the quad tree (wireframe)
         :param WIN: pygame.surface.Surface

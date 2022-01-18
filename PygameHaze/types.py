@@ -8,10 +8,21 @@ import pygame
 import os
 
 CoordsType = Union[
-    Tuple[float, float], List[float],
-    pygame.math.Vector2, Iterable[float], Iterator[float], Generator[float, Any, Any]
+    Tuple[float, float],
+    List[float],
+    pygame.math.Vector2,
+    Iterable[float],
+    Iterator[float],
+    Generator[float, Any, Any],
 ]
-ColorType = Union[pygame.Color, str, Tuple[float, float, float], List[float], int, Tuple[float, float, float, float]]
+ColorType = Union[
+    pygame.Color,
+    str,
+    Tuple[float, float, float],
+    List[float],
+    int,
+    Tuple[float, float, float, float],
+]
 RectType = Union[
     pygame.Rect,
     Tuple[float, float, float, float],
@@ -19,7 +30,7 @@ RectType = Union[
     List[pygame.math.Vector2],
     Tuple[pygame.math.Vector2, pygame.math.Vector2],
     Iterable[pygame.math.Vector2],
-    List[float]
+    List[float],
 ]
 PathType = Union[str, bytes, os.PathLike[str], os.PathLike[bytes], Path]
 types = [CoordsType, RectType, ColorType, PathType]

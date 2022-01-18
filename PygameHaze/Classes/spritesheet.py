@@ -51,9 +51,14 @@ class SpriteSheet:
     clip([x, y, w, h], colorkey):
         it returns a image in the specified coordinates
     """
-    def __init__(self, path: str, colorkey: ColorType=None, alpha: bool=False) -> None:
+
+    def __init__(
+        self, path: str, colorkey: ColorType = None, alpha: bool = False
+    ) -> None:
         img = pygame.image.load(path)
-        self.sheet: pygame.surface.Surface = img.convert_alpha() if alpha else img.convert()
+        self.sheet: pygame.surface.Surface = (
+            img.convert_alpha() if alpha else img.convert()
+        )
 
         if colorkey is not None and not alpha:
             if colorkey == -1:
@@ -76,7 +81,9 @@ class SpriteSheet:
     def h(self) -> int:
         return self.size[1]
 
-    def clip(self, rect: RectType, colorkey: Optional[ColorType]=None) -> pygame.surface.Surface:
+    def clip(
+        self, rect: RectType, colorkey: Optional[ColorType] = None
+    ) -> pygame.surface.Surface:
         """
         Load a specific image from a specified rectangle
         :param rect: RectStyle
@@ -90,7 +97,9 @@ class SpriteSheet:
             image.set_colorkey(colorkey, pygame.RLEACCEL)
         return image
 
-    def clips(self, rects: RectType, colorkey: Optional[ColorType]=None) -> List[pygame.surface.Surface]:
+    def clips(
+        self, rects: RectType, colorkey: Optional[ColorType] = None
+    ) -> List[pygame.surface.Surface]:
         """
         it returns a list with images
         :param rects: List[RectLike]

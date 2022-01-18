@@ -5,6 +5,7 @@
 from setuptools import setup, find_packages
 import PygameHaze as target_package
 from pathlib import Path
+import sys
 import os
 
 ROOT = Path(__file__).parent
@@ -18,6 +19,30 @@ AUTHOR = target_package.__author__
 DESCRIPTION = "helpful tools/widgets for pygame"
 
 requirements = [line.strip() for line in (ROOT / "requirements.txt").read_text().splitlines()]
+
+
+def consume_args(arg: str):
+    if arg in sys.argv:
+        sys.argv.remove(arg)
+        return True
+    return False
+
+
+if consume_args("-format"):
+    import black
+    import glob
+
+    for filepath in glob.iglob("PygameHaze/**/*.py", recursive=True):
+        path = Path(os.getcwd(), filepath)
+        if black.format_file_in_place(
+            path, False, black.FileMode(), black.WriteBack.YES
+        ):
+            print(f"Formatted file: {filepath}")
+        else:
+            print(f"Skipping file {filepath} as it is already formatted")
+
+    print("finished formatting")
+    sys.exit(0)
 
 
 def setup_package():

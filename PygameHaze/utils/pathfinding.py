@@ -37,8 +37,8 @@ class _ASPos:  # it is used for A* pathfinding
     __slots__ = "i", "j", "v", "tp"
 
     def __init__(self, idxs: Tuple[int, int], v: Number) -> None:
-        self.i: int = (idxs[0])
-        self.j: int = (idxs[1])
+        self.i: int = idxs[0]
+        self.j: int = idxs[1]
         self.v: Number = v
         self.tp: Tuple[int, int] = (self.i, self.j)
 
@@ -72,8 +72,9 @@ def AS_heuristic(p1: _ASPos, p2: _ASPos) -> Number:  # it is used for A* pathfin
 
 
 def pathfinding(
-        grid: List[List[int]], start: Union[List[int], Tuple[int, int], Sequence[int]],
-        end: Union[List[int], Tuple[int, int], Sequence[int]]
+    grid: List[List[int]],
+    start: Union[List[int], Tuple[int, int], Sequence[int]],
+    end: Union[List[int], Tuple[int, int], Sequence[int]],
 ) -> Sequence[Tuple[float, float]]:
     """
     if finds the most efficient path from one point to another
@@ -83,7 +84,10 @@ def pathfinding(
     :param grid: List[List[int]]
     :return: List[Tuple[int, int]]
     """
-    ASPGrid: List[List[_ASPos]] = [[_ASPos((i, j), grid[i][j]) for j in range(len(grid[0]))] for i in range(len(grid))]
+    ASPGrid: List[List[_ASPos]] = [
+        [_ASPos((i, j), grid[i][j]) for j in range(len(grid[0]))]
+        for i in range(len(grid))
+    ]
 
     ASPstart: _ASPos = ASPGrid[start[0]][start[1]]
     ASPend: _ASPos = ASPGrid[end[0]][end[1]]

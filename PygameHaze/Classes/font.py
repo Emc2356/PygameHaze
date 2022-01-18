@@ -68,20 +68,103 @@ class Font:
     render_to(surface: pygame.surface.Surface, x: float, y: float, text: str, max_width: float=float("inf")):
         it renders the text directly into a given surface
     """
-    def __init__(self, type: str, size: float=1, barrier: Tuple[int, int, int]=(0, 0, 0),
-                 colorkey_for_char: Union[Tuple[int, int, int], int]=None, spacing: int=1) -> None:
+
+    def __init__(
+        self,
+        type: str,
+        size: float = 1,
+        barrier: Tuple[int, int, int] = (0, 0, 0),
+        colorkey_for_char: Union[Tuple[int, int, int], int] = None,
+        spacing: int = 1,
+    ) -> None:
         self._type: str = type
         self._barrier: Tuple[int, int, int] = barrier
         self._spacing: int = int(spacing * size)
         self._spritesheet: SpriteSheet = SpriteSheet(type, colorkey_for_char)
         self._order: List[str] = [
-            "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
-            "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
-            "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-            "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
-            ".", "-", "+", "/", "*", "=", ",", "[", "]", "(", ")", "{", "}",
-            "'", "!", "?", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-            "_", "|", "\\", "<", ">"
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F",
+            "G",
+            "H",
+            "I",
+            "J",
+            "K",
+            "L",
+            "M",
+            "N",
+            "O",
+            "P",
+            "Q",
+            "R",
+            "S",
+            "T",
+            "U",
+            "V",
+            "W",
+            "X",
+            "Y",
+            "Z",
+            "a",
+            "b",
+            "c",
+            "d",
+            "e",
+            "f",
+            "g",
+            "h",
+            "i",
+            "j",
+            "k",
+            "l",
+            "m",
+            "n",
+            "o",
+            "p",
+            "q",
+            "r",
+            "s",
+            "t",
+            "u",
+            "v",
+            "w",
+            "x",
+            "y",
+            "z",
+            ".",
+            "-",
+            "+",
+            "/",
+            "*",
+            "=",
+            ",",
+            "[",
+            "]",
+            "(",
+            ")",
+            "{",
+            "}",
+            "'",
+            "!",
+            "?",
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "_",
+            "|",
+            "\\",
+            "<",
+            ">",
         ]
         self._rendered_chars: Dict[str, pygame.surface.Surface] = {}
 
@@ -91,13 +174,23 @@ class Font:
         for x in range(sheet.get_width()):
             color = sheet.get_at((x, 0))[0:3]
             if color == self._barrier:
-                self._rendered_chars[self._order[cur_index]] = resizex(self._spritesheet.clip((x-char_width, 0, char_width, sheet.get_height())).copy(), size)
+                self._rendered_chars[self._order[cur_index]] = resizex(
+                    self._spritesheet.clip(
+                        (x - char_width, 0, char_width, sheet.get_height())
+                    ).copy(),
+                    size,
+                )
                 char_width = 0
                 cur_index += 1
-            else: char_width += 1
+            else:
+                char_width += 1
 
-        self._max_h: int = max([surf.get_height() for surf in self._rendered_chars.values()])
-        self._max_w: int = max([surf.get_width() for surf in self._rendered_chars.values()])
+        self._max_h: int = max(
+            [surf.get_height() for surf in self._rendered_chars.values()]
+        )
+        self._max_w: int = max(
+            [surf.get_width() for surf in self._rendered_chars.values()]
+        )
 
     def get_size(self) -> Tuple[int, int]:
         """
@@ -134,10 +227,17 @@ class Font:
 
     @lru_cache
     def __word_width_render(self, text: str) -> int:
-        return sum([self._rendered_chars[char].get_width() + self._spacing for char in text.split("\n")[0]])
+        return sum(
+            [
+                self._rendered_chars[char].get_width() + self._spacing
+                for char in text.split("\n")[0]
+            ]
+        )
 
     @lru_cache
-    def render(self, text: str, max_width: float=float("inf")) -> pygame.surface.Surface:
+    def render(
+        self, text: str, max_width: float = float("inf")
+    ) -> pygame.surface.Surface:
         """
         it returns a surface with a text blited on it
         :param text: str
@@ -150,7 +250,9 @@ class Font:
         for word in text.split(" "):
             if self.__word_width_render(word) + tempW > max_width:
                 if self.__word_width_render(word) > max_width:
-                    raise WordTooLong(f"the string: '{word}' is {self.__word_width_render(word) - max_width}pxls")
+                    raise WordTooLong(
+                        f"the string: '{word}' is {self.__word_width_render(word) - max_width}pxls"
+                    )
                 height += self._max_h + self._spacing
                 width = max(tempW, width)
                 tempW = 0
@@ -158,8 +260,15 @@ class Font:
             for char in word:
                 if char != "\n":
                     if char not in self._rendered_chars:
-                        raise UnrecognisedCharacter(f"character '{char}' was not recognized")
-                    storage.append([self._rendered_chars[char], pygame.Rect(tempW, height - self._max_h, 0, 0)])
+                        raise UnrecognisedCharacter(
+                            f"character '{char}' was not recognized"
+                        )
+                    storage.append(
+                        [
+                            self._rendered_chars[char],
+                            pygame.Rect(tempW, height - self._max_h, 0, 0),
+                        ]
+                    )
                     tempW += self._rendered_chars[char].get_width() + self._spacing
                     continue
                 height += self._max_h + self._spacing
@@ -175,8 +284,13 @@ class Font:
 
         return surface
 
-    def render_to(self, surface: pygame.surface.Surface, pos: CoordsType,
-                  text: str, max_width: float=float("inf")) -> pygame.Rect:
+    def render_to(
+        self,
+        surface: pygame.surface.Surface,
+        pos: CoordsType,
+        text: str,
+        max_width: float = float("inf"),
+    ) -> pygame.Rect:
         """
         it renders a given text directly in a surface
         :param surface: pygame.surface.Surface
